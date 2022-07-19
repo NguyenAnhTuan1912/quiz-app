@@ -1,0 +1,25 @@
+{
+    "choices-1": {
+        "question-id": "string",
+        "answer": "choice-id",
+        "choices": [
+            {
+                "id": "string",
+                "data": "string"
+            },
+            {
+                "id": "string",
+                "data": "string"
+            },
+            {
+                "id": "string",
+                "data": "string"
+            },
+            {
+                "id": "string",
+                "data": "string"
+            }
+        ]
+    }
+}
+

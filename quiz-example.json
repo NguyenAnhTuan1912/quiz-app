@@ -1,0 +1,33 @@
+{
+    "quiz-1": {
+        "name": "string",
+        "created-at": "date time",
+        "questions": [
+            {
+                "text": "string",
+                "image": "url",
+                "choices": [
+                    {
+                        "data": "string",
+                        "isAnswer": false
+                    },
+                    {
+                        "data": "string",
+                        "isAnswer": true
+                    },
+                    {
+                        "data": "string",
+                        "isAnswer": false
+                    },
+                    {
+                        "data": "string",
+                        "isAnswer": false
+                    }
+                ]
+            },
+            {}
+        ]
+    },
+    "quiz-2": {}
+}
+

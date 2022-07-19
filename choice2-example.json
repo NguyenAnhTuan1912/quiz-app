@@ -1,0 +1,24 @@
+{
+    "choices-1": {
+        "question-id": "string",
+        "choices": [
+            {
+                "isAnswer": true,
+                "data": "string"
+            },
+            {
+                "isAnswer": false,
+                "data": "string"
+            },
+            {
+                "isAnswer": false,
+                "data": "string"
+            },
+            {
+                "isAnswer": false,
+                "data": "string"
+            }
+        ]
+    }
+}
+
