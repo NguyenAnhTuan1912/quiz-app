@@ -1,0 +1,127 @@
+@import './mixin.scss';
+@import './variables.scss';
+
+* {
+    @include set-box-sizing(border-box);
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, 'Sans-Serif';
+}
+
+html {
+    overflow-x: hidden;
+    font-size: 10px;
+    color: #262626;
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    box-shadow: $box-shadow2;
+    background-color: white;
+    padding: 8px;
+    font-size: 1.2rem;
+    text-align: center;
+
+    &:hover {
+        background-color: #262626;
+        color: white;
+    }
+}
+
+.btn-primary-blue {
+    background-color: $button-color1;
+    color: white;
+
+    &:hover {
+        background-color: #262626;
+        color: white;
+    }
+}
+
+.btn-rounded-5px {
+    border-radius: 5px;
+}
+
+.btn-question-index {
+    height: 7px;
+    margin: 0 1%;
+    border-radius: 3px;
+    padding: 0;
+
+    &:first-child {
+        margin-left: 0;
+    }
+
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+.btn-dot {
+    width: 8px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.btn-choice {
+    width: 100%;
+    max-width: 335px;
+    height: 54px;
+    margin: 15px 0;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.ft-sz-12 {
+    font-size: 1.2rem;
+}
+
+.ft-sz-14 {
+    font-size: 1.4rem;
+}
+
+.ft-sz-20 {
+    font-size: 2rem;
+}
+
+.text-semi-light {
+    font-weight: 300;
+}
+
+.text-light {
+    font-weight: 100;
+}
+
+.text-bold {
+    font-weight: 900;
+}
+
+.hide {
+    display: none;
+}
+
+hr {
+    max-width: 1280px;
+    height: 0.1px;
+    margin: 20px auto;
+    background-color: rgba(27, 31, 35, 0.15);
+    border: none;
+}

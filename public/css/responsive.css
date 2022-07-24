@@ -1,0 +1,43 @@
+@media only screen and (min-width: 376px) {
+  #root .result-page {
+    width: 100%;
+    max-width: none;
+    padding: 0 20px;
+  }
+  #root .result-page .point-box {
+    text-align: center;
+    width: 100%;
+    max-width: 335px;
+  }
+  #root .result-page .point-box hr {
+    width: 50px;
+    height: 5px;
+    background-color: #262626;
+    margin: 10px auto;
+  }
+  #root .result-page .point-box .point-box__title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+  #root .result-page .point-box .point-box__message {
+    font-size: 1.4rem;
+    margin-top: 20px;
+  }
+  #root .result-page .redirect {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+  }
+  #root .result-page .redirect > div {
+    width: 49%;
+  }
+  #root .result-page .redirect > div:first-child {
+    margin-bottom: 0;
+  }
+}
+
+/*# sourceMappingURL=responsive.css.map */

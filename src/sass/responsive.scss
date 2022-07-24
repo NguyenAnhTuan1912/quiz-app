@@ -1,0 +1,51 @@
+@import './mixin.scss';
+@import './variables.scss';
+
+@media only screen and (min-width: 376px) {
+    #root {
+        .result-page {
+            width: 100%;
+            max-width: none;
+            padding: 0 20px;
+    
+            .point-box {
+                text-align: center;
+                width: 100%;
+                max-width: 335px;
+    
+                hr {
+                    width: 50px;
+                    height: 5px;
+                    background-color: #262626;
+                    margin: 10px auto;
+                }
+    
+                .point-box__title {
+                    font-size: 2.2rem;
+                    font-weight: 900;
+                    margin-bottom: 20px;
+                }
+    
+                .point-box__message {
+                    font-size: 1.4rem;
+                    margin-top: 20px;
+                }
+            }
+    
+            .redirect {
+                @include flex-box(row, space-between, center);
+                width: 100%;
+                max-width: none;
+    
+                &>div {
+                    width: 49%;
+
+                    &:first-child {
+                        margin-bottom: 0;
+                    }
+                    
+                }
+            }
+        }
+    }
+}

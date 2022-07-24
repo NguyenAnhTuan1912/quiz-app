@@ -1,0 +1,34 @@
+@import './variables.scss';
+
+@mixin set-box-sizing($type) {
+    box-sizing: $type;
+    -webkit-box-sizing: $type;
+    -moz-box-sizing: $type;
+    -o-box-sizing: $type;
+}
+
+@mixin  width-height($w, $h) {
+    width: $w;
+    height: $h;
+}
+
+@mixin  flex-box($direction, $justify-content, $align-items) {
+    display: flex;
+    @if $direction != none {
+        flex-direction: $direction;
+    }
+
+    @if $justify-content != none {
+        justify-content: $justify-content;
+    }
+
+    @if $align-items != none {
+        align-items: $align-items;
+    }
+}
+
+@mixin text-overflow-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
