@@ -1,28 +1,38 @@
 @media only screen and (min-width: 376px) {
+  #root .quiz-page {
+    max-width: 1280px;
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+  #root .quiz-page hr {
+    width: calc(100% - 40px);
+  }
+  #root .quiz-page .quiz-info {
+    max-width: none;
+  }
+  #root .quiz-page .quiz-questions {
+    max-width: none;
+  }
+  #root .quiz-page .quiz-questions .question-slider {
+    max-width: none;
+  }
+  #root .quiz-page .quiz-questions .question-slider .slider .question-page {
+    width: calc(100vw - 40px);
+    max-width: 1280px;
+  }
+  #root .quiz-page .quiz-questions .page__dot {
+    max-width: none;
+  }
+  #root .quiz-page .quiz-choices {
+    max-width: none;
+  }
+  #root .quiz-page .quiz-choices .btn-choice {
+    max-width: none;
+  }
   #root .result-page {
     width: 100%;
     max-width: none;
     padding: 0 20px;
-  }
-  #root .result-page .point-box {
-    text-align: center;
-    width: 100%;
-    max-width: 335px;
-  }
-  #root .result-page .point-box hr {
-    width: 50px;
-    height: 5px;
-    background-color: #262626;
-    margin: 10px auto;
-  }
-  #root .result-page .point-box .point-box__title {
-    font-size: 2.2rem;
-    font-weight: 900;
-    margin-bottom: 20px;
-  }
-  #root .result-page .point-box .point-box__message {
-    font-size: 1.4rem;
-    margin-top: 20px;
   }
   #root .result-page .redirect {
     display: flex;
@@ -37,6 +47,54 @@
   }
   #root .result-page .redirect > div:first-child {
     margin-bottom: 0;
+  }
+}
+@media only screen and (min-width: 480px) {
+  #root .home-page .home-page__banner {
+    padding-left: 40px;
+    padding-right: 40px;
+    justify-content: space-between;
+  }
+  #root .home-page .home-page__banner .banner-text {
+    text-align: right;
+  }
+  #root .home-page .home-page__banner .banner-text .btn-banner {
+    float: right;
+  }
+}
+@media only screen and (min-width: 730px) {
+  #root .home-page .quizzes {
+    grid-template-columns: repeat(auto-fit, calc(50% - 10px));
+    gap: 20px;
+  }
+  #root .home-page .quizzes .quiz {
+    margin: 0;
+  }
+  #root .home-page .quizzes .quiz > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #root .home-page .quizzes .quiz > div .quiz-image {
+    width: 45px;
+    aspect-ratio: 1/1;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  }
+  #root .quiz-choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    max-width: none;
+    gap: 20px;
+  }
+  #root .quiz-choices .btn-choice {
+    margin: 0;
+  }
+}
+@media only screen and (min-width: 1280px) {
+  #root .home-page .quizzes {
+    padding: 0 20px;
   }
 }
 

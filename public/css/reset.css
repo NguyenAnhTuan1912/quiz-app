@@ -113,7 +113,6 @@ a {
 }
 
 hr {
-  max-width: 1280px;
   height: 0.1px;
   margin: 20px auto;
   background-color: rgba(27, 31, 35, 0.15);

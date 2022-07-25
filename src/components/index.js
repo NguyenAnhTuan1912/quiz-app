@@ -10,8 +10,8 @@ const app = {
 
         root.append(Header({ 'title': 'Quiz' }));
         
-        // Home.render();
-        Quiz.render();
+        Home.render();
+        // Quiz.render();
         // Result.render();
     },
     start: function() {

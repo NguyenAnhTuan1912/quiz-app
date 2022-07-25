@@ -52,8 +52,8 @@ function Banner(props = {}, isReturnDom = true) {
         <div class="banner-text">
             <h3 class="banner-text__title">${props['banner-text__title']}</h3>
             <p class="banner-text__description">${props['banner-text__description']}</p>
+            <div class="btn btn-banner btn-primary-blue">Làm ngay</div>
         </div>
-        <div class="btn btn-banner btn-primary-blue">Làm ngay</div>
     `;
     div.insertAdjacentHTML('beforeend', htmls);
     return (isReturnDom) ? div : div.outerHTML;

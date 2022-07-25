@@ -28,19 +28,17 @@
 #root .home-page {
   width: 100%;
   height: fit-content;
-  min-height: 100vh;
+  min-height: 100%;
   margin-top: 20px;
+  padding: 0 20px;
 }
 #root .home-page .home-page__banner {
-  display: grid;
-  grid-template-columns: 1fr 1fr 2fr 2fr;
-  grid-template-rows: fit-content fit-content;
-  grid-template-areas: "img img text text" "img img button button";
-  justify-items: start;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: center;
-  align-content: center;
   width: 100%;
-  max-width: 335px;
+  max-width: 1240px;
   height: 200px;
   margin: 0 auto;
   padding: 18px;
@@ -48,13 +46,12 @@
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 #root .home-page .home-page__banner .banner-image {
-  grid-area: img;
-  width: 100%;
+  width: 50%;
+  max-width: 164px;
   aspect-ratio: 1/1;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 #root .home-page .home-page__banner .banner-text {
-  grid-area: text;
   margin-left: 12px;
 }
 #root .home-page .home-page__banner .banner-text .banner-text__title {
@@ -63,10 +60,11 @@
 #root .home-page .home-page__banner .banner-text .banner-text__description {
   font-size: 1.2rem;
 }
-#root .home-page .home-page__banner .btn-banner {
-  grid-column-start: auto;
-  grid-area: button;
-  margin-left: 12px;
+#root .home-page .home-page__banner .banner-text .btn-banner {
+  width: fit-content;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-top: 12px;
 }
 #root .home-page .quiz-category {
   display: flex;
@@ -99,22 +97,24 @@
   margin-right: 20px;
 }
 #root .home-page .quizzes {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 100%);
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px 20px 20px;
 }
 #root .home-page .quizzes .quiz {
   cursor: pointer;
   color: #262626;
   width: 100%;
-  max-width: 335px;
   height: 80px;
   margin: 12px 0;
+}
+#root .home-page .quizzes .quiz:first-child {
+  margin-top: 0;
+}
+#root .home-page .quizzes .quiz:last-child {
+  margin-bottom: 0;
 }
 #root .home-page .quizzes .quiz > div {
   display: flex;
@@ -122,17 +122,10 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 335px;
   height: 80px;
   padding: 18px;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-}
-#root .home-page .quizzes .quiz > div:first-child {
-  margin-top: 0;
-}
-#root .home-page .quizzes .quiz > div:last-child {
-  margin-bottom: 0;
 }
 #root .home-page .quizzes .quiz > div .quiz-image {
   width: 45px;
@@ -140,14 +133,14 @@
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 #root .home-page .quizzes .quiz > div .quiz-text {
-  max-width: 206px;
+  max-width: calc(100% - 81px);
   flex-grow: 2;
   margin-left: 12px;
   padding-right: 12px;
 }
 #root .home-page .quizzes .quiz > div .quiz-text .quiz-name {
-  width: fit-content;
-  max-width: 206px;
+  width: 100%;
+  max-width: 100%;
   font-size: 1.4rem;
   white-space: nowrap;
   overflow: hidden;
@@ -158,8 +151,12 @@
   font-size: 1.2rem;
 }
 #root .quiz-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  height: calc(100vh - 96px);
+  height: calc(100vh - 68px);
 }
 #root .quiz-page hr {
   width: 335px;
@@ -202,13 +199,14 @@
 #root .quiz-page .quiz-questions {
   width: 100%;
   max-width: 335px;
-  height: 238px;
+  height: calc(100% - 361px);
   margin: 0 auto;
+  flex-grow: 2;
 }
 #root .quiz-page .quiz-questions .question-slider {
   width: 100%;
   max-width: 335px;
-  height: 218px;
+  height: calc(100% - 20px);
   scroll-snap-type: x mandatory;
   overflow-x: auto;
 }
@@ -251,7 +249,7 @@
 #root .quiz-page .quiz-choices {
   width: 100%;
   max-width: 335px;
-  margin: 20px auto 20px auto;
+  margin: 0 auto 20px auto;
 }
 #root .result-page {
   display: flex;
