@@ -21,9 +21,10 @@ body {
 
 a {
   text-decoration: none;
+  color: #262626;
 }
 
-.btn {
+#root .btn {
   cursor: pointer;
   border: none;
   outline: none;
@@ -33,86 +34,79 @@ a {
   font-size: 1.2rem;
   text-align: center;
 }
-.btn:hover {
+#root .btn:hover {
   background-color: #262626;
   color: white;
 }
-
-.btn-primary-blue {
+#root .btn-primary-blue {
   background-color: #6495ED;
   color: white;
 }
-.btn-primary-blue:hover {
+#root .btn-primary-blue:hover {
   background-color: #262626;
   color: white;
 }
-
-.btn-rounded-5px {
+#root .btn-no-background {
+  color: white;
+  border: 1px solid white;
+  background-color: transparent;
+}
+#root .btn-no-background:hover {
+  color: rgb(103, 23, 205);
+  background-color: white;
+}
+#root .btn-rounded-5px {
   border-radius: 5px;
 }
-
-.btn-question-index {
+#root .btn-question-index {
   height: 7px;
   margin: 0 1%;
   border-radius: 3px;
   padding: 0;
 }
-.btn-question-index:first-child {
+#root .btn-question-index:first-child {
   margin-left: 0;
 }
-.btn-question-index:last-child {
+#root .btn-question-index:last-child {
   margin-right: 0;
 }
-
-.btn-dot {
+#root .btn-dot {
   width: 8px;
   aspect-ratio: 1/1;
   border-radius: 50%;
   padding: 0;
 }
-
-.btn-choice {
+#root .btn-choice {
   width: 100%;
   max-width: 335px;
   height: 54px;
   margin: 15px 0;
 }
-.btn-choice:first-child {
+#root .btn-choice:first-child {
   margin-top: 0;
 }
-.btn-choice:last-child {
+#root .btn-choice:last-child {
   margin-bottom: 0;
 }
-
-.ft-sz-12 {
+#root .ft-sz-12 {
   font-size: 1.2rem;
 }
-
-.ft-sz-14 {
+#root .ft-sz-14 {
   font-size: 1.4rem;
 }
-
-.ft-sz-20 {
+#root .ft-sz-20 {
   font-size: 2rem;
 }
-
-.text-semi-light {
+#root .text-semi-light {
   font-weight: 300;
 }
-
-.text-light {
+#root .text-light {
   font-weight: 100;
 }
-
-.text-bold {
+#root .text-bold {
   font-weight: 900;
 }
-
-.hide {
-  display: none;
-}
-
-hr {
+#root hr {
   height: 0.1px;
   margin: 20px auto;
   background-color: rgba(27, 31, 35, 0.15);

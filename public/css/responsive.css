@@ -67,19 +67,11 @@
     grid-template-columns: repeat(auto-fit, calc(50% - 10px));
     gap: 20px;
   }
-  #root .home-page .quizzes .quiz {
+  #root .home-page .quizzes > a {
     margin: 0;
   }
-  #root .home-page .quizzes .quiz > div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-  #root .home-page .quizzes .quiz > div .quiz-image {
-    width: 45px;
-    aspect-ratio: 1/1;
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  #root .home-page .quizzes .quiz {
+    margin: 0;
   }
   #root .quiz-choices {
     display: grid;

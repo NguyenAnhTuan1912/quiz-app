@@ -2,14 +2,21 @@
 @import './mixin.scss';
 @import './variables.scss';
 
+.hide {
+    display: none !important;
+}
+
 #root {
     @include width-height(100%, fit-content);
     min-height: 100vh;
     margin: 0 auto;
 
     &>header {
+        position: relative;
         display: grid;
-        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-columns: 1fr 4fr;
+        grid-template-areas: 'backbtn-title submitbtn';
+        align-items: center;
         width: 100%;
         height: fit-content;
         margin-bottom: 12px;
@@ -17,14 +24,60 @@
         text-align: center;
         box-shadow: $box-shadow1;
 
+        &:after {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 24px;
+            background-color: white;
+            right: -100px;
+        }
+
         .header-back {
             @include flex-box(row, flex-start, center);
             cursor: pointer;
             text-align: left;
+            grid-area: backbtn-title;
+            
         }
 
         .title {
-            flex-grow: 2;
+            text-align: left;
+            grid-column: 1 / 1;
+            grid-area: backbtn-title;
+        }
+        
+       
+        .menu {
+            position: relative;
+            @include flex-box(row, center, center);
+            grid-column: 3 / 3;
+            @include ease-transition;
+            
+            &.move-x {
+                @include translate(translateX(calc(100% - 24px)));
+            }
+
+            span {
+                cursor: pointer;
+            }
+
+            nav {
+                // grid-area: submitbtn;
+    
+    
+                &>a {
+                    display: inline-block;
+                    width: 50px;
+                    height: 24px;
+                    font-size: 1.4rem;
+                    padding: 4px;
+    
+                    &:hover, &:active {
+                        border-bottom: 2px solid #262626;
+                    }
+                }
+            }
         }
     }
 
@@ -44,7 +97,9 @@
             padding: 18px;
             border-radius: 10px;
             box-shadow: $box-shadow2;
-    
+
+            background: linear-gradient(to right, rgb(40, 119, 250), rgb(103, 23, 205));
+
             .banner-image {
                 width: 50%;
                 max-width: 164px;
@@ -53,6 +108,7 @@
             }
     
             .banner-text {
+                color: white;
                 margin-left: 12px;
     
                 .banner-text__title {
@@ -111,56 +167,64 @@
             width: 100%;
             max-width: 1280px;
             margin: 0 auto;
-    
-            .quiz {
-                cursor: pointer;
-                color: #262626;
-                width: 100%;
-                //max-width: 335px;
-                height: 80px;
+
+            &>a {
                 margin: 12px 0;
 
                 &:first-child {
                     margin-top: 0;
                 }
-    
+
                 &:last-child {
                     margin-bottom: 0;
                 }
+            }
 
-                &>div {
-                    @include flex-box(row, space-between, center);
-                    width: 100%;
-                    //max-width: 335px;
-                    height: 80px;
-                    padding: 18px;
-                    border-radius: 10px;
+            .quiz {
+                @include flex-box(row, space-between, center);
+                cursor: pointer;
+                color: #262626;
+                width: 100%;
+                //max-width: 335px;
+                height: 80px;
+
+                //max-width: 335px;
+                height: 80px;
+                padding: 18px;
+                border-radius: 10px;
+                box-shadow: $box-shadow2;
+
+                &:first-child {
+                    margin-top: 0;
+                }
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+    
+                .quiz-image {
+                    width: 45px;
+                    aspect-ratio: 1 / 1;
                     box-shadow: $box-shadow2;
-        
-                    .quiz-image {
-                        width: 45px;
-                        aspect-ratio: 1 / 1;
-                        box-shadow: $box-shadow2;
+                }
+    
+                .quiz-text {
+                    max-width: calc(100% - 81px);
+                    flex-grow: 2;
+                    margin-left: 12px;
+                    padding-right: 12px;
+                    
+    
+                    .quiz-name {
+                        width: 100%;
+                        max-width: 100%;
+                        font-size: 1.4rem;
+                        @include text-overflow-ellipsis;
                     }
-        
-                    .quiz-text {
-                        max-width: calc(100% - 81px);
-                        flex-grow: 2;
-                        margin-left: 12px;
-                        padding-right: 12px;
-                        
-        
-                        .quiz-name {
-                            width: 100%;
-                            max-width: 100%;
-                            font-size: 1.4rem;
-                            @include text-overflow-ellipsis;
-                        }
-        
-                        .quiz-amount {
-                            cursor: default;
-                            font-size: 1.2rem;
-                        }
+    
+                    .quiz-amount {
+                        cursor: default;
+                        font-size: 1.2rem;
                     }
                 }
             }

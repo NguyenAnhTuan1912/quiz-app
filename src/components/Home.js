@@ -5,23 +5,25 @@ const Home = {
         'type': 'div',
         'classNames': 'home-page'
     }),
-    render: function() {
+    data: {},
+    render: async function() {
+        document.title = 'Home';
         const root = document.getElementById('root');
         const questions = [
             {
-                'name': 'JavaScript là gì?',
+                'name': '25 điều thú vị về loài mèo mà bạn có biết?',
                 'questions': 25
             },
             {
-                'name': 'Những quốc gia này có gì đặc biệt?',
+                'name': '10 câu hỏi toán lớp 1',
                 'questions': 10
             },
             {
-                'name': 'Thuật toán cơ bản',
+                'name': 'Nhũng câu hỏi hóc búa - Phần 3',
                 'questions': 20
             },
             {
-                'name': 'Trắc nghiệm tâm lý',
+                'name': 'Những câu hỏi học búa - Phần 2',
                 'questions': 15
             }
         ];
@@ -32,12 +34,15 @@ const Home = {
                 'banner-text__description': 'Đây là bài quiz được nhiều người dùng làm nhất tuần qua.'
             }, false)}
             <hr>
-            ${QuizCategory({ categories }, false)}
+            ${await QuizCategory({ categories }, false)}
             <hr>
-            ${Quizzes({ questions }, false)}
+            ${await Quizzes({ questions }, false)}
         `;
         this.htmlDOM.insertAdjacentHTML('beforeend', htmls);
         root.appendChild(this.htmlDOM);
+    },
+    renderData: function() {
+
     }
 }
 
@@ -52,14 +57,14 @@ function Banner(props = {}, isReturnDom = true) {
         <div class="banner-text">
             <h3 class="banner-text__title">${props['banner-text__title']}</h3>
             <p class="banner-text__description">${props['banner-text__description']}</p>
-            <div class="btn btn-banner btn-primary-blue">Làm ngay</div>
+            <div class="btn btn-banner btn-no-background btn-rounded-5px">Làm ngay</div>
         </div>
     `;
     div.insertAdjacentHTML('beforeend', htmls);
     return (isReturnDom) ? div : div.outerHTML;
 }
 
-function QuizCategory(props = {}, isReturnDom = true) {
+async function QuizCategory(props = {}, isReturnDom = true) {
     const div = createElement({
         'type': 'div',
         'classNames': 'quiz-category',
@@ -85,27 +90,28 @@ function QuizCategory(props = {}, isReturnDom = true) {
     return (isReturnDom) ? div : div.outerHTML;
 }
 
-function Quizzes(props = {}, isReturnDom = true) {
+async function Quizzes(props = {}, isReturnDom = true) {
     const div = createElement({
         'type': 'div',
         'classNames': 'quizzes',
         'id': 'js-homePageQuizzesContainer'
     });
 
-    let htmls = ``;
+    let htmls = ``, index = 0;
     props.questions.forEach((value) => {
         htmls += `
-        <a class="quiz" href="/public/quiz">
-            <div>
-                <div class="quiz-image"></div>
-                <div class="quiz-text">
-                    <h3 class="quiz-name">${value.name}</h3>
-                    <p class="quiz-amount">${value.questions} câu</p>
+            <a href="/quiz" data-id="quiz-${index}" data-link>
+                <div class="quiz">
+                    <div class="quiz-image"></div>
+                    <div class="quiz-text">
+                        <h3 class="quiz-name">${value.name}</h3>
+                        <p class="quiz-amount">${value.questions} câu</p>
+                    </div>
+                    <span class="material-symbols-outlined">arrow_forward_ios</span>
                 </div>
-                <span class="material-symbols-outlined">arrow_forward_ios</span>
-            </div>
-        </a>
+            </a>
         `;
+        index++;
     });
     div.insertAdjacentHTML('beforeend', htmls);
     return (isReturnDom) ? div : div.outerHTML;

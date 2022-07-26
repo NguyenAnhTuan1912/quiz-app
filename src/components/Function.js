@@ -5,6 +5,15 @@ function createElement(props) {
     return type;
 }
 
+const show = (function() {
+    return function handler(event) {
+        const { target, currentTarget } = event;
+        if(target !== currentTarget) return;
+        currentTarget.parentElement.classList.toggle('move-x');
+    }
+})();
+
 export {
-    createElement
+    createElement,
+    show
 }

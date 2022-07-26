@@ -96,17 +96,12 @@
                 grid-template-columns: repeat(auto-fit, calc(50% - 10px));
                 gap: 20px;
         
+                &>a {
+                    margin: 0;
+                }
+
                 .quiz {
                     margin: 0;
-                    &>div {
-                        @include flex-box(row, space-between, center);
-            
-                        .quiz-image {
-                            width: 45px;
-                            aspect-ratio: 1 / 1;
-                            box-shadow: $box-shadow2;
-                        }
-                    }
                 }
             }
         }

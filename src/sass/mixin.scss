@@ -32,3 +32,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+@mixin translate($value) {
+    transform: $value;
+    -webkit-transform: $value;
+    -moz-transform: $value;
+    -o-transform: $value;
+}
+
+@mixin ease-transition {
+    transition: 0.4s ease-in-out;
+    -webkit-transition: 0.4s ease-in-out;
+    -moz-transition: 0.4s ease-in-out;
+    -o-transition: 0.4s ease-in-out;
+}

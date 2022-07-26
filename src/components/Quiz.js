@@ -5,7 +5,9 @@ const Quiz = {
         'type': 'div',
         'classNames': 'quiz-page'
     }),
-    render: function() {
+    data: {},
+    render: async function() {
+        document.title = 'Quiz';
         const root = document.getElementById('root');
         const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
         const questions = [1, 2 ,3];
@@ -33,6 +35,9 @@ const Quiz = {
                 questionIndexShow.textContent = data[i];
             }
         }
+    },
+    renderData: function() {
+
     }
 }
 
@@ -112,7 +117,7 @@ function Counter(props = {}, isReturnDom = true) {
 
 
 
-function QuizQuestion(props = {}, isReturnDom = true) {
+async function QuizQuestion(props = {}, isReturnDom = true) {
     const div = createElement({
         'type': 'div',
         'classNames': 'quiz-questions'
