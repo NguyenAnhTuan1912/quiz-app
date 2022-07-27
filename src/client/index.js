@@ -4,7 +4,7 @@ import Quiz from "../components/Quiz.js";
 import Result from "../components/Result.js";
 
 const app = {
-    render: async function() {
+    render: function() {
         const root = document.getElementById('root');
         root.append(Header({ 'title': 'Quiz' }));
         root.insertAdjacentHTML('beforeend', '<div id="content"></div>')
@@ -39,6 +39,8 @@ function Header(props = {}, isReturnDom = true) {
     return (isReturnDom) ? header : header.outerHTML;
 }
 
+const pathToRegEx = (path = '') => new RegExp('^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$');
+
 async function router() {
     const routes = [
         {
@@ -48,25 +50,29 @@ async function router() {
         {
             path: '/quiz',
             view: Quiz
+        },
+        {
+            path: '/quiz/:id',
+            view: Quiz
         }
     ], notFoundRoute = {
         path: '/notfound',
-        view: () => console.log('Error 404: Page not found!')
+        view: () => `<h1>Error 404: Page not found! :(</h1>`
     };
 
     const maybeMatches = routes.map((route) => {
         return {
             route: route,
-            isMatch: location.pathname === route.path
+            result: location.pathname.match(pathToRegEx(route.path))
         }
     });
 
-    let match = maybeMatches.find(maybeMatch => maybeMatch.isMatch);
+    let match = maybeMatches.find(maybeMatch => maybeMatch.result !== null);
 
     if(!match) {
         match = {
             route: notFoundRoute,
-            isMatch: false
+            result: location.pathname.match(pathToRegEx(notFoundRoute.path))
         }
     }
 
@@ -75,26 +81,47 @@ async function router() {
     document.getElementById('content').innerHTML = `${await view.render()}`;
 }
 
+window.onpopstate = router;
+
+const linkClickHandler = (function() {
+    return function navigaToAnotherPage(event) {
+        const { currentTarget } = event;
+        event.preventDefault();
+        navigateTo(currentTarget.href);
+    }
+})();
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    app.start()
+    router().then(() => {
+        const links = document.querySelectorAll('[data-link]');
+        console.log(links);
+        addHandlerToElements(links, 'click', linkClickHandler);
+        // links.forEach((link) => {
+        //     link.addEventListener('click', (event => {
+        //         const { currentTarget } = event;
+        //         event.preventDefault();
+        //         navigateTo(currentTarget.href);
+        //     }));
+        // });
+    });
+});
+
 function navigateTo(url) {
     history.pushState(null, null, url);
     router();
 }
 
-window.onpopstate = router;
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    app.start().then(() => {
-        router();
-        const links = document.querySelectorAll('[data-link]');
-        links.forEach((link) => {
-            link.addEventListener('click', (event => {
-                event.preventDefault();
-                const { currentTarget } = event;
-                navigateTo(currentTarget.href);
-            }));
+function addHandlerToElements(elements = [], eventType = '', handler = () => {}) {
+    try {
+        if(!(elements instanceof NodeList)) throw 'TypeError: This elements is not a NodeList.'
+        elements.forEach((elements) => {
+            elements.addEventListener(eventType, handler);
         });
-    });
-});
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 function render(element, container) {
     while(container.firstChild !== container.lastChild) {

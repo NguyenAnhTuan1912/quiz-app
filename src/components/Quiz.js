@@ -7,6 +7,7 @@ export default class extends AbstractView {
 
     constructor() {
         super();
+        this.setTitle('Quiz');
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'quiz-page'
@@ -15,7 +16,6 @@ export default class extends AbstractView {
             questions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
             questionsPage: [1, 2, 3]
         }
-        this.setTitle('Quiz');
     }
 
     get getDom() {

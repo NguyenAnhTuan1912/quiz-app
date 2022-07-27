@@ -7,6 +7,7 @@ export default class extends AbstractView {
 
     constructor() {
         super();
+        this.setTitle('Home');
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'home-page'
@@ -32,7 +33,6 @@ export default class extends AbstractView {
             ],
             categories: ['Nổi bật', 'Yêu thích', 'Lập trình', 'Toán học']
         }
-        this.setTitle('Home');
     }
 
     get getDom() {
