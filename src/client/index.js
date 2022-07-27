@@ -1,5 +1,5 @@
 import { createElement, show } from "../components/Function.js";
-import Home from "../components/Home.js";
+import Home from '../components/Home.js';
 import Quiz from "../components/Quiz.js";
 import Result from "../components/Result.js";
 
@@ -7,6 +7,7 @@ const app = {
     render: async function() {
         const root = document.getElementById('root');
         root.append(Header({ 'title': 'Quiz' }));
+        root.insertAdjacentHTML('beforeend', '<div id="content"></div>')
     },
     start: function() {
         return this.render();
@@ -33,11 +34,8 @@ function Header(props = {}, isReturnDom = true) {
     `;
 
     header.insertAdjacentHTML('beforeend', htmls);
-
     const menu = header.querySelector('#js-menu');
-
     menu.addEventListener('click', show);
-
     return (isReturnDom) ? header : header.outerHTML;
 }
 
@@ -45,11 +43,11 @@ async function router() {
     const routes = [
         {
             path: '/',
-            view: () => Home.render()
+            view: Home
         },
         {
             path: '/quiz',
-            view: () => Quiz.render()
+            view: Quiz
         }
     ], notFoundRoute = {
         path: '/notfound',
@@ -72,7 +70,9 @@ async function router() {
         }
     }
 
-    render(match.route.view, document.getElementById('root'));
+    const view = new match.route.view();
+
+    document.getElementById('content').innerHTML = `${await view.render()}`;
 }
 
 function navigateTo(url) {
@@ -84,6 +84,7 @@ window.onpopstate = router;
 
 document.addEventListener('DOMContentLoaded', (event) => {
     app.start().then(() => {
+        router();
         const links = document.querySelectorAll('[data-link]');
         links.forEach((link) => {
             link.addEventListener('click', (event => {
@@ -95,9 +96,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-function render(cb, container) {
+function render(element, container) {
     while(container.firstChild !== container.lastChild) {
         container.removeChild(container.lastChild);
     }
-    cb();
 }

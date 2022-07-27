@@ -1,47 +1,80 @@
+import AbstractView from "./AbstractView.js";
 import { createElement } from "./Function.js";
 
-const Quiz = {
-    htmlDOM: createElement({
-        'type': 'div',
-        'classNames': 'quiz-page'
-    }),
-    data: {},
-    render: async function() {
-        document.title = 'Quiz';
-        const root = document.getElementById('root');
-        const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-        const questions = [1, 2 ,3];
+export default class extends AbstractView {
+    #data;
+    #dom;
 
-
-        const htmls = `
-            ${QuizInfo({ data }, false)}
-            ${QuizQuestion({ questions }, false)}
-            <hr>
-            ${QuizChoices({}, false)}
-        `;
-
-        this.htmlDOM.insertAdjacentHTML('beforeend', htmls);
-        // this.htmlDOM.appendChild(QuizInfo({ data }));
-        // this.htmlDOM.appendChild(QuizQuestion({ data }));
-        root.appendChild(this.htmlDOM);
-
-        // Ather add index to Quiz Page and add Quiz Page to root
-        const quizInfoContainer = document.getElementsByClassName('quiz-info')[0];
-        const index = quizInfoContainer.getElementsByClassName('btn-question-index');
-        for(let i = 0; i < 15; i++) {
-            index[i].onclick = function() {
-                const questionIndexShow = quizInfoContainer.querySelector('#js-questionCounter');
-                console.log(questionIndexShow);
-                questionIndexShow.textContent = data[i];
-            }
+    constructor() {
+        super();
+        this.#dom = createElement({
+            'type': 'div',
+            'classNames': 'quiz-page'
+        })
+        this.#data = {
+            questions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+            questionsPage: [1, 2, 3]
         }
-    },
-    renderData: function() {
+        this.setTitle('Quiz');
+    }
 
+    get getDom() {
+        return this.#dom;
+    }
+
+    async render() {
+        const { questions, questionsPage } = this.#data;
+        return `
+            <div class="quiz-page">
+                ${QuizInfo({ questions }, false)}
+                ${await QuizQuestion({ questionsPage }, false)}
+                <hr>
+                ${QuizChoices({}, false)}
+            </div>
+        `;
     }
 }
 
-export default Quiz;
+// const Quiz = {
+//     htmlDOM: createElement({
+//         'type': 'div',
+//         'classNames': 'quiz-page'
+//     }),
+//     data: {},
+//     render: async function() {
+//         document.title = 'Quiz';
+//         const root = document.getElementById('root');
+//         const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+//         const questions = [1, 2 ,3];
+
+
+//         const htmls = `
+//             ${QuizInfo({ data }, false)}
+//             ${QuizQuestion({ questions }, false)}
+//             <hr>
+//             ${QuizChoices({}, false)}
+//         `;
+
+//         this.htmlDOM.insertAdjacentHTML('beforeend', htmls);
+//         // this.htmlDOM.appendChild(QuizInfo({ data }));
+//         // this.htmlDOM.appendChild(QuizQuestion({ data }));
+//         root.appendChild(this.htmlDOM);
+
+//         // Ather add index to Quiz Page and add Quiz Page to root
+//         const quizInfoContainer = document.getElementsByClassName('quiz-info')[0];
+//         const index = quizInfoContainer.getElementsByClassName('btn-question-index');
+//         for(let i = 0; i < 15; i++) {
+//             index[i].onclick = function() {
+//                 const questionIndexShow = quizInfoContainer.querySelector('#js-questionCounter');
+//                 console.log(questionIndexShow);
+//                 questionIndexShow.textContent = data[i];
+//             }
+//         }
+//     },
+//     renderData: function() {
+
+//     }
+// }
 
 function QuizInfo(props = {}, isReturnDom = true) {
     const div = createElement({
@@ -50,8 +83,8 @@ function QuizInfo(props = {}, isReturnDom = true) {
     });
     
     let htmls = `
-        ${QuizIndex({ data : props.data }, false)}
-        ${Counter({ data : props.data }, false)}
+        ${QuizIndex({ data : props.questions }, false)}
+        ${Counter({ data : props.questions }, false)}
         ${Timer({}, false)}
     `;
 
@@ -130,7 +163,7 @@ async function QuizQuestion(props = {}, isReturnDom = true) {
 
     let htmls = `<div class="question-slider"><div class="slider" id="js-questionSlider">`
 
-    props.questions.forEach((value) => {
+    props.questionsPage.forEach((value) => {
         htmls += `
             <div class="question-page">
                 <p class="question-page__text">${value}</p>

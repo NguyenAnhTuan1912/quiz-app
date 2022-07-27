@@ -1,48 +1,62 @@
+import AbstractView from "./AbstractView.js";
 import { createElement } from "./Function.js";
 
-const Home = {
-    htmlDOM: createElement({
-        'type': 'div',
-        'classNames': 'home-page'
-    }),
-    data: {},
-    render: async function() {
-        document.title = 'Home';
-        const root = document.getElementById('root');
-        const questions = [
-            {
-                'name': '25 điều thú vị về loài mèo mà bạn có biết?',
-                'questions': 25
-            },
-            {
-                'name': '10 câu hỏi toán lớp 1',
-                'questions': 10
-            },
-            {
-                'name': 'Nhũng câu hỏi hóc búa - Phần 3',
-                'questions': 20
-            },
-            {
-                'name': 'Những câu hỏi học búa - Phần 2',
-                'questions': 15
-            }
-        ];
-        const categories = ['Nổi bật', 'Yêu thích', 'Lập trình', 'Toán học'];
-        const htmls = `
-            ${Banner({
-                'banner-text__title': 'Quiz nổi bật nhất',
-                'banner-text__description': 'Đây là bài quiz được nhiều người dùng làm nhất tuần qua.'
-            }, false)}
-            <hr>
-            ${await QuizCategory({ categories }, false)}
-            <hr>
-            ${await Quizzes({ questions }, false)}
-        `;
-        this.htmlDOM.insertAdjacentHTML('beforeend', htmls);
-        root.appendChild(this.htmlDOM);
-    },
-    renderData: function() {
+export default class extends AbstractView {
+    #data;
+    #dom;
 
+    constructor() {
+        super();
+        this.#dom = createElement({
+            'type': 'div',
+            'classNames': 'home-page'
+        });
+        this.#data = {
+            questions: [
+                {
+                    'name': '25 điều thú vị về loài mèo mà bạn có biết?',
+                    'questions': 25
+                },
+                {
+                    'name': '10 câu hỏi toán lớp 1',
+                    'questions': 10
+                },
+                {
+                    'name': 'Nhũng câu hỏi hóc búa - Phần 3',
+                    'questions': 20
+                },
+                {
+                    'name': 'Những câu hỏi học búa - Phần 2',
+                    'questions': 15
+                }
+            ],
+            categories: ['Nổi bật', 'Yêu thích', 'Lập trình', 'Toán học']
+        }
+        this.setTitle('Home');
+    }
+
+    get getDom() {
+        return this.#dom;
+    }
+
+    get getData() {
+        return this.#data;
+    }
+
+    async render() {
+        const { categories, questions } = this.#data;
+        return `
+            <div class="home-page">
+                ${Banner({
+                    'banner-text__title': 'Quiz nổi bật nhất',
+                    'banner-text__description': 'Đây là bài quiz được nhiều người dùng làm nhất tuần qua.'
+                }, false)}
+                <hr>
+                ${await QuizCategory({ categories }, false)}
+                <hr>
+                ${await Quizzes({ questions }, false)}
+            </div>
+        `;
     }
 }
 
@@ -117,4 +131,46 @@ async function Quizzes(props = {}, isReturnDom = true) {
     return (isReturnDom) ? div : div.outerHTML;
 }
 
-export default Home;
+// htmlDOM: createElement({
+//     'type': 'div',
+//     'classNames': 'home-page'
+// }),
+// data: {},
+// render: async function() {
+//     document.title = 'Home';
+//     const root = document.getElementById('root');
+//     const questions = [
+//         {
+//             'name': '25 điều thú vị về loài mèo mà bạn có biết?',
+//             'questions': 25
+//         },
+//         {
+//             'name': '10 câu hỏi toán lớp 1',
+//             'questions': 10
+//         },
+//         {
+//             'name': 'Nhũng câu hỏi hóc búa - Phần 3',
+//             'questions': 20
+//         },
+//         {
+//             'name': 'Những câu hỏi học búa - Phần 2',
+//             'questions': 15
+//         }
+//     ];
+//     const categories = ['Nổi bật', 'Yêu thích', 'Lập trình', 'Toán học'];
+//     const htmls = `
+//         ${Banner({
+//             'banner-text__title': 'Quiz nổi bật nhất',
+//             'banner-text__description': 'Đây là bài quiz được nhiều người dùng làm nhất tuần qua.'
+//         }, false)}
+//         <hr>
+//         ${await QuizCategory({ categories }, false)}
+//         <hr>
+//         ${await Quizzes({ questions }, false)}
+//     `;
+//     this.htmlDOM.insertAdjacentHTML('beforeend', htmls);
+//     root.appendChild(this.htmlDOM);
+// },
+// renderData: function() {
+
+// }
