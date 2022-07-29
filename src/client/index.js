@@ -1,13 +1,17 @@
-import { createElement, show } from "../components/Function.js";
+import { 
+    createElement,
+    show
+} from "../components/Function.js";
 import Home from '../components/Home.js';
 import Quiz from "../components/Quiz.js";
 import Result from "../components/Result.js";
+import quizzes from "../fakedata/quizzes.json" assert {type: 'json'};
 
 const app = {
     render: function() {
         const root = document.getElementById('root');
         root.append(Header({ 'title': 'Quiz' }));
-        root.insertAdjacentHTML('beforeend', '<div id="content"></div>')
+        root.insertAdjacentHTML('beforeend', '<div id="content"></div>');
     },
     start: function() {
         return this.render();
@@ -40,6 +44,46 @@ function Header(props = {}, isReturnDom = true) {
 }
 
 const pathToRegEx = (path = '') => new RegExp('^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$');
+
+const getHomeQuizBoxData = (data = {}) => {
+    try {
+        if(typeof data !== 'object' || Array.isArray(data)) throw 'TypeError: Data must be an Object!';
+        const keys = Object.keys(data);
+        return keys.map((key) => {
+            return {
+                id: key[key.length - 1],
+                name: data[key].name,
+                amount: data[key].amount
+            };
+        });
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const getQuizData = (id = '', data = {}) => {
+    try {
+        if(typeof data !== 'object' || Array.isArray(data)) throw 'TypeError: Data must be an Object!';
+        if(typeof id !== 'string') throw 'TypeError: Id must be a String!';
+        return data[`quiz-${id}`].questions;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function getParams(match = {}) {
+    try {
+        if(!Array.isArray(match.result)) throw 'TypeError: Your match.result must be an Array!';
+        const values = match.result.slice(1);
+        const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(char => char[1]);
+
+        return Object.fromEntries(keys.map((key, index) => {
+            return [key, values[index]];
+        }));
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 async function router() {
     const routes = [
@@ -76,7 +120,14 @@ async function router() {
         }
     }
 
-    const view = new match.route.view();
+    let data, { id } = getParams(match) || '';
+    if(match.route.view === Home) data = getHomeQuizBoxData(quizzes);
+    if(match.route.view === Quiz) data = getQuizData(id, quizzes);
+
+    const view = new match.route.view(id, data);
+
+    console.log(quizzes);
+    console.log(view.getData);
 
     document.getElementById('content').innerHTML = `${await view.render()}`;
 }
@@ -95,7 +146,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     app.start()
     router().then(() => {
         const links = document.querySelectorAll('[data-link]');
-        console.log(links);
         addHandlerToElements(links, 'click', linkClickHandler);
         // links.forEach((link) => {
         //     link.addEventListener('click', (event => {

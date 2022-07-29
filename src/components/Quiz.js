@@ -1,29 +1,34 @@
-import AbstractView from "./AbstractView.js";
+import AbstractClass from "./AbstractClass.js";
 import { createElement } from "./Function.js";
 
-export default class extends AbstractView {
-    #data;
+export default class extends AbstractClass {
+    #fakedata;
     #dom;
 
-    constructor() {
-        super();
+    constructor(params, data) {
+        super(params, data);
         this.setTitle('Quiz');
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'quiz-page'
         })
-        this.#data = {
-            questions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-            questionsPage: [1, 2, 3]
-        }
     }
 
     get getDom() {
         return this.#dom;
     }
 
+    init(data = {}, callBack = () => {}) {
+        try {
+            if(!data) throw 'Data Error: Null or Undefined.';
+            callBack(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }    
+
     async render() {
-        const { questions, questionsPage } = this.#data;
+        const { questions } = this.getData, questionsPage = 1;
         return `
             <div class="quiz-page">
                 ${QuizInfo({ questions }, false)}
@@ -32,6 +37,12 @@ export default class extends AbstractView {
                 ${QuizChoices({}, false)}
             </div>
         `;
+    }
+}
+
+class Questions extends AbstractClass {
+    constructor() {
+        super();
     }
 }
 

@@ -1,50 +1,41 @@
-import AbstractView from "./AbstractView.js";
+import AbstractClass from "./AbstractClass.js";
 import { createElement } from "./Function.js";
 
-export default class extends AbstractView {
-    #data;
+export default class extends AbstractClass {
     #dom;
+    #cate;
 
-    constructor() {
-        super();
+    constructor(params, data) {
+        super(params, data);
         this.setTitle('Home');
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'home-page'
         });
-        this.#data = {
-            questions: [
-                {
-                    'name': '25 điều thú vị về loài mèo mà bạn có biết?',
-                    'questions': 25
-                },
-                {
-                    'name': '10 câu hỏi toán lớp 1',
-                    'questions': 10
-                },
-                {
-                    'name': 'Nhũng câu hỏi hóc búa - Phần 3',
-                    'questions': 20
-                },
-                {
-                    'name': 'Những câu hỏi học búa - Phần 2',
-                    'questions': 15
-                }
-            ],
-            categories: ['Nổi bật', 'Yêu thích', 'Lập trình', 'Toán học']
-        }
+        this.#cate = ['Nổi bật', 'Toán học', 'Logic', 'Đố vui'];
     }
 
     get getDom() {
         return this.#dom;
     }
 
-    get getData() {
-        return this.#data;
+    get getCategories() {
+        return this.#cate;
     }
 
+    // getNameAndAmount(data = {}) {
+    //     const keys = Object.keys(data);
+    //     return keys.map((key) => {
+    //         return {
+    //             name: data[key].name,
+    //             amount: data[key].amount
+    //         };
+    //     });
+    // }
+
     async render() {
-        const { categories, questions } = this.#data;
+        const questions = this.getData, categories = this.getCategories;
+        console.log(questions);
         return `
             <div class="home-page">
                 ${Banner({
@@ -111,21 +102,20 @@ async function Quizzes(props = {}, isReturnDom = true) {
         'id': 'js-homePageQuizzesContainer'
     });
 
-    let htmls = ``, index = 0;
+    let htmls = ``;
     props.questions.forEach((value) => {
         htmls += `
-            <a href="/quiz" data-id="quiz-${index}" data-link>
+            <a href="/quiz/${value.id}" data-id="${value.id}" data-link>
                 <div class="quiz">
                     <div class="quiz-image"></div>
                     <div class="quiz-text">
                         <h3 class="quiz-name">${value.name}</h3>
-                        <p class="quiz-amount">${value.questions} câu</p>
+                        <p class="quiz-amount">${value.amount} câu</p>
                     </div>
                     <span class="material-symbols-outlined">arrow_forward_ios</span>
                 </div>
             </a>
         `;
-        index++;
     });
     div.insertAdjacentHTML('beforeend', htmls);
     return (isReturnDom) ? div : div.outerHTML;
