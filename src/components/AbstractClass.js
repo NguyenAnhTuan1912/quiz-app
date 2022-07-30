@@ -30,6 +30,8 @@ export default class {
         }
     }
 
+    initDom() {}
+
     render() {
         return '';
     }

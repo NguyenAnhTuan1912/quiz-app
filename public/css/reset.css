@@ -57,6 +57,15 @@ a {
   color: rgb(103, 23, 205);
   background-color: white;
 }
+#root .btn-primary-black {
+  color: white;
+  border: 1px solid #262626;
+  background-color: #262626;
+}
+#root .btn-primary-black:hover {
+  color: #262626;
+  background-color: white;
+}
 #root .btn-rounded-5px {
   border-radius: 5px;
 }
@@ -82,7 +91,7 @@ a {
   width: 100%;
   max-width: 335px;
   height: 54px;
-  margin: 15px 0;
+  margin: 7.5px 0;
 }
 #root .btn-choice:first-child {
   margin-top: 0;

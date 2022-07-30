@@ -18,7 +18,7 @@
   }
   #root .quiz-page .quiz-questions .question-slider .slider .question-page {
     width: calc(100vw - 40px);
-    max-width: 1280px;
+    max-width: 1240px;
   }
   #root .quiz-page .quiz-questions .page__dot {
     max-width: none;
@@ -28,6 +28,13 @@
   }
   #root .quiz-page .quiz-choices .btn-choice {
     max-width: none;
+  }
+  #root .quiz-page .quiz-button {
+    width: 100%;
+    justify-content: center;
+  }
+  #root .quiz-page .quiz-button > button:first-child {
+    margin-right: 13px;
   }
   #root .result-page {
     width: 100%;

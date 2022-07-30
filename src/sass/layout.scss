@@ -241,6 +241,7 @@
 
         hr {
             width: 335px;
+            margin: 5px 0 12px 0;
         }
 
         .quiz-info {
@@ -262,6 +263,7 @@
                 justify-content: space-between;
                 align-content: flex-start;
                 width: 100%;
+                margin-bottom: 5px;
             }
 
             .question-counter {
@@ -345,7 +347,17 @@
         .quiz-choices {
             width: 100%;
             max-width: 335px;
-            margin: 0 auto 20px auto;
+            margin: 0 auto 15px auto;
+        }
+
+        .quiz-button {
+            @include flex-box(row, space-between, center);
+            width: calc(100% - 40px);
+            margin-bottom: 15px;
+
+            &>button {
+                width: 161px;
+            }
         }
     }
 

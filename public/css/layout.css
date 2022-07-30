@@ -222,6 +222,7 @@
 }
 #root .quiz-page hr {
   width: 335px;
+  margin: 5px 0 12px 0;
 }
 #root .quiz-page .quiz-info {
   cursor: default;
@@ -239,6 +240,7 @@
   justify-content: space-between;
   align-content: flex-start;
   width: 100%;
+  margin-bottom: 5px;
 }
 #root .quiz-page .quiz-info .question-counter {
   grid-area: counter;
@@ -311,7 +313,18 @@
 #root .quiz-page .quiz-choices {
   width: 100%;
   max-width: 335px;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 15px auto;
+}
+#root .quiz-page .quiz-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 40px);
+  margin-bottom: 15px;
+}
+#root .quiz-page .quiz-button > button {
+  width: 161px;
 }
 #root .result-page {
   display: flex;

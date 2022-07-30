@@ -33,21 +33,25 @@ export default class extends AbstractClass {
     //     });
     // }
 
-    async render() {
+    initDom() {
         const questions = this.getData, categories = this.getCategories;
         console.log(questions);
-        return `
+        this.#dom.insertAdjacentHTML('beforeend', `
             <div class="home-page">
                 ${Banner({
                     'banner-text__title': 'Quiz nổi bật nhất',
                     'banner-text__description': 'Đây là bài quiz được nhiều người dùng làm nhất tuần qua.'
                 }, false)}
                 <hr>
-                ${await QuizCategory({ categories }, false)}
+                ${QuizCategory({ categories }, false)}
                 <hr>
-                ${await Quizzes({ questions }, false)}
+                ${Quizzes({ questions }, false)}
             </div>
-        `;
+        `);
+    }
+
+    async render(isNode = true) {
+        return (isNode) ? this.#dom : this.#dom.outerHTML;
     }
 }
 
@@ -69,7 +73,7 @@ function Banner(props = {}, isReturnDom = true) {
     return (isReturnDom) ? div : div.outerHTML;
 }
 
-async function QuizCategory(props = {}, isReturnDom = true) {
+function QuizCategory(props = {}, isReturnDom = true) {
     const div = createElement({
         'type': 'div',
         'classNames': 'quiz-category',
@@ -95,7 +99,7 @@ async function QuizCategory(props = {}, isReturnDom = true) {
     return (isReturnDom) ? div : div.outerHTML;
 }
 
-async function Quizzes(props = {}, isReturnDom = true) {
+function Quizzes(props = {}, isReturnDom = true) {
     const div = createElement({
         'type': 'div',
         'classNames': 'quizzes',
@@ -105,7 +109,7 @@ async function Quizzes(props = {}, isReturnDom = true) {
     let htmls = ``;
     props.questions.forEach((value) => {
         htmls += `
-            <a href="/quiz/${value.id}" data-id="${value.id}" data-link>
+            <a href="/quiz/${value.id}" data-id="${value.id}" data-link onclick="linkClickHandler(event)">
                 <div class="quiz">
                     <div class="quiz-image"></div>
                     <div class="quiz-text">

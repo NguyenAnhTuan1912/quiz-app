@@ -1,6 +1,8 @@
 import { 
     createElement,
-    show
+    show,
+    setHandlers,
+    setHandler
 } from "../components/Function.js";
 import Home from '../components/Home.js';
 import Quiz from "../components/Quiz.js";
@@ -30,8 +32,8 @@ function Header(props = {}, isReturnDom = true) {
         <div class="menu move-x">
             <span class="material-symbols-outlined" id="js-menu">menu</span>
             <nav>
-                <a href="/" data-link>Home</a>
-                <a href="/quiz" data-link>Quiz</a>
+                <a href="/" onclick="linkClickHandler(event)" data-link>Home</a>
+                <a href="/quiz" onclick="linkClickHandler(event)" data-link>Quiz</a>
             </nav>
         </div>
         <div class="btn hide">Submit</div>
@@ -65,7 +67,7 @@ const getQuizData = (id = '', data = {}) => {
     try {
         if(typeof data !== 'object' || Array.isArray(data)) throw 'TypeError: Data must be an Object!';
         if(typeof id !== 'string') throw 'TypeError: Id must be a String!';
-        return data[`quiz-${id}`].questions;
+        return data[`quiz-${id}`];
     } catch (error) {
         console.error(error);
     }
@@ -122,14 +124,18 @@ async function router() {
 
     let data, { id } = getParams(match) || '';
     if(match.route.view === Home) data = getHomeQuizBoxData(quizzes);
-    if(match.route.view === Quiz) data = getQuizData(id, quizzes);
+    if(match.route.view === Quiz) {data = getQuizData(id, quizzes); console.log(data)};
 
     const view = new match.route.view(id, data);
 
-    console.log(quizzes);
-    console.log(view.getData);
-
-    document.getElementById('content').innerHTML = `${await view.render()}`;
+    
+    // console.log(quizzes);
+    // console.log(view.getData);
+    
+    const content = document.getElementById('content');
+    content.innerHTML = '';
+    // content.insertAdjacentHTML('beforeend', `${await view.render()}`);
+    content.appendChild(await view.render());
 }
 
 window.onpopstate = router;
@@ -139,22 +145,24 @@ const linkClickHandler = (function() {
         const { currentTarget } = event;
         event.preventDefault();
         navigateTo(currentTarget.href);
+        console.log('Click!');
     }
 })();
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    app.start()
-    router().then(() => {
-        const links = document.querySelectorAll('[data-link]');
-        addHandlerToElements(links, 'click', linkClickHandler);
-        // links.forEach((link) => {
-        //     link.addEventListener('click', (event => {
-        //         const { currentTarget } = event;
-        //         event.preventDefault();
-        //         navigateTo(currentTarget.href);
-        //     }));
+    app.start();
+    router()
+        // .then(() => {
+        //     const links = document.querySelectorAll('[data-link]');
+        //     addHandlerToElements(links, 'click', linkClickHandler);
+        //     // links.forEach((link) => {
+        //     //     link.addEventListener('click', (event => {
+        //     //         const { currentTarget } = event;
+        //     //         event.preventDefault();
+        //     //         navigateTo(currentTarget.href);
+        //     //     }));
+        //     // });
         // });
-    });
 });
 
 function navigateTo(url) {
@@ -162,19 +170,10 @@ function navigateTo(url) {
     router();
 }
 
-function addHandlerToElements(elements = [], eventType = '', handler = () => {}) {
-    try {
-        if(!(elements instanceof NodeList)) throw 'TypeError: This elements is not a NodeList.'
-        elements.forEach((elements) => {
-            elements.addEventListener(eventType, handler);
-        });
-    } catch (error) {
-        console.error(error);
-    }
-}
-
 function render(element, container) {
     while(container.firstChild !== container.lastChild) {
         container.removeChild(container.lastChild);
     }
 }
+
+window.linkClickHandler = linkClickHandler;

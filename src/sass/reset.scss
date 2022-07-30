@@ -64,6 +64,17 @@ a {
         }
     }
     
+    .btn-primary-black {
+        color: white;
+        border: 1px solid #262626;
+        background-color: #262626;
+
+        &:hover {
+            color: #262626;
+            background-color: white;
+        }
+    }
+
     .btn-rounded-5px {
         border-radius: 5px;
     }
@@ -94,7 +105,7 @@ a {
         width: 100%;
         max-width: 335px;
         height: 54px;
-        margin: 15px 0;
+        margin: 7.5px 0;
     
         &:first-child {
             margin-top: 0;
