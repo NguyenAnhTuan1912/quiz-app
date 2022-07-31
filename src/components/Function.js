@@ -38,10 +38,47 @@ function getParentElement(element = Node || null) {
     return element.parentElement;
 }
 
+function Counter(s = 0, e = 100, st = 1) {
+    let number = 0,
+    isStop = false,
+    isReset = false,
+    step = st,
+    start = s,
+    end = e
+    
+    this.setStart = (s) => {
+      start = s;
+    }
+    
+    this.setEnd = (e) => {
+      end = e;
+    }
+    
+    this.reset = () => {
+        if(isReset) number = 0;
+    };
+  
+    this.decrease = () => {
+      if(!isStop && !(number === start)) number -= step;
+      return number;
+    };
+  
+    this.increase = () => {
+      if(!isStop && !(number === end)) number += step;
+      return number;
+    };
+}
+
+function insertAfter(newNode, node) {
+    node.parentNode.insertBefore(newNode, node.nextSibling);
+}
+
 export {
     createElement,
     show,
     setHandlers,
     setHandler,
-    getParentElement
+    getParentElement,
+    insertAfter,
+    Counter
 }

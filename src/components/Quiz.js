@@ -3,30 +3,68 @@ import {
     createElement,
     setHandlers,
     setHandler,
-    getParentElement
+    getParentElement,
+    insertAfter,
+    Counter
 } from "./Function.js";
 
-const counter = (function() {
-    let count = 0;
-    return function(isStop = false, isIncrease = true) {
-      if(!isStop)
-        if(isIncrease) count += 1;
-        else count -= 1;
-      return count;
-    }
-  })();
+// const counter = (function() {
+//     let count = 0;
+//     return function(isStop = false, isIncrease = true) {
+//         if(!isStop)
+//             if(isIncrease) count += 1;
+//             else count -= 1;
+//         return count;
+//     }
+// })();
+
+// function counter() {
+//     let number = 0,
+//     isStop = false,
+//     isIncrease = true,
+//     isReset = false
+
+//     this.toZero() = () => {
+//         if(isReset) number = 0;
+//     };
+
+//     this.count = () => {
+//         if(!isStop)
+//             if(isIncrease) number += 1;
+//             else number -= 1;
+//         return number;
+//     };
+// }
 
 const nextQuestion = (function() {
-    return function NavigateToNextQuestion(event, data = {}) {
-        let index = (counter(true) === data.length - 1) ? counter(true) : counter();
-        // console.log(index);
+    return function NavigateToNextQuestion(event, data = {}, counter) {
+        let index = counter.increase();
         if(index === data.length) return;
         const { target } = event,
         quizPage = getParentElement((getParentElement(target)));
         quizPage.getElementsByClassName('quiz-questions')[0].remove();
-        const q = new QuizQuestions('', data[index]);
-        // console.log(data[index]);
+        quizPage.getElementsByClassName('quiz-choices')[0].remove();
+        const q = new QuizQuestions('', data[index]),
+        c = new QuizChoices('', data[index]);
+        quizPage.querySelector('#js-questionCounter').textContent = index + 1;
         quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
+        insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
+    }
+})();
+
+const prevQuestion = (function() {
+    return function NavigateToPreviousQuestion(event, data = {}, counter) {
+        let index = counter.decrease();
+        if(index === -1) return;
+        const { target } = event,
+        quizPage = getParentElement((getParentElement(target)));
+        quizPage.getElementsByClassName('quiz-questions')[0].remove();
+        quizPage.getElementsByClassName('quiz-choices')[0].remove();
+        const q = new QuizQuestions('', data[index]),
+        c = new QuizChoices('', data[index]);
+        quizPage.querySelector('#js-questionCounter').textContent = index + 1;
+        quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
+        insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
     }
 })();
 
@@ -67,12 +105,13 @@ export default class extends AbstractClass {
 
     initDom() {
         const { amount, questions } = this.getData,
-        qQuestions = new QuizQuestions('', questions[0]);
+        qQuestions = new QuizQuestions('', questions[0]),
+        qChoices = new QuizChoices('', questions[0]);
         this.#dom.insertAdjacentHTML('beforeend', `
             ${QuizInfo({ amount }, false)}
             ${qQuestions.render(false)}
             <hr>
-            ${QuizChoices({ choices: questions[0].choices }, false)}
+            ${qChoices.render(false)}
         `);
 
         const quizBtn = createElement({
@@ -92,9 +131,11 @@ export default class extends AbstractClass {
 
         prevBtn.textContent = 'Previous';
         nextBtn.textContent = 'Next';
-        nextBtn.addEventListener('click', (event) => nextQuestion(event, this.getData.questions));
 
-        
+        const counter = new Counter(0, this.getData.questions.length - 1);
+        nextBtn.addEventListener('click', (event) => nextQuestion(event, this.getData.questions, counter));
+        prevBtn.addEventListener('click', (event) => prevQuestion(event, this.getData.questions, counter));
+
         quizBtn.appendChild(prevBtn);
         quizBtn.appendChild(nextBtn);
         this.#dom.appendChild(quizBtn);
@@ -119,7 +160,6 @@ class QuizQuestions extends AbstractClass {
 
     initDom() {
         const { text } = this.getData;
-        console.log(this.getData);
         this.#dom.insertAdjacentHTML('beforeend', `
             <div class="question-slider"><div class="slider" id="js-questionSlider">
                 <div class="question-page">
@@ -128,6 +168,39 @@ class QuizQuestions extends AbstractClass {
             </div></div>
             <div class="page__dot"><div class="btn btn-dot"></div></div>
         `);
+    }
+
+    render(isNode = true) {
+        return (isNode) ? this.#dom : this.#dom.outerHTML;
+    }
+}
+
+class QuizChoices extends AbstractClass {
+    #dom;
+
+    constructor(params, data) {
+        super(params, data);
+        this.#dom = createElement({
+            'type': 'div',
+            'classNames': 'quiz-choices'
+        });
+        this.initDom();
+    }
+
+    initDom() {
+        const { choices } = this.getData,
+        buttons = [];
+        for(let i = 0; i < 4; i++) {
+            const button = createElement({
+                'type': 'button',
+                'classNames': 'btn btn-rounded-5px btn-choice',
+                'id': 'js-choice-' + (i + 1)
+            });
+            button.textContent = choices[i].data;
+            button.addEventListener('click', () => { console.log(`Button ${i + 1} is Clicked!`)});
+            buttons.push(button);
+        }
+        this.#dom.append(...buttons);
     }
 
     render(isNode = true) {
@@ -184,7 +257,7 @@ function QuizInfo(props = {}, isReturnDom = true) {
     
     let htmls = `
         ${QuizIndex({ data : props.amount }, false)}
-        ${Counter({ data : props.amount }, false)}
+        ${CounterQuestion({ data : props.amount }, false)}
         ${Timer({}, false)}
     `;
 
@@ -232,7 +305,7 @@ function Timer(props = {}, isReturnDom = true) {
     return (isReturnDom) ? div : div.outerHTML;
 }
 
-function Counter(props = {}, isReturnDom = true) {
+function CounterQuestion(props = {}, isReturnDom = true) {
     const div = createElement({
         'type': 'div',
         'classNames': 'question-counter'
@@ -282,19 +355,19 @@ async function QuizQuestion(props = {}, isReturnDom = true) {
     return (isReturnDom) ? div : div.outerHTML;
 }
 
-function QuizChoices(props = {}, isReturnDom = true) {
-    const div = createElement({
-        'type': 'div',
-        'classNames': 'quiz-choices'
-    });
+// function QuizChoices(props = {}, isReturnDom = true) {
+//     const div = createElement({
+//         'type': 'div',
+//         'classNames': 'quiz-choices'
+//     });
 
-    const htmls = `
-        <button class="btn btn-rounded-5px btn-choice" id="js-choice-1" onlick="">${props.choices[0].data}</button>
-        <button class="btn btn-rounded-5px btn-choice" id="js-choice-2" onlick="">${props.choices[1].data}</button>
-        <button class="btn btn-rounded-5px btn-choice" id="js-choice-3" onlick="">${props.choices[2].data}</button>
-        <button class="btn btn-rounded-5px btn-choice" id="js-choice-4" onlick="">${props.choices[3].data}</button>
-    `;
+//     const htmls = `
+//         <button class="btn btn-rounded-5px btn-choice" id="js-choice-1" onlick="">${props.choices[0].data}</button>
+//         <button class="btn btn-rounded-5px btn-choice" id="js-choice-2" onlick="">${props.choices[1].data}</button>
+//         <button class="btn btn-rounded-5px btn-choice" id="js-choice-3" onlick="">${props.choices[2].data}</button>
+//         <button class="btn btn-rounded-5px btn-choice" id="js-choice-4" onlick="">${props.choices[3].data}</button>
+//     `;
 
-    div.insertAdjacentHTML('beforeend', htmls);
-    return (isReturnDom) ? div : div.outerHTML;
-}
+//     div.insertAdjacentHTML('beforeend', htmls);
+//     return (isReturnDom) ? div : div.outerHTML;
+// }

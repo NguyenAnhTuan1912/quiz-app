@@ -9,6 +9,8 @@ import Quiz from "../components/Quiz.js";
 import Result from "../components/Result.js";
 import quizzes from "../fakedata/quizzes.json" assert {type: 'json'};
 
+const Quizzes = { ...quizzes };
+
 const app = {
     render: function() {
         const root = document.getElementById('root');
@@ -123,8 +125,8 @@ async function router() {
     }
 
     let data, { id } = getParams(match) || '';
-    if(match.route.view === Home) data = getHomeQuizBoxData(quizzes);
-    if(match.route.view === Quiz) {data = getQuizData(id, quizzes); console.log(data)};
+    if(match.route.view === Home) data = getHomeQuizBoxData(Quizzes);
+    if(match.route.view === Quiz) data = getQuizData(id, Quizzes);
 
     const view = new match.route.view(id, data);
 

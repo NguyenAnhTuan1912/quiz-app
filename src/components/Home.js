@@ -13,6 +13,7 @@ export default class extends AbstractClass {
             'classNames': 'home-page'
         });
         this.#cate = ['Nổi bật', 'Toán học', 'Logic', 'Đố vui'];
+        this.initDom();
     }
 
     get getDom() {
