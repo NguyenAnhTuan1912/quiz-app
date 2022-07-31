@@ -14,7 +14,7 @@ const Quizzes = { ...quizzes };
 const app = {
     render: function() {
         const root = document.getElementById('root');
-        root.append(Header({ 'title': 'Quiz' }));
+        root.append(Header({ 'title': `Home` }));
         root.insertAdjacentHTML('beforeend', '<div id="content"></div>');
     },
     start: function() {

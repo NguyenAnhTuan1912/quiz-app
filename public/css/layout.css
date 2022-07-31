@@ -39,9 +39,14 @@
   grid-area: backbtn-title;
 }
 #root > header .title {
+  max-width: 100%;
+  height: 100%;
   text-align: left;
   grid-column: 1/1;
   grid-area: backbtn-title;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #root > header .menu {
   position: relative;

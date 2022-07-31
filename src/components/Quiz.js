@@ -41,7 +41,8 @@ const nextQuestion = (function() {
         let index = counter.increase();
         if(index === data.length) return;
         const { target } = event,
-        quizPage = getParentElement((getParentElement(target)));
+        quizPage = getParentElement((getParentElement(target))),
+        indexBtns = quizPage.querySelectorAll('.btn.btn-question-index');
         quizPage.getElementsByClassName('quiz-questions')[0].remove();
         quizPage.getElementsByClassName('quiz-choices')[0].remove();
         const q = new QuizQuestions('', data[index]),
@@ -49,6 +50,7 @@ const nextQuestion = (function() {
         quizPage.querySelector('#js-questionCounter').textContent = index + 1;
         quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
         insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
+        highlightIndexBtn(indexBtns, index);
     }
 })();
 
@@ -57,7 +59,8 @@ const prevQuestion = (function() {
         let index = counter.decrease();
         if(index === -1) return;
         const { target } = event,
-        quizPage = getParentElement((getParentElement(target)));
+        quizPage = getParentElement((getParentElement(target))),
+        indexBtns = quizPage.querySelectorAll('.btn.btn-question-index');
         quizPage.getElementsByClassName('quiz-questions')[0].remove();
         quizPage.getElementsByClassName('quiz-choices')[0].remove();
         const q = new QuizQuestions('', data[index]),
@@ -65,12 +68,37 @@ const prevQuestion = (function() {
         quizPage.querySelector('#js-questionCounter').textContent = index + 1;
         quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
         insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
+        highlightIndexBtn(indexBtns, index);
     }
 })();
+
+const currentQuestion = (function() {
+    return function ShowCurrentQuestion(event, data = {}, index = 0) {
+        const { target } = event,
+        quizPage = getParentElement((getParentElement((getParentElement(target))))),
+        indexBtns = quizPage.querySelectorAll('.btn.btn-question-index');
+        quizPage.getElementsByClassName('quiz-questions')[0].remove();
+        quizPage.getElementsByClassName('quiz-choices')[0].remove();
+        const q = new QuizQuestions('', data[index]),
+        c = new QuizChoices('', data[index]);
+        quizPage.querySelector('#js-questionCounter').textContent = index + 1;
+        quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
+        insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
+        highlightIndexBtn(indexBtns, index);
+    }
+})();
+
+function highlightIndexBtn(buttons, index) {
+    buttons.forEach(button => {
+        if(button === buttons[index]) button.style.backgroundColor = '#6495ED';
+            else button.style.backgroundColor = 'transparent';
+    });
+}
 
 export default class extends AbstractClass {
     #fakedata;
     #dom;
+    #indexQuestion;
 
     constructor(params, data) {
         super(params, data);
@@ -79,7 +107,9 @@ export default class extends AbstractClass {
             'type': 'div',
             'classNames': 'quiz-page'
         });
+        this.#indexQuestion = 0;
         this.initDom();
+        document.querySelector('header .title').textContent = `Quiz / ${this.getData.name}`;
     }
 
     get getDom() {
@@ -103,16 +133,16 @@ export default class extends AbstractClass {
         }
     }    
 
+    currentQuestion() {
+        // Cap nhap sau
+    }
+
     initDom() {
-        const { amount, questions } = this.getData,
-        qQuestions = new QuizQuestions('', questions[0]),
-        qChoices = new QuizChoices('', questions[0]);
-        this.#dom.insertAdjacentHTML('beforeend', `
-            ${QuizInfo({ amount }, false)}
-            ${qQuestions.render(false)}
-            <hr>
-            ${qChoices.render(false)}
-        `);
+        const { questions } = this.getData,
+        counter = new Counter(0, this.getData.questions.length - 1),
+        qQuestions = new QuizQuestions('', questions[this.#indexQuestion]),
+        qChoices = new QuizChoices('', questions[this.#indexQuestion]),
+        qInfo = new QuizInfo('', this.getData, counter);
 
         const quizBtn = createElement({
             'type': 'div',
@@ -132,13 +162,18 @@ export default class extends AbstractClass {
         prevBtn.textContent = 'Previous';
         nextBtn.textContent = 'Next';
 
-        const counter = new Counter(0, this.getData.questions.length - 1);
         nextBtn.addEventListener('click', (event) => nextQuestion(event, this.getData.questions, counter));
         prevBtn.addEventListener('click', (event) => prevQuestion(event, this.getData.questions, counter));
 
         quizBtn.appendChild(prevBtn);
         quizBtn.appendChild(nextBtn);
-        this.#dom.appendChild(quizBtn);
+        this.#dom.append(
+            qInfo.render(),
+            qQuestions.render(),
+            document.createElement('hr'),
+            qChoices.render(),
+            quizBtn
+        );
     }
 
     async render(isNode = true) {
@@ -249,20 +284,30 @@ class QuizChoices extends AbstractClass {
 //     }
 // }
 
-function QuizInfo(props = {}, isReturnDom = true) {
-    const div = createElement({
-        'type': 'div',
-        'classNames': 'quiz-info'
-    });
-    
-    let htmls = `
-        ${QuizIndex({ data : props.amount }, false)}
-        ${CounterQuestion({ data : props.amount }, false)}
-        ${Timer({}, false)}
-    `;
+class QuizInfo extends AbstractClass {
+    #counter
+    #dom;
 
-    div.insertAdjacentHTML('beforeend', htmls);
-    return (isReturnDom) ? div : div.outerHTML;
+    constructor(params, data, object) {
+        super(params, data);
+        this.#dom = createElement({
+            'type': 'div',
+            'classNames': 'quiz-info'
+        });
+        this.#counter = object;
+        this.initDom();
+    }
+
+    initDom() {
+        const { amount, questions } = this.getData;
+        this.#dom.appendChild(QuizIndex({ data: amount, questions: questions, counter: this.#counter }));
+        this.#dom.appendChild(CounterQuestion({ data: amount }));
+        this.#dom.appendChild(Timer({}));
+    }
+
+    render(isNode = true) {
+        return (isNode) ? this.#dom : this.#dom.outerHTML;
+    }
 }
 
 function QuizIndex(props = {}, isReturnDom = true) {
@@ -275,14 +320,16 @@ function QuizIndex(props = {}, isReturnDom = true) {
 
     let htmls = ``;
     for(let i = 0; i < props.data; i++) {
-        // htmls += `
-        //     <div class="btn btn-question-index"></div>
-        // `;
+        
         const index = createElement({
-            'type': 'div',
+            'type': 'button',
             'classNames': 'btn btn-question-index'
         });
-
+        
+        if(i === 0) index.style.backgroundColor = '#6495ED';
+        
+        index.addEventListener('click', (event) => currentQuestion(event, props.questions, props.counter.setNumber(i)));
+        
         div.style.gridTemplateColumns += f + '%';
         div.appendChild(index);
     }

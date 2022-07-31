@@ -14,6 +14,7 @@ export default class extends AbstractClass {
         });
         this.#cate = ['Nổi bật', 'Toán học', 'Logic', 'Đố vui'];
         this.initDom();
+        document.querySelector('header .title').textContent = document.title;
     }
 
     get getDom() {

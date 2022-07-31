@@ -46,6 +46,11 @@ function Counter(s = 0, e = 100, st = 1) {
     start = s,
     end = e
     
+    this.setNumber = (n) => {
+        number = n;
+        return number;
+    }
+
     this.setStart = (s) => {
       start = s;
     }

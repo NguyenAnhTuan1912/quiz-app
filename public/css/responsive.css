@@ -80,6 +80,9 @@
   #root .home-page .quizzes .quiz {
     margin: 0;
   }
+  #root .quiz-page .quiz-questions .question-slider .slider .question-page .question-page__text {
+    font-size: 1.6rem;
+  }
   #root .quiz-choices {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -88,6 +91,7 @@
     gap: 20px;
   }
   #root .quiz-choices .btn-choice {
+    font-size: 1.4rem;
     margin: 0;
   }
 }

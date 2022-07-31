@@ -115,6 +115,20 @@
             }
         }
 
+        .quiz-page {
+            .quiz-questions {
+                .question-slider {
+                    .slider {
+                        .question-page {
+                            .question-page__text {
+                                font-size: 1.6rem;
+                            }
+                        }
+                    }
+                }
+            }        
+        }
+
         .quiz-choices {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -123,6 +137,7 @@
             gap: 20px;
 
             .btn-choice {
+                font-size: 1.4rem;
                 margin: 0;
             }
         }

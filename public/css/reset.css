@@ -36,10 +36,6 @@ a {
   font-size: 1.2rem;
   text-align: center;
 }
-#root .btn:hover {
-  background-color: #262626;
-  color: white;
-}
 #root .btn-primary-blue {
   background-color: #6495ED;
   color: white;
