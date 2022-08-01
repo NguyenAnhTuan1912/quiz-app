@@ -318,6 +318,7 @@
                     width: fit-content;
     
                     .question-page {
+                        @include text-seclection(none);
                         width: 335px;
                         height: 100%;
                         scroll-snap-align: start;
@@ -355,6 +356,7 @@
             margin: 0 auto 15px auto;
 
             label {
+                @include text-seclection(none);
                 display: block;
                 input[type="checkbox"] {
                     width: 0;

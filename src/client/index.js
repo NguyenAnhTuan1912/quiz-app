@@ -147,7 +147,6 @@ const linkClickHandler = (function() {
         const { currentTarget } = event;
         event.preventDefault();
         navigateTo(currentTarget.href);
-        console.log('Click!');
     }
 })();
 

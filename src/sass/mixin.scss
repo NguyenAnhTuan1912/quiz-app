@@ -46,3 +46,10 @@
     -moz-transition: 0.4s ease-in-out;
     -o-transition: 0.4s ease-in-out;
 }
+
+@mixin text-seclection ($state) {
+    user-select: $state; /* supported by Chrome and Opera */
+    -webkit-user-select: $state; /* Safari */
+    -khtml-user-select: $state; /* Konqueror HTML */
+    -moz-user-select: $state; /* Firefox */
+}

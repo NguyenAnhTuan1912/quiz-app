@@ -290,6 +290,10 @@
   width: fit-content;
 }
 #root .quiz-page .quiz-questions .question-slider .slider .question-page {
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
   width: 335px;
   height: 100%;
   scroll-snap-align: start;
@@ -321,6 +325,10 @@
   margin: 0 auto 15px auto;
 }
 #root .quiz-page .quiz-choices label {
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
   display: block;
 }
 #root .quiz-page .quiz-choices label input[type=checkbox] {

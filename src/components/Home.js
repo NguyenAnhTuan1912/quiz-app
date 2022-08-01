@@ -37,7 +37,6 @@ export default class extends AbstractClass {
 
     initDom() {
         const questions = this.getData, categories = this.getCategories;
-        console.log(questions);
         this.#dom.insertAdjacentHTML('beforeend', `
             <div class="home-page">
                 ${Banner({

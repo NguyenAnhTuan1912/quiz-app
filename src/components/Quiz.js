@@ -215,7 +215,6 @@ export default class extends AbstractClass {
         qInfo = new QuizInfo('', this.getData, counter);
 
         const indexBtn = qInfo.render().querySelectorAll('[data-index-question');
-        console.log(indexBtn);
 
         const qQuestions = new QuizQuestions('', questions[this.#indexQuestion]),
         qChoices = new QuizChoices('', questions[this.#indexQuestion], indexBtn);
