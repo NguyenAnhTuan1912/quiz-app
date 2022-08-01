@@ -6,22 +6,25 @@
             {
                 "text": "Integer iaculis, tellus vitae varius mollis, mi magna rutrum lacus, in egestas enim neque eu felis. Maecenas pellentesque enim et lectus venenatis, sed tincidunt enim tincidunt. In porta, ante vel commodo dignissim, tortor quam rutrum massa, id sagittis lectus mi ut orci. Maecenas venenatis mollis leo, eget iaculis quam venenatis sit amet. Vivamus a egestas orci. Nulla quis mauris imperdiet, efficitur ante ut, consectetur augue.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Morbi vitae lectus semper augue pellentesque rhoncus.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Nullam posuere erat non neque consectetur pretium.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Praesent a urna vel elit finibus rhoncus a ut tortor.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Duis et diam ut urna lacinia elementum id sed diam.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -29,22 +32,25 @@
             {
                 "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis venenatis nibh, sed ullamcorper risus. Etiam vel imperdiet lorem, vitae gravida sem. Quisque felis eros, feugiat vel pellentesque nec, rhoncus quis ipsum.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Morbi efficitur lorem nec velit sagittis commodo.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Aenean sollicitudin urna non elit rutrum, vitae rhoncus justo sagittis.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Integer at mi vel est sodales blandit ornare id justo.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Donec tincidunt augue dictum arcu lobortis venenatis ac ut nunc.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -52,22 +58,25 @@
             {
                 "text": "Fusce nec porta arcu. In sit amet risus a mauris fringilla blandit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Cras ornare iaculis metus, sed eleifend quam luctus id. Vivamus tincidunt ex et elit sollicitudin eleifend. Ut efficitur molestie arcu porttitor venenatis. Curabitur lobortis massa ante, non ullamcorper eros hendrerit posuere.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Morbi vitae lectus semper.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Etiam condimentum turpis ut pellentesque molestie.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Sed ultrices dolor eget tortor consequat blandit.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Duis et diam ut urna.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -75,22 +84,25 @@
             {
                 "text": "Etiam feugiat ut mauris vel iaculis. Nullam eu arcu arcu. Duis mauris urna, volutpat in lorem ac, maximus posuere risus. Nullam ultricies egestas arcu, et aliquam nulla porta ut. Aliquam quis laoreet neque. Nunc blandit est nec erat gravida aliquam. Nam ut sagittis elit. Nulla et semper tortor, non commodo diam. Sed accumsan blandit mi eget consequat. Aliquam erat volutpat.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Nunc ut magna pellentesque, viverra turpis quis, volutpat urna.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Cras consectetur massa vel nibh ullamcorper ultrices.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Etiam faucibus quam accumsan dapibus ultrices.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Sed efficitur metus nec fringilla vestibulum.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -98,22 +110,25 @@
             {
                 "text": "Mauris et orci nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam accumsan, lorem id ultrices malesuada, libero quam tempor lectus, non tincidunt mauris diam semper dolor. Sed quis dui fermentum, pretium turpis quis, luctus magna. Fusce sodales ligula dignissim, bibendum sem ac, fermentum tortor.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Vivamus ac odio tempor, sollicitudin neque eu, luctus ante.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Donec tincidunt augue dictum arcu lobortis venenatis ac ut nunc.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "In tempus odio sagittis, viverra turpis sit amet, cursus magna.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Aenean sollicitudin urna non elit rutrum, vitae rhoncus justo sagittis.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -127,22 +142,25 @@
             {
                 "text": "Cras vitae condimentum mi. Ut scelerisque suscipit maximus. Etiam convallis tristique tortor, vel iaculis velit dignissim quis. Mauris vitae augue nec felis ultricies dapibus. Aliquam erat volutpat. Suspendisse potenti. Nunc quis ligula eleifend, scelerisque urna eget, malesuada neque. Nulla commodo, turpis vel semper interdum, nisl risus pretium velit, id tristique justo orci in purus. Praesent mollis nunc nec nibh tempor, vel commodo turpis dapibus.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Praesent vehicula.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Fusce laoreet orci id libero porttitor semper.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "In luctus dolor eget quam auctor tincidunt.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Cras rhoncus magna ac metus congue ornare.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -150,22 +168,25 @@
             {
                 "text": "Nam ultrices nisi vitae arcu fringilla vehicula ac vel mauris. Mauris tristique ex vel augue facilisis, quis fringilla purus molestie. Proin eget elit auctor nibh elementum gravida et at libero. In eu est dignissim nunc molestie viverra. Morbi ullamcorper quam ut magna dapibus tristique. Pellentesque vitae ipsum at magna ornare volutpat. Nullam eu finibus nibh, vitae ultrices lacus. Nunc pellentesque augue nec dignissim pulvinar. Vivamus tempor cursus orci a molestie.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Aenean id leo sit amet mi ultricies fermentum a finibus odio.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Curabitur ut elit auctor, maximus ante nec, interdum tortor.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Vivamus blandit est at nunc vulputate bibendum.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Morbi vitae metus ac sapien posuere laoreet.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -173,22 +194,25 @@
             {
                 "text": "Quisque tincidunt, metus vel dictum ornare, nibh nulla facilisis turpis, congue sodales massa turpis sit amet neque. Aenean auctor sem pulvinar volutpat pharetra. Curabitur sed viverra massa, vel ultrices mi. Sed ac leo sit amet odio fringilla posuere. Nunc viverra neque nec velit ullamcorper rhoncus. Curabitur eget leo at tellus fermentum pulvinar at ut nisi. Proin quis est quis velit efficitur porta in nec leo. Vestibulum vel bibendum elit. Sed id semper neque.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Etiam in felis sit amet tellus malesuada gravida.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Mauris et dolor laoreet, gravida risus malesuada, mollis sem.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Nam varius dolor eget neque maximus, sit amet ultricies sem rhoncus.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Proin tristique turpis sed convallis placerat.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -202,22 +226,25 @@
             {
                 "text": "Quisque purus urna, molestie ac nisl at, vehicula congue nulla. Proin non imperdiet neque. Nulla ligula arcu, faucibus at massa at, efficitur elementum sem. Curabitur imperdiet ipsum ac odio scelerisque pulvinar. In aliquet nulla quis tincidunt tempor. Praesent hendrerit eros ac aliquet ullamcorper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Interdum et malesuada fames ac ante ipsum primis in faucibus.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Sed ac nisl ac elit aliquet imperdiet ut sed leo.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Duis scelerisque quam non purus iaculis, non blandit tortor malesuada.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Mauris pharetra.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Nulla hendrerit est id.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -225,22 +252,25 @@
             {
                 "text": "Nullam ut laoreet felis. Praesent faucibus erat mauris, vitae lacinia sapien pharetra at. Sed ut accumsan magna. Donec pretium id sapien et suscipit. Cras feugiat lacus at scelerisque sollicitudin. Nulla lacus nibh, efficitur ultrices dui in, semper pellentesque ante. Etiam ac consectetur sapien.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "In tempor justo vel lorem lobortis vehicula.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Duis malesuada leo interdum, placerat odio eu, efficitur enim.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Etiam a tortor mollis, porttitor massa sit amet, sodales neque.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Mauris et dolor laoreet, gravida risus malesuada, mollis sem.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -254,22 +284,25 @@
             {
                 "text": "Mauris fringilla iaculis molestie. Cras in consectetur augue. Nam sit amet ante nec nulla convallis tincidunt eu sit amet nunc. Quisque purus sapien, condimentum at fringilla a, eleifend eget orci. Etiam fermentum est sed posuere cursus. Sed dui leo, ultrices facilisis dapibus ac, convallis quis augue.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Nunc ullamcorper odio ac vestibulum ultricies.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Suspendisse in massa eu eros fringilla congue.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Duis id nibh auctor, aliquet dolor quis, laoreet tortor.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Nam eu augue nec mauris fermentum commodo.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -277,22 +310,25 @@
             {
                 "text": "Quisque tincidunt, metus vel dictum ornare, nibh nulla facilisis turpis, congue sodales massa turpis sit amet neque. Aenean auctor sem pulvinar volutpat pharetra. Curabitur sed viverra massa, vel ultrices mi. Sed ac leo sit amet odio fringilla posuere. Nunc viverra neque nec velit ullamcorper rhoncus.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Mauris et dolor laoreet, gravida risus malesuada, mollis sem.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Nam varius dolor eget neque maximus, sit amet ultricies sem rhoncus.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Morbi tincidunt.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Nam eu augue nec mauris fermentum commodo.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -300,22 +336,25 @@
             {
                 "text": "Praesent vel sollicitudin leo. Nam vitae quam quam. Aliquam ipsum leo, efficitur quis metus ut, dictum blandit lorem. Nullam volutpat molestie venenatis. Suspendisse potenti. Quisque cursus nec ante ac lobortis.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Vivamus sit amet augue id elit malesuada vestibulum.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Suspendisse in massa eu eros fringilla congue.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Morbi tincidunt lorem a lacus hendrerit pulvinar.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Nam eu augue nec mauris fermentum commodo.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]
@@ -323,22 +362,25 @@
             {
                 "text": "Nam ultrices nisi vitae arcu fringilla vehicula ac vel mauris. Mauris tristique ex vel augue facilisis, quis fringilla purus molestie. Proin eget elit auctor nibh elementum gravida et at libero. In eu est dignissim nunc molestie viverra. Morbi ullamcorper quam ut magna dapibus tristique. Pellentesque vitae ipsum at magna ornare volutpat. Nullam eu finibus nibh, vitae ultrices lacus. Nunc pellentesque augue nec dignissim pulvinar. Vivamus tempor cursus orci a molestie. Praesent auctor venenatis mi sed volutpat. Maecenas convallis, mauris eget interdum tincidunt, lectus eros ultrices justo, vel tempus eros justo et purus.",
                 "image": "",
-                "isChecked": false,
                 "choices": [
                     {
                         "data": "Curabitur ut elit auctor, maximus ante nec, interdum tortor.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Vivamus blandit est at nunc vulputate bibendum.",
+                        "checked": false,
                         "isAnswer": true
                     },
                     {
                         "data": "Morbi vitae metus ac sapien posuere laoreet.",
+                        "checked": false,
                         "isAnswer": false
                     },
                     {
                         "data": "Nunc quis lectus non orci porttitor interdum.",
+                        "checked": false,
                         "isAnswer": false
                     }
                 ]

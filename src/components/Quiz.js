@@ -8,34 +8,6 @@ import {
     Counter
 } from "./Function.js";
 
-// const counter = (function() {
-//     let count = 0;
-//     return function(isStop = false, isIncrease = true) {
-//         if(!isStop)
-//             if(isIncrease) count += 1;
-//             else count -= 1;
-//         return count;
-//     }
-// })();
-
-// function counter() {
-//     let number = 0,
-//     isStop = false,
-//     isIncrease = true,
-//     isReset = false
-
-//     this.toZero() = () => {
-//         if(isReset) number = 0;
-//     };
-
-//     this.count = () => {
-//         if(!isStop)
-//             if(isIncrease) number += 1;
-//             else number -= 1;
-//         return number;
-//     };
-// }
-
 const nextQuestion = (function() {
     return function NavigateToNextQuestion(event, data = {}, counter) {
         let index = counter.increase();
@@ -88,9 +60,76 @@ const currentQuestion = (function() {
     }
 })();
 
-function highlightIndexBtn(buttons, index) {
+// const chooseAnswer = (function() {
+//     return function chooseTheAnswer(event, data = {}) {
+//         const { target } = event;
+//         if(!data.isChecked) {
+//             target.style.backgroundColor = 'transparent';
+//             target.style.color = '#262626';
+//             data.isChecked = true;
+//         }
+//         target.style.backgroundColor = '#6495ED';
+//         target.style.color = 'white';
+//         data.isChecked = true;
+//     }
+// })();
+
+function choiceCollectionState() {
+    const inputs = [];
+
+    this.setInput = (i) => {
+        try {
+            if(inputs.length > 4) throw 'Overflow: each question has only 4 choices.';
+            inputs.push(i);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    this.change = (i) => {
+        inputs.forEach(input => {
+            if(input !== i) { 
+                getParentElement(input).style.backgroundColor = 'transparent';
+                input.checked = false;
+            }
+        });
+    }
+
+    this.toggleState = (() => {
+        return function toggleDataAndRadio(index, data) {
+            if(inputs[index].checked) { 
+                getParentElement(inputs[index]).style.backgroundColor = '#32CD32';
+                data.checked = inputs[index].checked;
+            } else getParentElement(inputs[index]).style.backgroundColor = 'transparent';
+            this.change(inputs[index]);
+        }
+    })();
+}
+
+function indexQuestionState() {
+    const indexes = [];
+    let data;
+
+    this.setInput = (input) => {
+        indexes.push(input);
+    }
+
+    this.setInputs = (inputs) => {
+        indexes.push(...inputs);
+    }
+
+    this.setData = (refData) => {
+        data = refData;
+    }
+
+    this.setState = (index) => {
+        if(data.questions[index].choices.some(choice => choice.checked)) indexes[index].style.backgroundColor = '#262626';
+    }
+}
+
+function highlightIndexBtn(buttons, index, color = '#6495ED') {
     buttons.forEach(button => {
-        if(button === buttons[index]) button.style.backgroundColor = '#6495ED';
+        if(button === buttons[index]) button.style.backgroundColor = color;
             else button.style.backgroundColor = 'transparent';
     });
 }
@@ -140,6 +179,7 @@ export default class extends AbstractClass {
     initDom() {
         const { questions } = this.getData,
         counter = new Counter(0, this.getData.questions.length - 1),
+        indexState = new indexQuestionState(),
         qQuestions = new QuizQuestions('', questions[this.#indexQuestion]),
         qChoices = new QuizChoices('', questions[this.#indexQuestion]),
         qInfo = new QuizInfo('', this.getData, counter);
@@ -224,24 +264,226 @@ class QuizChoices extends AbstractClass {
 
     initDom() {
         const { choices } = this.getData,
-        buttons = [];
+        radioChks = [],
+        radioChoice = new choiceCollectionState();
         for(let i = 0; i < 4; i++) {
-            const button = createElement({
-                'type': 'button',
-                'classNames': 'btn btn-rounded-5px btn-choice',
+            const 
+            label = createElement({
+                'type': 'label',
+                'classNames': 'btn btn-rounded-5px btn-choice'
+            }),
+            radioChk = createElement({
+                'type': 'input',
                 'id': 'js-choice-' + (i + 1)
             });
-            button.textContent = choices[i].data;
-            button.addEventListener('click', () => { console.log(`Button ${i + 1} is Clicked!`)});
-            buttons.push(button);
+            radioChoice.setInput(radioChk);
+            radioChk.type = 'checkbox';
+            radioChk.name = 'choices';
+            if(choices[i].checked) label.style.backgroundColor = '#32CD32';
+
+            label.textContent = choices[i].data;
+            radioChk.addEventListener('click', () => radioChoice.toggleState(i, choices[i]));
+            label.append(radioChk);
+            radioChks.push(label);
         }
-        this.#dom.append(...buttons);
+        this.#dom.append(...radioChks);
     }
 
     render(isNode = true) {
         return (isNode) ? this.#dom : this.#dom.outerHTML;
     }
 }
+
+class QuizInfo extends AbstractClass {
+    #counter
+    #dom;
+
+    constructor(params, data, object) {
+        super(params, data);
+        this.#dom = createElement({
+            'type': 'div',
+            'classNames': 'quiz-info'
+        });
+        this.#counter = object;
+        this.initDom();
+    }
+
+    initDom() {
+        const { amount } = this.getData,
+        qIndex = new QuizIndex('', this.getData, this.#counter),
+        qTimer = new Timer('','15:00'),
+        qQuestionsCounter = new CounterQuestion('', amount);
+
+        this.#dom.appendChild(qIndex.render());
+        this.#dom.appendChild(qQuestionsCounter.render());
+        this.#dom.appendChild(qTimer.render());
+    }
+
+    render(isNode = true) {
+        return (isNode) ? this.#dom : this.#dom.outerHTML;
+    }
+}
+
+class QuizIndex extends AbstractClass {
+    #object
+    #dom;
+
+    constructor(params, data, object) {
+        super(params, data);
+        this.#object = object;
+        this.#dom = createElement({
+            'type': 'div',
+            'classNames': 'question-index'
+        });
+        this.initDom();
+    }
+
+    initDom() {
+        const f = (100 - (this.getData.amount * 2 - 2)) / this.getData.amount;
+        for(let i = 0; i < this.getData.amount; i++) {
+            const index = createElement({
+                'type': 'button',
+                'classNames': 'btn btn-question-index'
+            });
+            
+            if(i === 0) index.style.backgroundColor = '#6495ED';
+            index.addEventListener('click', (event) => currentQuestion(event, this.getData.questions, this.#object.setNumber(i)));
+            if(this.getData.questions[i].choices.some(choice => choice.checked)) index.style.backgroundColor = '#262626';
+            
+            this.#dom.style.gridTemplateColumns += f + '%';
+            this.#dom.appendChild(index);
+        }
+    }
+
+    render(isNode = true) {
+        return (isNode) ? this.#dom : this.#dom.outerHTML;
+    }
+}
+
+class CounterQuestion extends AbstractClass {
+    #dom;
+
+    constructor(params, data) {
+        super(params, data);
+        this.#dom = createElement({
+            'type': 'div',
+            'classNames': 'question-counter'
+        });
+        this.initDom();
+    }
+
+    initDom() {
+        const current = createElement({
+            'type': 'span',
+            'classNames': 'question-counter__index',
+            'id': 'js-questionCounter'
+        }), total = createElement({
+            'type': 'span',
+            'classNames': 'question-counter__total'
+        });
+
+        current.textContent = '1';
+        total.textContent = `/${this.getData}`
+
+        this.#dom.append(current, total);
+    }
+
+    render(isNode = true) {
+        return (isNode) ? this.#dom : this.#dom.outerHTML;
+    }
+}
+
+class Timer extends AbstractClass {
+    #dom;
+
+    constructor(params, data) {
+        super(params, data);
+        this.#dom = createElement({
+            'type': 'div',
+            'classNames': 'question-timer'
+        });
+        this.initDom();
+    }
+
+    initDom() {
+        const timeText = createElement({
+            'type': 'span',
+            'classNames': 'question-timer__time',
+            'id': 'js-questionTimer'
+        });
+
+        timeText.textContent = this.getData;
+
+        this.#dom.appendChild(timeText);
+    }
+
+    render(isNode = true) {
+        return (isNode) ? this.#dom : this.#dom.outerHTML;
+    }
+}
+
+
+
+// async function QuizQuestion(props = {}, isReturnDom = true) {
+//     const div = createElement({
+//         'type': 'div',
+//         'classNames': 'quiz-questions'
+//     });
+
+//     const dot = createElement({
+//         'type': 'div',
+//         'classNames': 'page__dot'
+//     });
+
+//     let htmls = `<div class="question-slider"><div class="slider" id="js-questionSlider">`
+
+//     props.questionsPage.forEach((value) => {
+//         htmls += `
+//             <div class="question-page">
+//                 <p class="question-page__text">${value}</p>
+//             </div>
+//         `;
+//     });
+
+//     htmls += `
+//         </div></div>
+//     `;
+
+//     dot.insertAdjacentHTML('beforeend', `<div class="btn btn-dot"></div><div class="btn btn-dot"></div><div class="btn btn-dot"></div>`);
+
+//     div.insertAdjacentHTML('beforeend', htmls);
+//     div.appendChild(dot);
+//     return (isReturnDom) ? div : div.outerHTML;
+// }
+
+
+// const counter = (function() {
+//     let count = 0;
+//     return function(isStop = false, isIncrease = true) {
+//         if(!isStop)
+//             if(isIncrease) count += 1;
+//             else count -= 1;
+//         return count;
+//     }
+// })();
+
+// function counter() {
+//     let number = 0,
+//     isStop = false,
+//     isIncrease = true,
+//     isReset = false
+
+//     this.toZero() = () => {
+//         if(isReset) number = 0;
+//     };
+
+//     this.count = () => {
+//         if(!isStop)
+//             if(isIncrease) number += 1;
+//             else number -= 1;
+//         return number;
+//     };
+// }
 
 // const Quiz = {
 //     htmlDOM: createElement({
@@ -284,123 +526,62 @@ class QuizChoices extends AbstractClass {
 //     }
 // }
 
-class QuizInfo extends AbstractClass {
-    #counter
-    #dom;
+// function QuizIndex(props = {}, isReturnDom = true) {
+//     const div = createElement({
+//         'type': 'div',
+//         'classNames': 'question-index'
+//     });
 
-    constructor(params, data, object) {
-        super(params, data);
-        this.#dom = createElement({
-            'type': 'div',
-            'classNames': 'quiz-info'
-        });
-        this.#counter = object;
-        this.initDom();
-    }
+//     const f = (100 - (props.data * 2 - 2)) / props.data;
 
-    initDom() {
-        const { amount, questions } = this.getData;
-        this.#dom.appendChild(QuizIndex({ data: amount, questions: questions, counter: this.#counter }));
-        this.#dom.appendChild(CounterQuestion({ data: amount }));
-        this.#dom.appendChild(Timer({}));
-    }
-
-    render(isNode = true) {
-        return (isNode) ? this.#dom : this.#dom.outerHTML;
-    }
-}
-
-function QuizIndex(props = {}, isReturnDom = true) {
-    const div = createElement({
-        'type': 'div',
-        'classNames': 'question-index'
-    });
-
-    const f = (100 - (props.data * 2 - 2)) / props.data;
-
-    let htmls = ``;
-    for(let i = 0; i < props.data; i++) {
+//     let htmls = ``;
+//     for(let i = 0; i < props.data; i++) {
         
-        const index = createElement({
-            'type': 'button',
-            'classNames': 'btn btn-question-index'
-        });
+//         const index = createElement({
+//             'type': 'button',
+//             'classNames': 'btn btn-question-index'
+//         });
         
-        if(i === 0) index.style.backgroundColor = '#6495ED';
+//         if(i === 0) index.style.backgroundColor = '#6495ED';
+//         if(props.questions[i].choices.some(choice => choice.checked)) index.style.backgroundColor = '#262626';
+//         index.addEventListener('click', (event) => currentQuestion(event, props.questions, props.counter.setNumber(i)));
         
-        index.addEventListener('click', (event) => currentQuestion(event, props.questions, props.counter.setNumber(i)));
-        
-        div.style.gridTemplateColumns += f + '%';
-        div.appendChild(index);
-    }
+//         div.style.gridTemplateColumns += f + '%';
+//         div.appendChild(index);
+//     }
 
-    // div.insertAdjacentHTML('beforeend', htmls);
-    return (isReturnDom) ? div : div.outerHTML;
-}
+//     // div.insertAdjacentHTML('beforeend', htmls);
+//     return (isReturnDom) ? div : div.outerHTML;
+// }
 
-function Timer(props = {}, isReturnDom = true) {
-    const div = createElement({
-        'type': 'div',
-        'classNames': 'question-timer'
-    });
+// function CounterQuestion(props = {}, isReturnDom = true) {
+//     const div = createElement({
+//         'type': 'div',
+//         'classNames': 'question-counter'
+//     });
 
-    const htmls = `
-        <span class="question-timer__time" id="js-questionTimer">15:00</span>
-    `;
+//     const htmls = `
+//         <span class="question-counter__index" id="js-questionCounter">1</span><span class="question-counter__total">/${[props.data]}</span>
+//     `;
 
-    div.insertAdjacentHTML('beforeend', htmls);
-    return (isReturnDom) ? div : div.outerHTML;
-}
+//     div.insertAdjacentHTML('beforeend', htmls);
+//     return (isReturnDom) ? div : div.outerHTML;
+// }
 
-function CounterQuestion(props = {}, isReturnDom = true) {
-    const div = createElement({
-        'type': 'div',
-        'classNames': 'question-counter'
-    });
+// function Timer(props = {}, isReturnDom = true) {
+//     const div = createElement({
+//         'type': 'div',
+//         'classNames': 'question-timer'
+//     });
 
-    const htmls = `
-        <span class="question-counter__index" id="js-questionCounter">1</span><span class="question-counter__total">/${[props.data]}</span>
-    `;
+//     const htmls = `
+//         <span class="question-timer__time" id="js-questionTimer">15:00</span>
+//     `;
 
-    div.insertAdjacentHTML('beforeend', htmls);
-    return (isReturnDom) ? div : div.outerHTML;
-}
+//     div.insertAdjacentHTML('beforeend', htmls);
+//     return (isReturnDom) ? div : div.outerHTML;
+// }
 
-
-
-
-
-async function QuizQuestion(props = {}, isReturnDom = true) {
-    const div = createElement({
-        'type': 'div',
-        'classNames': 'quiz-questions'
-    });
-
-    const dot = createElement({
-        'type': 'div',
-        'classNames': 'page__dot'
-    });
-
-    let htmls = `<div class="question-slider"><div class="slider" id="js-questionSlider">`
-
-    props.questionsPage.forEach((value) => {
-        htmls += `
-            <div class="question-page">
-                <p class="question-page__text">${value}</p>
-            </div>
-        `;
-    });
-
-    htmls += `
-        </div></div>
-    `;
-
-    dot.insertAdjacentHTML('beforeend', `<div class="btn btn-dot"></div><div class="btn btn-dot"></div><div class="btn btn-dot"></div>`);
-
-    div.insertAdjacentHTML('beforeend', htmls);
-    div.appendChild(dot);
-    return (isReturnDom) ? div : div.outerHTML;
-}
 
 // function QuizChoices(props = {}, isReturnDom = true) {
 //     const div = createElement({

@@ -353,6 +353,15 @@
             width: 100%;
             max-width: 335px;
             margin: 0 auto 15px auto;
+
+            label {
+                display: block;
+                input[type="checkbox"] {
+                    width: 0;
+                    height: 0;
+                    display: none;
+                }
+            }
         }
 
         .quiz-button {

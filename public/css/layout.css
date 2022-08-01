@@ -320,6 +320,14 @@
   max-width: 335px;
   margin: 0 auto 15px auto;
 }
+#root .quiz-page .quiz-choices label {
+  display: block;
+}
+#root .quiz-page .quiz-choices label input[type=checkbox] {
+  width: 0;
+  height: 0;
+  display: none;
+}
 #root .quiz-page .quiz-button {
   display: flex;
   flex-direction: row;
