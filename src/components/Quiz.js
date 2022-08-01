@@ -18,11 +18,11 @@ const nextQuestion = (function() {
         quizPage.getElementsByClassName('quiz-questions')[0].remove();
         quizPage.getElementsByClassName('quiz-choices')[0].remove();
         const q = new QuizQuestions('', data[index]),
-        c = new QuizChoices('', data[index]);
+        c = new QuizChoices('', data[index], indexBtns);
         quizPage.querySelector('#js-questionCounter').textContent = index + 1;
         quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
         insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
-        highlightIndexBtn(indexBtns, index);
+        indexBtnState(indexBtns, index, data);
     }
 })();
 
@@ -36,11 +36,11 @@ const prevQuestion = (function() {
         quizPage.getElementsByClassName('quiz-questions')[0].remove();
         quizPage.getElementsByClassName('quiz-choices')[0].remove();
         const q = new QuizQuestions('', data[index]),
-        c = new QuizChoices('', data[index]);
+        c = new QuizChoices('', data[index], indexBtns);
         quizPage.querySelector('#js-questionCounter').textContent = index + 1;
         quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
         insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
-        highlightIndexBtn(indexBtns, index);
+        indexBtnState(indexBtns, index, data);
     }
 })();
 
@@ -52,11 +52,11 @@ const currentQuestion = (function() {
         quizPage.getElementsByClassName('quiz-questions')[0].remove();
         quizPage.getElementsByClassName('quiz-choices')[0].remove();
         const q = new QuizQuestions('', data[index]),
-        c = new QuizChoices('', data[index]);
+        c = new QuizChoices('', data[index], indexBtns);
         quizPage.querySelector('#js-questionCounter').textContent = index + 1;
         quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
         insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
-        highlightIndexBtn(indexBtns, index);
+        indexBtnState(indexBtns, index, data);
     }
 })();
 
@@ -75,7 +75,12 @@ const currentQuestion = (function() {
 // })();
 
 function choiceCollectionState() {
-    const inputs = [];
+    const inputs = [], indexBtns = [];
+    let data;
+
+    this.setData = (refData) => {
+        data = refData;
+    }
 
     this.setInput = (i) => {
         try {
@@ -86,51 +91,79 @@ function choiceCollectionState() {
         }
     }
 
-    this.change = (i) => {
+    this.check = () => {
+        console.log(inputs);
+        console.log(indexBtns);
+    }
+
+    this.setIndexBtn = (indexBtn) => {
+        indexBtns.push(indexBtn);
+    }
+
+    this.changeWhenTrue = (i, refData) => {
+        let count = 0;
         inputs.forEach(input => {
-            if(input !== i) { 
+            if(input === i) {
+                getParentElement(input).style.backgroundColor = '#228B22';
+                getParentElement(input).style.color = 'white';
+                refData.checked = input.checked;
+            }
+            else {
                 getParentElement(input).style.backgroundColor = 'transparent';
+                getParentElement(input).style.color = '#262626';
+                data[count].checked = false;
                 input.checked = false;
             }
+            count++;
+        });
+    }
+
+    this.changeWhenFalse = () => {
+        let count = 0;
+        inputs.forEach(input => {
+            getParentElement(input).style.backgroundColor = 'transparent';
+            getParentElement(input).style.color = '#262626';
+            input.checked = false;
+            data[count].checked = false;
+            count++;
+        });
+    }
+
+    this.changeDataState = () => {
+        data.forEach(subData => {
+            subData.checked = false;
         });
     }
 
     this.toggleState = (() => {
-        return function toggleDataAndRadio(index, data) {
-            if(inputs[index].checked) { 
-                getParentElement(inputs[index]).style.backgroundColor = '#32CD32';
-                data.checked = inputs[index].checked;
-            } else getParentElement(inputs[index]).style.backgroundColor = 'transparent';
-            this.change(inputs[index]);
+        return function toggleDataAndRadio(index, refData) {
+            try {
+                if(data === null || data === undefined) throw 'DataError: data is null or undefined.';
+                if(inputs[index].checked) { 
+                    this.changeWhenTrue(inputs[index], refData);
+                } else {
+                    this.changeWhenFalse();
+                };
+            } catch (error) {
+                console.error(error);
+            }
         }
     })();
 }
 
-function indexQuestionState() {
-    const indexes = [];
-    let data;
-
-    this.setInput = (input) => {
-        indexes.push(input);
-    }
-
-    this.setInputs = (inputs) => {
-        indexes.push(...inputs);
-    }
-
-    this.setData = (refData) => {
-        data = refData;
-    }
-
-    this.setState = (index) => {
-        if(data.questions[index].choices.some(choice => choice.checked)) indexes[index].style.backgroundColor = '#262626';
-    }
-}
-
-function highlightIndexBtn(buttons, index, color = '#6495ED') {
+function indexBtnState(buttons, index, data) {
+    // if(data[index].choices.some(choice => choice.checked)) {
+    //     buttons.forEach(button => {
+    //         if(button === buttons[index]) button.style.backgroundColor = '#262626';
+    //         else button.style.backgroundColor = 'transparent';
+    //     });
+    // }
+    let i = 0;
     buttons.forEach(button => {
-        if(button === buttons[index]) button.style.backgroundColor = color;
-            else button.style.backgroundColor = 'transparent';
+        if(button === buttons[index]) button.style.backgroundColor = '#6495ED';
+        else if(data[i].choices.some(choice => choice.checked)) button.style.backgroundColor = '#262626';
+        else button.style.backgroundColor = 'transparent';
+        i++;
     });
 }
 
@@ -179,10 +212,13 @@ export default class extends AbstractClass {
     initDom() {
         const { questions } = this.getData,
         counter = new Counter(0, this.getData.questions.length - 1),
-        indexState = new indexQuestionState(),
-        qQuestions = new QuizQuestions('', questions[this.#indexQuestion]),
-        qChoices = new QuizChoices('', questions[this.#indexQuestion]),
         qInfo = new QuizInfo('', this.getData, counter);
+
+        const indexBtn = qInfo.render().querySelectorAll('[data-index-question');
+        console.log(indexBtn);
+
+        const qQuestions = new QuizQuestions('', questions[this.#indexQuestion]),
+        qChoices = new QuizChoices('', questions[this.#indexQuestion], indexBtn);
 
         const quizBtn = createElement({
             'type': 'div',
@@ -251,10 +287,12 @@ class QuizQuestions extends AbstractClass {
 }
 
 class QuizChoices extends AbstractClass {
+    #objects;
     #dom;
 
-    constructor(params, data) {
+    constructor(params, data, objects) {
         super(params, data);
+        this.#objects = objects;
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'quiz-choices'
@@ -266,6 +304,7 @@ class QuizChoices extends AbstractClass {
         const { choices } = this.getData,
         radioChks = [],
         radioChoice = new choiceCollectionState();
+        radioChoice.setData(choices);
         for(let i = 0; i < 4; i++) {
             const 
             label = createElement({
@@ -279,7 +318,10 @@ class QuizChoices extends AbstractClass {
             radioChoice.setInput(radioChk);
             radioChk.type = 'checkbox';
             radioChk.name = 'choices';
-            if(choices[i].checked) label.style.backgroundColor = '#32CD32';
+            if(choices[i].checked) { 
+                label.style.backgroundColor = '#228B22';
+                label.style.color = 'white';
+            }
 
             label.textContent = choices[i].data;
             radioChk.addEventListener('click', () => radioChoice.toggleState(i, choices[i]));
@@ -348,8 +390,8 @@ class QuizIndex extends AbstractClass {
             
             if(i === 0) index.style.backgroundColor = '#6495ED';
             index.addEventListener('click', (event) => currentQuestion(event, this.getData.questions, this.#object.setNumber(i)));
-            if(this.getData.questions[i].choices.some(choice => choice.checked)) index.style.backgroundColor = '#262626';
-            
+            index.setAttribute('data-index-question', '');
+
             this.#dom.style.gridTemplateColumns += f + '%';
             this.#dom.appendChild(index);
         }
