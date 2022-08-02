@@ -78,6 +78,80 @@ function insertAfter(newNode, node) {
     node.parentNode.insertBefore(newNode, node.nextSibling);
 }
 
+
+function countDown(minuteValue, secondValue) {
+    try {
+        if(!(/^\d{1,2}$/.test(minuteValue) && (typeof minuteValue === 'number'))) throw 'TypeError: Minute must be a number and has 1 or 2 digit(s)';
+        if(!(/^\d{1,2}$/.test(secondValue) && (typeof secondValue === 'number'))) throw 'TypeError: Second must be a number and has 1 or 2 digit(s)';
+        let watch, remain, isStart = false, isStop = false,
+        minute = minuteValue, second = secondValue;
+        
+        let minuteField = undefined,
+        secondField = undefined;
+
+        this.setCountDownField = (refMinuteField, refSecondField) => {
+            minuteField = (typeof refMinuteField === 'object') ? refMinuteField : undefined;
+            secondField = (typeof refSecondField === 'object') ? refSecondField : undefined;
+        }
+
+
+        this.timeFormat = number => {
+            return number.toString().replace(/^\S$/g, `0${number}`);
+        }
+
+        this.handlerWatch = () => {
+            try {
+                if(!minuteField) throw 'ElementError: minuteField is undefined or null.';
+                if(!secondField) throw 'ElementError: secondFiled is undedined or null.';
+                if(second === 0) {
+                    second = 59;
+                    if(minute <= 0) {
+                        second = 0;
+                        this.stopWatch();
+                    } else minute -= 1;
+                    } else second -= 1;
+                    minuteField.textContent = this.timeFormat(minute);
+                    secondField.textContent = this.timeFormat(second);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        this.startWatch = () => {
+            watch = setInterval(this.handlerWatch, 1000);
+            isStart = true;
+            isStop = false;
+        }
+
+        this.stopWatch = () => {
+            clearInterval(watch);
+            isStart = false;
+            isStop = true;
+        }
+
+        this.run = () => {
+            if(!isStart) {
+            this.startWatch();
+            } else {
+            this.stopWatch();
+            }
+        }
+
+        this.reset = () => {
+            minute = minuteValue, second = secondValue;
+            jsMinute.textContent = minute;
+            jsSecond.textContent = second;
+            this.stopWatch();
+        }
+        
+        this.isStop = () => {
+            return isStop;
+        }
+    } catch(error) {
+    console.error(error);
+    }
+}
+
 export {
     createElement,
     show,
@@ -85,5 +159,6 @@ export {
     setHandler,
     getParentElement,
     insertAfter,
+    countDown,
     Counter
 }

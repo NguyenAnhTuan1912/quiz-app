@@ -357,7 +357,7 @@
 
             label {
                 @include text-seclection(none);
-                display: block;
+                @include flex-box(row, center, center);
                 input[type="checkbox"] {
                     width: 0;
                     height: 0;

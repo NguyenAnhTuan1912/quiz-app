@@ -2,6 +2,7 @@
     "quiz-1": {
         "name": "Integer iaculis, tellus vitae varius mollis, mi magna rutrum lacus, in egestas enim neque eu felis.",
         "amount": 5,
+        "time": "3:15",
         "questions": [
             {
                 "text": "Integer iaculis, tellus vitae varius mollis, mi magna rutrum lacus, in egestas enim neque eu felis. Maecenas pellentesque enim et lectus venenatis, sed tincidunt enim tincidunt. In porta, ante vel commodo dignissim, tortor quam rutrum massa, id sagittis lectus mi ut orci. Maecenas venenatis mollis leo, eget iaculis quam venenatis sit amet. Vivamus a egestas orci. Nulla quis mauris imperdiet, efficitur ante ut, consectetur augue.",
@@ -138,6 +139,7 @@
     "quiz-2": {
         "name": "Cras vitae condimentum mi. Ut scelerisque suscipit maximus.",
         "amount": 3,
+        "time": "1:15",
         "questions": [
             {
                 "text": "Cras vitae condimentum mi. Ut scelerisque suscipit maximus. Etiam convallis tristique tortor, vel iaculis velit dignissim quis. Mauris vitae augue nec felis ultricies dapibus. Aliquam erat volutpat. Suspendisse potenti. Nunc quis ligula eleifend, scelerisque urna eget, malesuada neque. Nulla commodo, turpis vel semper interdum, nisl risus pretium velit, id tristique justo orci in purus. Praesent mollis nunc nec nibh tempor, vel commodo turpis dapibus.",
@@ -222,6 +224,7 @@
     "quiz-3": {
         "name": "Quisque purus urna, molestie ac nisl at, vehicula congue nulla.",
         "amount": 2,
+        "time": "0:30",
         "questions": [
             {
                 "text": "Quisque purus urna, molestie ac nisl at, vehicula congue nulla. Proin non imperdiet neque. Nulla ligula arcu, faucibus at massa at, efficitur elementum sem. Curabitur imperdiet ipsum ac odio scelerisque pulvinar. In aliquet nulla quis tincidunt tempor. Praesent hendrerit eros ac aliquet ullamcorper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Interdum et malesuada fames ac ante ipsum primis in faucibus.",
@@ -280,6 +283,7 @@
     "quiz-4": {
         "name": "Mauris fringilla iaculis molestie.",
         "amount": 4,
+        "time": "2:15",
         "questions": [
             {
                 "text": "Mauris fringilla iaculis molestie. Cras in consectetur augue. Nam sit amet ante nec nulla convallis tincidunt eu sit amet nunc. Quisque purus sapien, condimentum at fringilla a, eleifend eget orci. Etiam fermentum est sed posuere cursus. Sed dui leo, ultrices facilisis dapibus ac, convallis quis augue.",

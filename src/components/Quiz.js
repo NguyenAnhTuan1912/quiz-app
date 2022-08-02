@@ -5,6 +5,7 @@ import {
     setHandler,
     getParentElement,
     insertAfter,
+    countDown,
     Counter
 } from "./Function.js";
 
@@ -181,11 +182,21 @@ export default class extends AbstractClass {
         });
         this.#indexQuestion = 0;
         this.initDom();
+        this.initTime();
         document.querySelector('header .title').textContent = `Quiz / ${this.getData.name}`;
     }
 
     get getDom() {
         return this.#dom;
+    }
+
+    initTime() {
+        const [ minute, second ] = this.getData.time.split(':'),
+        qCountDown = new countDown(parseInt(minute), parseInt(second)),
+        minuteField = this.#dom.querySelector('#js-minuteField'),
+        secondField = this.#dom.querySelector('#js-secondField');
+        qCountDown.setCountDownField(minuteField, secondField);
+        qCountDown.run();
     }
 
     getCheckedQuestion() {
@@ -350,9 +361,9 @@ class QuizInfo extends AbstractClass {
     }
 
     initDom() {
-        const { amount } = this.getData,
+        const { amount, time } = this.getData,
         qIndex = new QuizIndex('', this.getData, this.#counter),
-        qTimer = new Timer('','15:00'),
+        qTimer = new Timer('', time),
         qQuestionsCounter = new CounterQuestion('', amount);
 
         this.#dom.appendChild(qIndex.render());
@@ -446,14 +457,34 @@ class Timer extends AbstractClass {
         this.initDom();
     }
 
+    timeFormat(number) {
+        return number.toString().replace(/^\S$/g, `0${number}`);
+    }
+
     initDom() {
         const timeText = createElement({
             'type': 'span',
             'classNames': 'question-timer__time',
-            'id': 'js-questionTimer'
-        });
+        }),
+        minuteField = createElement({
+            'type': 'span',
+            'id': 'js-minuteField'
+        }),
+        secondField = createElement({
+            'type': 'span',
+            'id': 'js-secondField'
+        }),
+        [minute, second] = this.getData.split(':');
 
-        timeText.textContent = this.getData;
+
+        minuteField.textContent = this.timeFormat(minute);
+        secondField.textContent = this.timeFormat(second);
+
+        timeText.append(
+            minuteField,
+            ":",
+            secondField
+        );
 
         this.#dom.appendChild(timeText);
     }

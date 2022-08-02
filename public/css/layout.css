@@ -329,7 +329,10 @@
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
-  display: block;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 #root .quiz-page .quiz-choices label input[type=checkbox] {
   width: 0;
