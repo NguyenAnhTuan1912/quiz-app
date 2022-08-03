@@ -14,7 +14,7 @@
     &>header {
         position: relative;
         display: grid;
-        grid-template-columns: 1fr 4fr;
+        grid-template-columns: 2fr 4fr;
         grid-template-areas: 'backbtn-title submitbtn';
         align-items: center;
         width: 100%;
@@ -52,7 +52,10 @@
             text-overflow: ellipsis;
         }
         
-       
+        button {
+            width: 70px;
+        }
+
         .menu {
             position: relative;
             @include flex-box(row, center, center);
@@ -279,7 +282,7 @@
                     font-size: 1.4rem;
                 }
 
-                .question-counter__total {
+                .question-counter__index {
                     font-weight: 600;
                 }
             }
@@ -368,17 +371,18 @@
 
         .quiz-button {
             @include flex-box(row, space-between, center);
+            @include text-seclection(none);
             width: calc(100% - 40px);
             margin-bottom: 15px;
 
             &>button {
-                width: 161px;
+                width: 100px;
             }
         }
     }
 
     .result-page {
-        @include flex-box(column, space-between, center);
+        @include flex-box(column, center, center);
         width: 100%;
         max-width: 335px;
         height: calc(100vh - 96px);
@@ -388,6 +392,7 @@
             text-align: center;
             width: 100%;
             max-width: 335px;
+            margin-bottom: 25px;
 
             hr {
                 width: 50px;
@@ -413,8 +418,9 @@
             width: 100%;
             max-width: 335px;
 
-            &>div {
+            &>a {
                 width: 100%;
+                max-width: 335px;
                 
                 &:first-child {
                     margin-bottom: 12px;

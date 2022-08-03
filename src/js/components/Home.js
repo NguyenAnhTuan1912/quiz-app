@@ -1,5 +1,5 @@
 import AbstractClass from "./AbstractClass.js";
-import { createElement } from "./Function.js";
+import { createElement } from "../Function.js";
 
 export default class extends AbstractClass {
     #dom;

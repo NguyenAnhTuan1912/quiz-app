@@ -79,7 +79,7 @@ function insertAfter(newNode, node) {
 }
 
 
-function countDown(minuteValue, secondValue) {
+function CountDown(minuteValue, secondValue) {
     try {
         if(!(/^\d{1,2}$/.test(minuteValue) && (typeof minuteValue === 'number'))) throw 'TypeError: Minute must be a number and has 1 or 2 digit(s)';
         if(!(/^\d{1,2}$/.test(secondValue) && (typeof secondValue === 'number'))) throw 'TypeError: Second must be a number and has 1 or 2 digit(s)';
@@ -139,8 +139,8 @@ function countDown(minuteValue, secondValue) {
 
         this.reset = () => {
             minute = minuteValue, second = secondValue;
-            jsMinute.textContent = minute;
-            jsSecond.textContent = second;
+            minuteField.textContent = this.timeFormat(minute);
+            secondField.textContent = this.timeFormat(second);
             this.stopWatch();
         }
         
@@ -152,6 +152,49 @@ function countDown(minuteValue, secondValue) {
     }
 }
 
+function QuizzesCheck() {
+    let questions, amount, refSubmitBtn, count = 0;
+
+    this.setData = (data) => {
+        questions = data.questions;
+        amount = data.amount;
+    }
+
+    this.setSubmitButtonReference = (ref) => {
+        refSubmitBtn = ref;
+    }
+
+    this.getChoosedQuestionsAmount = () => {
+        return amount;
+    }
+
+    this.canSubmit = () => {
+        return count >= Math.round(amount * 0.3);
+    }
+
+    this.toggleSubmit = () => {
+        if(this.canSubmit()) {
+            refSubmitBtn.classList.remove('btn-disabled');
+            refSubmitBtn.classList.add('btn-primary-black');
+            refSubmitBtn.disabled = false;
+        } else {
+            refSubmitBtn.classList.remove('btn-primary-black');
+            refSubmitBtn.classList.add('btn-disabled');
+            refSubmitBtn.disabled = true;
+        }
+    }
+
+    this.listenChoosedQuestion = () => {
+        count = 0;
+        questions.forEach(question => {
+            if(question.choices.some(choice => choice.checked)) count += 1;
+        });
+        console.log(amount);
+        console.log(this.canSubmit());
+        this.toggleSubmit();
+    }
+}
+
 export {
     createElement,
     show,
@@ -159,6 +202,7 @@ export {
     setHandler,
     getParentElement,
     insertAfter,
-    countDown,
-    Counter
+    CountDown,
+    Counter,
+    QuizzesCheck
 }

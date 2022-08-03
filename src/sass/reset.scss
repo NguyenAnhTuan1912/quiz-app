@@ -43,8 +43,8 @@ a {
         color: white;
     
         &:hover {
-            background-color: #262626;
-            color: white;
+            background-color: white;
+            color: #262626;
         }
     }
 
@@ -111,6 +111,11 @@ a {
         }
     }
     
+    .btn-disabled {
+        pointer-events: none! important;
+        cursor: not-allowed! important;
+    }
+
     .ft-sz-12 {
         font-size: 1.2rem;
     }

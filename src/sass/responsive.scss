@@ -50,17 +50,18 @@
                 &>button:first-child {
                     margin-right: 13px;
                 }
+
+                &>button:last-child {
+                    margin-left: 13px;
+                }
             }
         }
 
         .result-page {
-            width: 100%;
             max-width: none;
             padding: 0 20px;
 
             .redirect {
-                @include flex-box(row, space-between, center);
-                width: 100%;
                 max-width: none;
 
                 &>div {
@@ -100,6 +101,10 @@
 
 @media only screen and (min-width: 730px) {
     #root {
+        .btn-question-index {
+            height: 12px;
+            border-radius: 5px;
+        }
         .home-page {
             .quizzes {
                 grid-template-columns: repeat(auto-fit, calc(50% - 10px));
@@ -116,7 +121,21 @@
         }
 
         .quiz-page {
+            justify-content: flex-start;
+            .quiz-info {
+                margin-top: 20px;
+                margin-bottom: 30px;
+
+                .question-counter, .question-timer {
+                    margin-top: 10px;
+                    .question-counter__index, .question-counter__total, .question-timer__time {
+                        font-size: 2rem;
+                    }
+                }
+            }
+
             .quiz-questions {
+                flex-grow: 0;
                 .question-slider {
                     .slider {
                         .question-page {
@@ -126,19 +145,27 @@
                         }
                     }
                 }
-            }        
-        }
+            }
+            
+            .quiz-choices {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                justify-items: center;
+                max-width: none;
+                gap: 20px;
+    
+                .btn-choice {
+                    font-size: 1.4rem;
+                    margin: 0;
+                }
+            }
+    
+            .quiz-button {
+                margin-bottom: 25px;
 
-        .quiz-choices {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            justify-items: center;
-            max-width: none;
-            gap: 20px;
-
-            .btn-choice {
-                font-size: 1.4rem;
-                margin: 0;
+                button {
+                    width: 161px;
+                }
             }
         }
     }

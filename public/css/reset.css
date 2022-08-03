@@ -41,8 +41,8 @@ a {
   color: white;
 }
 #root .btn-primary-blue:hover {
-  background-color: #262626;
-  color: white;
+  background-color: white;
+  color: #262626;
 }
 #root .btn-no-background {
   color: white;
@@ -94,6 +94,10 @@ a {
 }
 #root .btn-choice:last-child {
   margin-bottom: 0;
+}
+#root .btn-disabled {
+  pointer-events: none !important;
+  cursor: not-allowed !important;
 }
 #root .ft-sz-12 {
   font-size: 1.2rem;

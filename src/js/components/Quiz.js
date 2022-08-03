@@ -1,63 +1,65 @@
 import AbstractClass from "./AbstractClass.js";
 import {
     createElement,
-    setHandlers,
-    setHandler,
     getParentElement,
     insertAfter,
-    countDown,
-    Counter
-} from "./Function.js";
-
-const nextQuestion = (function() {
-    return function NavigateToNextQuestion(event, data = {}, counter) {
-        let index = counter.increase();
-        if(index === data.length) return;
-        const { target } = event,
-        quizPage = getParentElement((getParentElement(target))),
-        indexBtns = quizPage.querySelectorAll('.btn.btn-question-index');
-        quizPage.getElementsByClassName('quiz-questions')[0].remove();
-        quizPage.getElementsByClassName('quiz-choices')[0].remove();
-        const q = new QuizQuestions('', data[index]),
-        c = new QuizChoices('', data[index], indexBtns);
-        quizPage.querySelector('#js-questionCounter').textContent = index + 1;
-        quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
-        insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
-        indexBtnState(indexBtns, index, data);
-    }
-})();
-
-const prevQuestion = (function() {
-    return function NavigateToPreviousQuestion(event, data = {}, counter) {
-        let index = counter.decrease();
-        if(index === -1) return;
-        const { target } = event,
-        quizPage = getParentElement((getParentElement(target))),
-        indexBtns = quizPage.querySelectorAll('.btn.btn-question-index');
-        quizPage.getElementsByClassName('quiz-questions')[0].remove();
-        quizPage.getElementsByClassName('quiz-choices')[0].remove();
-        const q = new QuizQuestions('', data[index]),
-        c = new QuizChoices('', data[index], indexBtns);
-        quizPage.querySelector('#js-questionCounter').textContent = index + 1;
-        quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
-        insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
-        indexBtnState(indexBtns, index, data);
-    }
-})();
+    CountDown,
+    Counter,
+    QuizzesCheck
+} from "../Function.js";
 
 const currentQuestion = (function() {
-    return function ShowCurrentQuestion(event, data = {}, index = 0) {
+    return function ShowCurrentQuestion(event, data = {}, index = 0, quizzesCheck) {
         const { target } = event,
+        { amount, questions } = data,
         quizPage = getParentElement((getParentElement((getParentElement(target))))),
         indexBtns = quizPage.querySelectorAll('.btn.btn-question-index');
         quizPage.getElementsByClassName('quiz-questions')[0].remove();
         quizPage.getElementsByClassName('quiz-choices')[0].remove();
-        const q = new QuizQuestions('', data[index]),
-        c = new QuizChoices('', data[index], indexBtns);
+        const q = new QuizQuestions('', questions[index], quizzesCheck),
+        c = new QuizChoices('', { questions: questions[index], amount: amount}, quizzesCheck);
         quizPage.querySelector('#js-questionCounter').textContent = index + 1;
         quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
         insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
-        indexBtnState(indexBtns, index, data);
+        indexBtnState(indexBtns, index, questions);
+    }
+})();
+
+const nextQuestion = (function() {
+    return function NavigateToNextQuestion(event, data = {}, { counter, quizzesCheck }) {
+        let index = counter.increase();
+        if(index === data.length) return;
+        const { target } = event,
+        { amount, questions } = data,
+        quizPage = getParentElement((getParentElement(target))),
+        indexBtns = quizPage.querySelectorAll('.btn.btn-question-index');
+        quizPage.getElementsByClassName('quiz-questions')[0].remove();
+        quizPage.getElementsByClassName('quiz-choices')[0].remove();
+        const q = new QuizQuestions('', questions[index], quizzesCheck),
+        c = new QuizChoices('', { questions: questions[index], amount: amount}, quizzesCheck);
+        quizPage.querySelector('#js-questionCounter').textContent = index + 1;
+        quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
+        insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
+        indexBtnState(indexBtns, index, questions);
+    }
+})();
+
+const prevQuestion = (function() {
+    return function NavigateToPreviousQuestion(event, data = {}, { counter, quizzesCheck }) {
+        let index = counter.decrease();
+        if(index === -1) return;
+        const { target } = event,
+        { amount, questions } = data,
+        quizPage = getParentElement((getParentElement(target))),
+        indexBtns = quizPage.querySelectorAll('.btn.btn-question-index');
+        quizPage.getElementsByClassName('quiz-questions')[0].remove();
+        quizPage.getElementsByClassName('quiz-choices')[0].remove();
+        const q = new QuizQuestions('', questions[index], quizzesCheck),
+        c = new QuizChoices('', { questions: questions[index], amount: amount}, quizzesCheck);
+        quizPage.querySelector('#js-questionCounter').textContent = index + 1;
+        quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
+        insertAfter(c.render(), quizPage.getElementsByTagName('hr')[0]);
+        indexBtnState(indexBtns, index, questions);
     }
 })();
 
@@ -107,7 +109,7 @@ function choiceCollectionState() {
             if(input === i) {
                 getParentElement(input).style.backgroundColor = '#228B22';
                 getParentElement(input).style.color = 'white';
-                refData.checked = input.checked;
+                refData.checked = i.checked;
             }
             else {
                 getParentElement(input).style.backgroundColor = 'transparent';
@@ -118,6 +120,10 @@ function choiceCollectionState() {
             count++;
         });
     }
+
+    this.canSubmit = () => {}
+
+    this.toggleSubmitButton = () => {}
 
     this.changeWhenFalse = () => {
         let count = 0;
@@ -138,16 +144,11 @@ function choiceCollectionState() {
 
     this.toggleState = (() => {
         return function toggleDataAndRadio(index, refData) {
-            try {
-                if(data === null || data === undefined) throw 'DataError: data is null or undefined.';
-                if(inputs[index].checked) { 
-                    this.changeWhenTrue(inputs[index], refData);
-                } else {
-                    this.changeWhenFalse();
-                };
-            } catch (error) {
-                console.error(error);
-            }
+            if(inputs[index].checked) { 
+                this.changeWhenTrue(inputs[index], refData);
+            } else {
+                this.changeWhenFalse();
+            };
         }
     })();
 }
@@ -192,7 +193,7 @@ export default class extends AbstractClass {
 
     initTime() {
         const [ minute, second ] = this.getData.time.split(':'),
-        qCountDown = new countDown(parseInt(minute), parseInt(second)),
+        qCountDown = new CountDown(parseInt(minute), parseInt(second)),
         minuteField = this.#dom.querySelector('#js-minuteField'),
         secondField = this.#dom.querySelector('#js-secondField');
         qCountDown.setCountDownField(minuteField, secondField);
@@ -221,14 +222,13 @@ export default class extends AbstractClass {
     }
 
     initDom() {
-        const { questions } = this.getData,
+        const { questions, amount } = this.getData,
         counter = new Counter(0, this.getData.questions.length - 1),
-        qInfo = new QuizInfo('', this.getData, counter);
+        quizzesCheck = new QuizzesCheck(),
+        qInfo = new QuizInfo('', this.getData, { counter: counter, quizzesCheck: quizzesCheck });
+        quizzesCheck.setData({questions: questions, amount: amount});
 
-        const indexBtn = qInfo.render().querySelectorAll('[data-index-question');
-
-        const qQuestions = new QuizQuestions('', questions[this.#indexQuestion]),
-        qChoices = new QuizChoices('', questions[this.#indexQuestion], indexBtn);
+        const indexBtn = qInfo.render().querySelectorAll('[data-index-question]');
 
         const quizBtn = createElement({
             'type': 'div',
@@ -243,16 +243,47 @@ export default class extends AbstractClass {
             'type': 'button',
             'classNames': 'btn btn-primary-black btn-rounded-5px next',
             'id': 'js-nextBtn'
+        }),
+        submitBtn = createElement({
+            'type': 'button',
+            'classNames': 'btn btn-rounded-5px btn-disabled',
+            'id': 'js-submitBtn'
         });
 
-        prevBtn.textContent = 'Previous';
-        nextBtn.textContent = 'Next';
+        submitBtn.href = '/result/quiz-' + this.getParams;
 
-        nextBtn.addEventListener('click', (event) => nextQuestion(event, this.getData.questions, counter));
-        prevBtn.addEventListener('click', (event) => prevQuestion(event, this.getData.questions, counter));
+        nextBtn.addEventListener('click', (event) => nextQuestion(event,
+            { questions: questions, amount: amount },
+            { counter: counter, quizzesCheck: quizzesCheck }));
+        prevBtn.addEventListener('click', (event) => prevQuestion(event,
+            { questions: questions, amount: amount },
+            { counter: counter, quizzesCheck: quizzesCheck }));
+        submitBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            let point = 0;
+            questions.forEach(question => {
+                question.choices.forEach(choice => {
+                    if(choice.checked === choice.isAnswer && choice.checked) point += 1;
+                });
+            });
+            alert('Ban duoc ' + point + ' diem!');
+        });
+
+        nextBtn.textContent = 'Next';
+        prevBtn.textContent = 'Previous';
+        submitBtn.textContent = 'Submit';
+
+        submitBtn.disabled = true;
+
+        quizzesCheck.setSubmitButtonReference(submitBtn);
 
         quizBtn.appendChild(prevBtn);
         quizBtn.appendChild(nextBtn);
+        quizBtn.appendChild(submitBtn);
+        
+        const qQuestions = new QuizQuestions('', questions[this.#indexQuestion], quizzesCheck),
+        qChoices = new QuizChoices('', {questions: questions[this.#indexQuestion], amount: amount}, quizzesCheck);
+
         this.#dom.append(
             qInfo.render(),
             qQuestions.render(),
@@ -268,10 +299,12 @@ export default class extends AbstractClass {
 }
 
 class QuizQuestions extends AbstractClass {
+    #quizzesCheck
     #dom;
 
-    constructor(params, data) {
+    constructor(params, data, objectContructor) {
         super(params, data);
+        this.#quizzesCheck = objectContructor;
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'quiz-questions'
@@ -281,13 +314,14 @@ class QuizQuestions extends AbstractClass {
 
     initDom() {
         const { text } = this.getData;
+        // this.#quizzesCheck.listenChoosedQuestion();
         this.#dom.insertAdjacentHTML('beforeend', `
             <div class="question-slider"><div class="slider" id="js-questionSlider">
                 <div class="question-page">
                     <p class="question-page__text">${text}</p>
                 </div>
             </div></div>
-            <div class="page__dot"><div class="btn btn-dot"></div></div>
+            <div class="page__dot"><button class="btn btn-dot"></button></div>
         `);
     }
 
@@ -297,12 +331,12 @@ class QuizQuestions extends AbstractClass {
 }
 
 class QuizChoices extends AbstractClass {
-    #objects;
+    #quizzesCheck;
     #dom;
-
-    constructor(params, data, objects) {
+    
+    constructor(params, data, objectContructor) {
         super(params, data);
-        this.#objects = objects;
+        this.#quizzesCheck = objectContructor;
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'quiz-choices'
@@ -311,10 +345,10 @@ class QuizChoices extends AbstractClass {
     }
 
     initDom() {
-        const { choices } = this.getData,
+        const { questions: { choices } } = this.getData,
         radioChks = [],
-        radioChoice = new choiceCollectionState();
-        radioChoice.setData(choices);
+        radioChoices = new choiceCollectionState();
+        radioChoices.setData(choices);
         for(let i = 0; i < 4; i++) {
             const 
             label = createElement({
@@ -325,16 +359,18 @@ class QuizChoices extends AbstractClass {
                 'type': 'input',
                 'id': 'js-choice-' + (i + 1)
             });
-            radioChoice.setInput(radioChk);
+            radioChoices.setInput(radioChk);
             radioChk.type = 'checkbox';
             radioChk.name = 'choices';
-            if(choices[i].checked) { 
+            if(choices[i].checked) {
+                radioChk.checked = true;
                 label.style.backgroundColor = '#228B22';
                 label.style.color = 'white';
             }
 
             label.textContent = choices[i].data;
-            radioChk.addEventListener('click', () => radioChoice.toggleState(i, choices[i]));
+            radioChk.addEventListener('click', () => radioChoices.toggleState(i, choices[i]));
+            radioChk.addEventListener('click', () => this.#quizzesCheck.listenChoosedQuestion());
             label.append(radioChk);
             radioChks.push(label);
         }
@@ -347,22 +383,27 @@ class QuizChoices extends AbstractClass {
 }
 
 class QuizInfo extends AbstractClass {
-    #counter
+    #objContructors
     #dom;
 
-    constructor(params, data, object) {
+    constructor(params, data, objectContructors) {
         super(params, data);
+        this.#objContructors = objectContructors;
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'quiz-info'
         });
-        this.#counter = object;
         this.initDom();
     }
 
     initDom() {
         const { amount, time } = this.getData,
-        qIndex = new QuizIndex('', this.getData, this.#counter),
+        qIndex = new QuizIndex('', this.getData,
+            { 
+                counter: this.#objContructors.counter,
+                quizzesCheck: this.#objContructors.quizzesCheck
+            }
+        ),
         qTimer = new Timer('', time),
         qQuestionsCounter = new CounterQuestion('', amount);
 
@@ -377,12 +418,12 @@ class QuizInfo extends AbstractClass {
 }
 
 class QuizIndex extends AbstractClass {
-    #object
+    #objContructors
     #dom;
 
-    constructor(params, data, object) {
+    constructor(params, data, objectContructors) {
         super(params, data);
-        this.#object = object;
+        this.#objContructors = objectContructors;
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'question-index'
@@ -391,15 +432,20 @@ class QuizIndex extends AbstractClass {
     }
 
     initDom() {
-        const f = (100 - (this.getData.amount * 2 - 2)) / this.getData.amount;
-        for(let i = 0; i < this.getData.amount; i++) {
+        const { questions, amount } = this.getData;
+        const f = (100 - (amount * 2 - 2)) / amount;
+        for(let i = 0; i < amount; i++) {
             const index = createElement({
                 'type': 'button',
                 'classNames': 'btn btn-question-index'
             });
             
             if(i === 0) index.style.backgroundColor = '#6495ED';
-            index.addEventListener('click', (event) => currentQuestion(event, this.getData.questions, this.#object.setNumber(i)));
+            index.addEventListener('click', (event) => currentQuestion(event,
+                { questions: questions, amoun: amount},
+                this.#objContructors.counter.setNumber(i),
+                this.#objContructors.quizzesCheck
+            ));
             index.setAttribute('data-index-question', '');
 
             this.#dom.style.gridTemplateColumns += f + '%';
@@ -435,7 +481,7 @@ class CounterQuestion extends AbstractClass {
         });
 
         current.textContent = '1';
-        total.textContent = `/${this.getData}`
+        total.textContent = ` of ${this.getData} Questions.`
 
         this.#dom.append(current, total);
     }
@@ -481,6 +527,7 @@ class Timer extends AbstractClass {
         secondField.textContent = this.timeFormat(second);
 
         timeText.append(
+            "Time left: ",
             minuteField,
             ":",
             secondField

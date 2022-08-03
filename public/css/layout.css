@@ -11,7 +11,7 @@
 #root > header {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 2fr 4fr;
   grid-template-areas: "backbtn-title submitbtn";
   align-items: center;
   width: 100%;
@@ -47,6 +47,9 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+#root > header button {
+  width: 70px;
 }
 #root > header .menu {
   position: relative;
@@ -254,7 +257,7 @@
 #root .quiz-page .quiz-info .question-counter .question-counter__index, #root .quiz-page .quiz-info .question-counter .question-counter__total {
   font-size: 1.4rem;
 }
-#root .quiz-page .quiz-info .question-counter .question-counter__total {
+#root .quiz-page .quiz-info .question-counter .question-counter__index {
   font-weight: 600;
 }
 #root .quiz-page .quiz-info .question-timer {
@@ -344,16 +347,20 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
   width: calc(100% - 40px);
   margin-bottom: 15px;
 }
 #root .quiz-page .quiz-button > button {
-  width: 161px;
+  width: 100px;
 }
 #root .result-page {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
   max-width: 335px;
@@ -364,6 +371,7 @@
   text-align: center;
   width: 100%;
   max-width: 335px;
+  margin-bottom: 25px;
 }
 #root .result-page .point-box hr {
   width: 50px;
@@ -388,10 +396,11 @@
   width: 100%;
   max-width: 335px;
 }
-#root .result-page .redirect > div {
+#root .result-page .redirect > a {
   width: 100%;
+  max-width: 335px;
 }
-#root .result-page .redirect > div:first-child {
+#root .result-page .redirect > a:first-child {
   margin-bottom: 12px;
 }
 
