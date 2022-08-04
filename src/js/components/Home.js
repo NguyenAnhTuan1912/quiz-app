@@ -12,7 +12,7 @@ export default class extends AbstractClass {
             'type': 'div',
             'classNames': 'home-page'
         });
-        this.#cate = ['Nổi bật', 'Toán học', 'Logic', 'Đố vui'];
+        this.#cate = ['Highlight', 'Math', 'Logic', 'Fun'];
         this.initDom();
         document.querySelector('header .title').textContent = document.title;
     }
@@ -40,8 +40,8 @@ export default class extends AbstractClass {
         this.#dom.insertAdjacentHTML('beforeend', `
             <div class="home-page">
                 ${Banner({
-                    'banner-text__title': 'Quiz nổi bật nhất',
-                    'banner-text__description': 'Đây là bài quiz được nhiều người dùng làm nhất tuần qua.'
+                    'banner-text__title': 'Take some test quiz',
+                    'banner-text__description': `The simple quiz app with JavaScript, SASS, ExpressJS and Firebase, one of my JavaScript Project.`
                 }, false)}
                 <hr>
                 ${QuizCategory({ categories }, false)}
@@ -67,7 +67,7 @@ function Banner(props = {}, isReturnDom = true) {
         <div class="banner-text">
             <h3 class="banner-text__title">${props['banner-text__title']}</h3>
             <p class="banner-text__description">${props['banner-text__description']}</p>
-            <div class="btn btn-banner btn-no-background btn-rounded-5px">Làm ngay</div>
+            <div class="btn btn-banner btn-no-background btn-rounded-5px">Get started</div>
         </div>
     `;
     div.insertAdjacentHTML('beforeend', htmls);
@@ -115,7 +115,7 @@ function Quizzes(props = {}, isReturnDom = true) {
                     <div class="quiz-image"></div>
                     <div class="quiz-text">
                         <h3 class="quiz-name">${value.name}</h3>
-                        <p class="quiz-amount">${value.amount} câu</p>
+                        <p class="quiz-amount">${value.amount} questions.</p>
                     </div>
                     <span class="material-symbols-outlined">arrow_forward_ios</span>
                 </div>

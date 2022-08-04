@@ -74,6 +74,49 @@
                 }
             }
         }
+
+        .quiz-answer {
+            .title {
+                max-width: none;
+    
+                .text-subtitle {
+                    font-size: 1.4rem;
+                }
+    
+                .text-title {
+                    font-size: 2.2rem;
+                }
+            }
+    
+            .quiz-answers__section {
+                max-width: none;
+    
+                .question {
+                    .question-head {
+                        .question-index {
+                            .question-index__text {
+                                span {
+                                    line-height: 1;
+                                    font-size: 1.5rem;
+                                }
+                            }
+                        }
+    
+                        .question-score {
+                            span {
+                                line-height: 1;
+                                font-size: 1.5rem;
+                            }
+                        }
+                    }
+                    .question-content {
+                        .question-text {
+                            margin-bottom: 8px;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -165,6 +208,53 @@
 
                 button {
                     width: 161px;
+                }
+            }
+        }
+
+        .quiz-answer {
+            .title {
+                max-width: 690px;
+    
+                .text-subtitle {
+                    font-size: 1.6rem;
+                }
+    
+                .text-title {
+                    font-size: 2.6rem;
+                }
+            }
+    
+            .quiz-answers__section {
+                max-width: 690px;
+    
+                .question {
+                    .question-head {
+                        .question-index {
+                            .question-index__text {
+                                span {
+                                    line-height: 1;
+                                    font-size: 1.8rem;
+                                }
+                            }
+                        }
+    
+                        .question-score {
+                            span {
+                                line-height: 1;
+                                font-size: 1.8rem;
+                            }
+                        }
+                    }
+                    .question-content {
+                        .question-text {
+                            margin-bottom: 8px;
+                        }
+
+                        p {
+                            font-size: 1.6rem;
+                        }
+                    }
                 }
             }
         }

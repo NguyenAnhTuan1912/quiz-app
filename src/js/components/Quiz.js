@@ -5,8 +5,12 @@ import {
     insertAfter,
     CountDown,
     Counter,
-    QuizzesCheck
+    QuizzesCheck,
 } from "../Function.js";
+import {
+    navigateTo
+} from "../Router.js";
+
 
 const currentQuestion = (function() {
     return function ShowCurrentQuestion(event, data = {}, index = 0, quizzesCheck) {
@@ -16,7 +20,7 @@ const currentQuestion = (function() {
         indexBtns = quizPage.querySelectorAll('.btn.btn-question-index');
         quizPage.getElementsByClassName('quiz-questions')[0].remove();
         quizPage.getElementsByClassName('quiz-choices')[0].remove();
-        const q = new QuizQuestions('', questions[index], quizzesCheck),
+        const q = new QuizQuestions('', questions[index]),
         c = new QuizChoices('', { questions: questions[index], amount: amount}, quizzesCheck);
         quizPage.querySelector('#js-questionCounter').textContent = index + 1;
         quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
@@ -35,7 +39,7 @@ const nextQuestion = (function() {
         indexBtns = quizPage.querySelectorAll('.btn.btn-question-index');
         quizPage.getElementsByClassName('quiz-questions')[0].remove();
         quizPage.getElementsByClassName('quiz-choices')[0].remove();
-        const q = new QuizQuestions('', questions[index], quizzesCheck),
+        const q = new QuizQuestions('', questions[index]),
         c = new QuizChoices('', { questions: questions[index], amount: amount}, quizzesCheck);
         quizPage.querySelector('#js-questionCounter').textContent = index + 1;
         quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
@@ -54,7 +58,7 @@ const prevQuestion = (function() {
         indexBtns = quizPage.querySelectorAll('.btn.btn-question-index');
         quizPage.getElementsByClassName('quiz-questions')[0].remove();
         quizPage.getElementsByClassName('quiz-choices')[0].remove();
-        const q = new QuizQuestions('', questions[index], quizzesCheck),
+        const q = new QuizQuestions('', questions[index]),
         c = new QuizChoices('', { questions: questions[index], amount: amount}, quizzesCheck);
         quizPage.querySelector('#js-questionCounter').textContent = index + 1;
         quizPage.insertBefore(q.render(), quizPage.getElementsByTagName('hr')[0]);
@@ -176,6 +180,7 @@ export default class extends AbstractClass {
 
     constructor(params, data) {
         super(params, data);
+        this.reset();
         this.setTitle('Quiz');
         this.#dom = createElement({
             'type': 'div',
@@ -185,10 +190,21 @@ export default class extends AbstractClass {
         this.initDom();
         this.initTime();
         document.querySelector('header .title').textContent = `Quiz / ${this.getData.name}`;
+        this.getData.isPending = true;
     }
 
     get getDom() {
         return this.#dom;
+    }
+
+    reset() {
+        const { isPending, questions } = this.getData;
+        if(!isPending) {
+            questions.forEach(question => {
+                const checkedChoice = question.choices.find(choice => choice.checked);
+                if(checkedChoice) checkedChoice.checked = false;
+            });
+        }
     }
 
     initTime() {
@@ -227,7 +243,6 @@ export default class extends AbstractClass {
         quizzesCheck = new QuizzesCheck(),
         qInfo = new QuizInfo('', this.getData, { counter: counter, quizzesCheck: quizzesCheck });
         quizzesCheck.setData({questions: questions, amount: amount});
-
         const indexBtn = qInfo.render().querySelectorAll('[data-index-question]');
 
         const quizBtn = createElement({
@@ -259,14 +274,9 @@ export default class extends AbstractClass {
             { questions: questions, amount: amount },
             { counter: counter, quizzesCheck: quizzesCheck }));
         submitBtn.addEventListener('click', (event) => {
+            const { currentTarget } = event;
             event.preventDefault();
-            let point = 0;
-            questions.forEach(question => {
-                question.choices.forEach(choice => {
-                    if(choice.checked === choice.isAnswer && choice.checked) point += 1;
-                });
-            });
-            alert('Ban duoc ' + point + ' diem!');
+            navigateTo(currentTarget.href);
         });
 
         nextBtn.textContent = 'Next';
@@ -276,6 +286,7 @@ export default class extends AbstractClass {
         submitBtn.disabled = true;
 
         quizzesCheck.setSubmitButtonReference(submitBtn);
+        quizzesCheck.listenChoosedQuestion();
 
         quizBtn.appendChild(prevBtn);
         quizBtn.appendChild(nextBtn);
@@ -441,6 +452,7 @@ class QuizIndex extends AbstractClass {
             });
             
             if(i === 0) index.style.backgroundColor = '#6495ED';
+            else if(questions[i].choices.some(choice => choice.checked)) index.style.backgroundColor = '#262626';
             index.addEventListener('click', (event) => currentQuestion(event,
                 { questions: questions, amoun: amount},
                 this.#objContructors.counter.setNumber(i),

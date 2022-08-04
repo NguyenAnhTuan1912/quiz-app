@@ -117,11 +117,36 @@ a {
 #root .text-bold {
   font-weight: 900;
 }
+#root .tc-quiz-blue {
+  color: #6495ED;
+}
+#root .tc-quiz-green {
+  color: #2db438;
+}
+#root .tc-quiz-red {
+  color: #e13d3d;
+}
+#root .pd-4-6 {
+  padding: 4px 6px;
+}
+#root .pd-8-12 {
+  padding: 8px 12px;
+}
 #root hr {
   height: 0.1px;
   margin: 20px auto;
   background-color: rgba(27, 31, 35, 0.15);
   border: none;
+}
+#root .correct-answer {
+  position: relative;
+  background-color: #e6f4ea;
+  border-radius: 2px;
+}
+#root .incorrect-answer {
+  position: relative;
+  background-color: #f4e6e6;
+  border-radius: 2px;
 }
 
 /*# sourceMappingURL=reset.css.map */

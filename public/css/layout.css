@@ -11,7 +11,7 @@
 #root > header {
   position: relative;
   display: grid;
-  grid-template-columns: 2fr 4fr;
+  grid-template-columns: 4fr 1fr;
   grid-template-areas: "backbtn-title submitbtn";
   align-items: center;
   width: 100%;
@@ -375,7 +375,7 @@
 }
 #root .result-page .point-box hr {
   width: 50px;
-  height: 5px;
+  height: 2px;
   background-color: #262626;
   margin: 10px auto;
 }
@@ -402,6 +402,68 @@
 }
 #root .result-page .redirect > a:first-child {
   margin-bottom: 12px;
+}
+#root .quiz-answer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  min-height: 100%;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+#root .quiz-answer .title {
+  width: 100%;
+  max-width: 335px;
+  margin-bottom: 20px;
+}
+#root .quiz-answer .title .text-subtitle {
+  font-size: 1.4rem;
+}
+#root .quiz-answer .title .text-title {
+  font-size: 2.2rem;
+}
+#root .quiz-answer .quiz-answers__section {
+  width: 100%;
+  max-width: 335px;
+}
+#root .quiz-answer .quiz-answers__section .question {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: fit-content;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+}
+#root .quiz-answer .quiz-answers__section .question .question-head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+#root .quiz-answer .quiz-answers__section .question .question-head .question-index {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+#root .quiz-answer .quiz-answers__section .question .question-head .question-index .question-index__text span {
+  line-height: 1;
+  font-size: 1.5rem;
+}
+#root .quiz-answer .quiz-answers__section .question .question-head .question-score span {
+  line-height: 1;
+  font-size: 1.5rem;
+}
+#root .quiz-answer .quiz-answers__section .question .question-content .question-text {
+  margin-bottom: 8px;
 }
 
 /*# sourceMappingURL=layout.css.map */

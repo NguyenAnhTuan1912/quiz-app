@@ -52,6 +52,29 @@
   #root .result-page .redirect > div:first-child {
     margin-bottom: 0;
   }
+  #root .quiz-answer .title {
+    max-width: none;
+  }
+  #root .quiz-answer .title .text-subtitle {
+    font-size: 1.4rem;
+  }
+  #root .quiz-answer .title .text-title {
+    font-size: 2.2rem;
+  }
+  #root .quiz-answer .quiz-answers__section {
+    max-width: none;
+  }
+  #root .quiz-answer .quiz-answers__section .question .question-head .question-index .question-index__text span {
+    line-height: 1;
+    font-size: 1.5rem;
+  }
+  #root .quiz-answer .quiz-answers__section .question .question-head .question-score span {
+    line-height: 1;
+    font-size: 1.5rem;
+  }
+  #root .quiz-answer .quiz-answers__section .question .question-content .question-text {
+    margin-bottom: 8px;
+  }
 }
 @media only screen and (min-width: 480px) {
   #root .home-page .home-page__banner {
@@ -116,6 +139,32 @@
   }
   #root .quiz-page .quiz-button button {
     width: 161px;
+  }
+  #root .quiz-answer .title {
+    max-width: 690px;
+  }
+  #root .quiz-answer .title .text-subtitle {
+    font-size: 1.6rem;
+  }
+  #root .quiz-answer .title .text-title {
+    font-size: 2.6rem;
+  }
+  #root .quiz-answer .quiz-answers__section {
+    max-width: 690px;
+  }
+  #root .quiz-answer .quiz-answers__section .question .question-head .question-index .question-index__text span {
+    line-height: 1;
+    font-size: 1.8rem;
+  }
+  #root .quiz-answer .quiz-answers__section .question .question-head .question-score span {
+    line-height: 1;
+    font-size: 1.8rem;
+  }
+  #root .quiz-answer .quiz-answers__section .question .question-content .question-text {
+    margin-bottom: 8px;
+  }
+  #root .quiz-answer .quiz-answers__section .question .question-content p {
+    font-size: 1.6rem;
   }
 }
 @media only screen and (min-width: 1280px) {

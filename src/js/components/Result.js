@@ -1,4 +1,10 @@
-import { createElement } from "../Function.js";
+import { 
+    createElement,
+    getRandomNumber
+} from "../Function.js";
+import {
+    navigateTo
+} from "../Router.js"
 import AbstractClass from "./AbstractClass.js";
 
 export default class extends AbstractClass {
@@ -6,17 +12,20 @@ export default class extends AbstractClass {
 
     constructor(params, data) {
         super(params, data);
+        this.setTitle('Result');
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'result-page'
         });
         this.initDom();
+        document.querySelector('header .title').textContent = 'Quiz result';
     }
 
     initDom() {
+        const { amount, name, questions } = this.getData[`quiz-${this.getParams}`];
         const
-        point = new Point(),
-        redirect = new Redirect();
+        point = new Point('', { amount: amount, name: name, questions: questions}),
+        redirect = new Redirect(this.getParams);
         this.#dom.append(
             point.render(),
             redirect.render()
@@ -40,14 +49,26 @@ class Point extends AbstractClass {
         this.initDom();
     }
 
+    calcPoint() {
+        const { questions } = this.getData;
+        let point = 0;
+        questions.forEach(question => {
+            question.choices.forEach(choice => {
+                if(choice.checked === choice.isAnswer && choice.checked) point += 1;
+            });
+        });
+        return point;
+    }
+
     initDom() {
+        const { amount, name } = this.getData;
         this.#dom.insertAdjacentHTML('beforeend', `
             <div class="point-box">
-                <h2 class="point-box__title">YOUR SCORE:</h2>
-                <h1 class="text-semi-light ft-sz-20" js="js-point">15</h1>
+                <h2 class="point-box__title">CONGRATULATION!</h2>
+                <h1 class="text-semi-light ft-sz-20" js="js-point">${this.calcPoint()}</h1>
                 <hr>
-                <h1 class="text-bold ft-sz-20">15</h1>
-                <p class="point-box__message">You are in: <span class="text-bold" id="js-resultQuizName">[Quiz name]</span></p>
+                <h1 class="text-bold ft-sz-20">${amount}</h1>
+                <p class="point-box__message">You are in: <span class="text-bold" id="js-resultQuizName">${name}</span></p>
             </div>
         `);
     }
@@ -81,8 +102,16 @@ class Redirect extends AbstractClass {
             'classNames': 'btn btn-next btn-rounded-5px'
         });
 
-        reviewQuizBtn.insertAdjacentHTML('beforeend', '<span>Review</span>');
+        reviewQuizBtn.insertAdjacentHTML('beforeend', '<span>View answer</span>');
         nextQuizBtn.insertAdjacentHTML('beforeend', '<span class="text-bold">Bài tiếp theo: </span><span id="js-quizName">Quiz name</span>');
+
+        reviewQuizBtn.href = '/quiz-answer/quiz-' + this.getParams;
+
+        reviewQuizBtn.addEventListener('click', (event) => {
+            const { currentTarget } = event;
+            event.preventDefault();
+            navigateTo(currentTarget.href)
+        });
 
         this.#dom.append(
             reviewQuizBtn,

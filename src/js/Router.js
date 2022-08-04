@@ -1,6 +1,7 @@
 import Home from './components/Home.js';
 import Quiz from "./components/Quiz.js";
 import Result from "./components/Result.js";
+import Answer from './components/Answer.js';
 import quizzes from "../fakedata/quizzes.json" assert {type: 'json'};
 
 const Quizzes = { ...quizzes };
@@ -24,11 +25,20 @@ const getHomeQuizBoxData = (data) => {
     }
 };
 
-const getQuizData = (id = '', data = {}) => {
+const getSpecificQuizData = (id = '', data = {}) => {
     try {
         if(typeof data !== 'object' || Array.isArray(data)) throw 'TypeError: Data must be an Object!';
         if(typeof id !== 'string') throw 'TypeError: Id must be a String!';
         return data[`quiz-${id}`];
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const getAllQuizzesData = (data = {}) => {
+    try {
+        if(typeof data !== 'object' || Array.isArray(data)) throw 'TypeError: Data must be an Object!';
+        return data;
     } catch (error) {
         console.error(error);
     }
@@ -65,6 +75,10 @@ async function router() {
         {
             path: '/result/:id',
             view: Result
+        },
+        {
+            path: '/quiz-answer/:id',
+            view: Answer
         }
     ], notFoundRoute = {
         path: '/notfound',
@@ -96,12 +110,17 @@ async function router() {
         });
     };
     if(match.route.view === Quiz) {
-        data = getQuizData(id, Quizzes);
-        Quizzes[`quiz-${id}`].isPending = true;
+        data = getSpecificQuizData(id, Quizzes);
+        Quizzes[`quiz-${id}`].isPending = false;
     };
     if(match.route.view === Result) {
+        Quizzes[id].isPending = false;
         id = id[id.length - 1];
-        data = getQuizData(id, Quizzes);
+        data = getAllQuizzesData(Quizzes);
+    }
+    if(match.route.view === Answer) {
+        id = id[id.length - 1];
+        data = data = getSpecificQuizData(id, Quizzes);
     }
 
     const view = new match.route.view(id, data);
@@ -120,6 +139,8 @@ function navigateTo(url) {
     history.pushState(null, null, url);
     router();
 }
+
+window.quizzes = quizzes;
 
 export {
     router,

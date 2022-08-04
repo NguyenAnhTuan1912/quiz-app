@@ -140,10 +140,41 @@ a {
         font-weight: 900;
     }
     
+    .tc-quiz-blue {
+        color: $tc-quiz-blue;
+    }
+
+    .tc-quiz-green {
+        color: $tc-quiz-green;
+    }
+
+    .tc-quiz-red {
+        color: $tc-quiz-red;
+    }
+
+    .pd-4-6 {
+        padding: 4px 6px;
+    }
+
+    .pd-8-12 {
+        padding: 8px 12px;
+    }
+
     hr {
         height: 0.1px;
         margin: 20px auto;
         background-color: rgba(27, 31, 35, 0.15);
         border: none;
+    }
+
+    .correct-answer {
+        position: relative;
+        background-color: #e6f4ea;
+        border-radius: 2px;
+    }
+    .incorrect-answer {
+        position: relative;
+        background-color: #f4e6e6;
+        border-radius: 2px;
     }
 }

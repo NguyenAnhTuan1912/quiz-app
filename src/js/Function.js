@@ -189,10 +189,12 @@ function QuizzesCheck() {
         questions.forEach(question => {
             if(question.choices.some(choice => choice.checked)) count += 1;
         });
-        console.log(amount);
-        console.log(this.canSubmit());
         this.toggleSubmit();
     }
+}
+
+function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
 }
 
 export {
@@ -202,6 +204,7 @@ export {
     setHandler,
     getParentElement,
     insertAfter,
+    getRandomNumber,
     CountDown,
     Counter,
     QuizzesCheck
