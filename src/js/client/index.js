@@ -8,12 +8,21 @@ import {
     router,
     navigateTo
 } from "../Router.js"
+import ModalBox from "../components/ModalBox.js";
 
 const app = {
     render: function() {
-        const root = document.getElementById('root');
+        const root = document.getElementById('root'),
+        modal = createElement({
+            'type': 'div',
+            'classNames': 'hide',
+            'id': 'modal'
+        }),
+        modalBox = new ModalBox();
+        modal.append(modalBox.render());
         root.append(Header({ 'title': `Home` }));
         root.insertAdjacentHTML('beforeend', '<div id="content"></div>');
+        root.append(modal);
     },
     start: function() {
         return this.render();
@@ -25,7 +34,6 @@ function Header(props = {}, isReturnDom = true) {
         'type': 'header',
         'classNames': 'header'
     });
-
     const htmls = `
         <div class="header-back hide"><span class="material-symbols-outlined ft-sz-14" js="js-back">arrow_back_ios</span><span class="text-bold ft-sz-14">Home</span></div>
         <h1 class="title">${props.title}</h1>

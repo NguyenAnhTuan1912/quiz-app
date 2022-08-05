@@ -9,12 +9,12 @@ export default class extends AbstractClass {
     constructor(params, data) {
         super(params, data);
         this.setTitle('Answer');
+        document.querySelector('header .title').textContent = `View answer`;
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'quiz-answer'
         });
         this.initDom();
-        document.querySelector('header .title').textContent = `View answer`;
     }
 
     initDom() {

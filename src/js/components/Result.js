@@ -13,12 +13,12 @@ export default class extends AbstractClass {
     constructor(params, data) {
         super(params, data);
         this.setTitle('Result');
+        document.querySelector('header .title').textContent = 'Quiz result';
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'result-page'
         });
         this.initDom();
-        document.querySelector('header .title').textContent = 'Quiz result';
     }
 
     initDom() {
@@ -65,10 +65,10 @@ class Point extends AbstractClass {
         this.#dom.insertAdjacentHTML('beforeend', `
             <div class="point-box">
                 <h2 class="point-box__title">CONGRATULATION!</h2>
-                <h1 class="text-semi-light ft-sz-20" js="js-point">${this.calcPoint()}</h1>
+                <h1 class="fw-light ft-sz-20" js="js-point">${this.calcPoint()}</h1>
                 <hr>
-                <h1 class="text-bold ft-sz-20">${amount}</h1>
-                <p class="point-box__message">You are in: <span class="text-bold" id="js-resultQuizName">${name}</span></p>
+                <h1 class="fw-black ft-sz-20">${amount}</h1>
+                <p class="point-box__message">You are in: <span class="fw-black" id="js-resultQuizName">${name}</span></p>
             </div>
         `);
     }
@@ -103,7 +103,7 @@ class Redirect extends AbstractClass {
         });
 
         reviewQuizBtn.insertAdjacentHTML('beforeend', '<span>View answer</span>');
-        nextQuizBtn.insertAdjacentHTML('beforeend', '<span class="text-bold">Bài tiếp theo: </span><span id="js-quizName">Quiz name</span>');
+        nextQuizBtn.insertAdjacentHTML('beforeend', '<span class="fw-black">Bài tiếp theo: </span><span id="js-quizName">Quiz name</span>');
 
         reviewQuizBtn.href = '/quiz-answer/quiz-' + this.getParams;
 

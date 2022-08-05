@@ -6,7 +6,6 @@ import quizzes from "../fakedata/quizzes.json" assert {type: 'json'};
 
 const Quizzes = { ...quizzes };
 
-
 const pathToRegEx = (path = '') => new RegExp('^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$');
 
 const getHomeQuizBoxData = (data) => {
@@ -17,7 +16,8 @@ const getHomeQuizBoxData = (data) => {
             return {
                 id: key[key.length - 1],
                 name: data[key].name,
-                amount: data[key].amount
+                amount: data[key].amount,
+                time: data[key].time
             };
         });
     } catch (error) {
@@ -59,6 +59,7 @@ function getParams(match = {}) {
 }
 
 async function router() {
+    const content = document.getElementById('content');
     const routes = [
         {
             path: '/',
@@ -111,26 +112,24 @@ async function router() {
     };
     if(match.route.view === Quiz) {
         data = getSpecificQuizData(id, Quizzes);
-        Quizzes[`quiz-${id}`].isPending = false;
+        // Quizzes[`quiz-${id}`].isPending = false;
     };
     if(match.route.view === Result) {
-        Quizzes[id].isPending = false;
         id = id[id.length - 1];
         data = getAllQuizzesData(Quizzes);
+        Quizzes['quiz-' + id].isPending = false;
     }
     if(match.route.view === Answer) {
         id = id[id.length - 1];
-        data = data = getSpecificQuizData(id, Quizzes);
+        data = getSpecificQuizData(id, Quizzes);
     }
 
+    content.innerHTML = '';
     const view = new match.route.view(id, data);
 
     
     // console.log(quizzes);
     // console.log(view.getData);
-    
-    const content = document.getElementById('content');
-    content.innerHTML = '';
     // content.insertAdjacentHTML('beforeend', `${await view.render()}`);
     content.appendChild(await view.render());
 }

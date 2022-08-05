@@ -1,5 +1,10 @@
 import AbstractClass from "./AbstractClass.js";
-import { createElement } from "../Function.js";
+import { 
+    createElement,
+    turnOffModal,
+    turnOnModal
+ } from "../Function.js";
+import ModalBox from "./ModalBox.js";
 
 export default class extends AbstractClass {
     #dom;
@@ -36,19 +41,21 @@ export default class extends AbstractClass {
     // }
 
     initDom() {
-        const questions = this.getData, categories = this.getCategories;
-        this.#dom.insertAdjacentHTML('beforeend', `
-            <div class="home-page">
-                ${Banner({
-                    'banner-text__title': 'Take some test quiz',
-                    'banner-text__description': `The simple quiz app with JavaScript, SASS, ExpressJS and Firebase, one of my JavaScript Project.`
-                }, false)}
-                <hr>
-                ${QuizCategory({ categories }, false)}
-                <hr>
-                ${Quizzes({ questions }, false)}
-            </div>
-        `);
+        const bannerData = {
+            'title': 'Take some test quiz',
+            'description': 'The simple quiz app with JavaScript, SASS, ExpressJS and Firebase, one of my JavaScript Project.'
+        }
+        const questions = this.getData, categories = this.getCategories,
+        banner = new Banner('', bannerData),
+        quizCategory = new QuizCategory('', { categories }),
+        quizzes = new Quizzes('', { questions });
+        this.#dom.append(
+            banner.render(),
+            createElement({ 'type': 'hr' }),
+            quizCategory.render(),
+            createElement({ 'type': 'hr' }),
+            quizzes.render()
+        );
     }
 
     async render(isNode = true) {
@@ -56,75 +63,199 @@ export default class extends AbstractClass {
     }
 }
 
-function Banner(props = {}, isReturnDom = true) {
-    const div = createElement({
-        'type': 'div',
-        'classNames': 'home-page__banner',
-        'id': 'js-homePageBannerContainer'
-    });
-    const htmls = `
-        <div class="banner-image"></div> 
-        <div class="banner-text">
-            <h3 class="banner-text__title">${props['banner-text__title']}</h3>
-            <p class="banner-text__description">${props['banner-text__description']}</p>
-            <div class="btn btn-banner btn-no-background btn-rounded-5px">Get started</div>
-        </div>
-    `;
-    div.insertAdjacentHTML('beforeend', htmls);
-    return (isReturnDom) ? div : div.outerHTML;
-}
+class Banner extends AbstractClass {
+    #dom;
 
-function QuizCategory(props = {}, isReturnDom = true) {
-    const div = createElement({
-        'type': 'div',
-        'classNames': 'quiz-category',
-        'id': 'js-homePageQuizCategoryContainer'
-    });
+    constructor(params, data) {
+        super(params, data);
+        this.#dom = createElement({
+            'type': 'div',
+            'classNames': 'home-page__banner',
+            'id': 'js-homePageBannerContainer'
+        });
+        this.initDom();
+    }
 
-    const div2 = createElement({
-        'type': 'div',
-        'classNames': 'category-items'
-    });
-
-    let htmls = ``;
-    props.categories.forEach((value) => {
-        htmls += `
-            <div class="btn btn-rounded-5px category-item">
-                <p class="category-item__text">${value}</p>
+    initDom() {
+        const { title, description } = this.getData;
+        this.#dom.insertAdjacentHTML('beforeend', `
+            <div class="banner-image"></div> 
+            <div class="banner-text">
+                <h3 class="banner-text__title">${title}</h3>
+                <p class="banner-text__description">${description}</p>
+                <button class="btn btn-banner btn-no-background btn-rounded-5px ft-sz-13">Get started</button>
             </div>
-        `;
-    });
+        `);
+    }
 
-    div2.insertAdjacentHTML('beforeend', htmls);
-    div.appendChild(div2);
-    return (isReturnDom) ? div : div.outerHTML;
+    render(isNode = true) {
+        return (isNode) ? this.#dom : this.#dom.outerHTML;
+    }
 }
 
-function Quizzes(props = {}, isReturnDom = true) {
-    const div = createElement({
-        'type': 'div',
-        'classNames': 'quizzes',
-        'id': 'js-homePageQuizzesContainer'
-    });
+class QuizCategory extends AbstractClass {
+    #dom;
 
-    let htmls = ``;
-    props.questions.forEach((value) => {
-        htmls += `
-            <a href="/quiz/${value.id}" data-id="${value.id}" data-link onclick="linkClickHandler(event)">
+    constructor(params, data) {
+        super(params, data);
+        this.#dom = createElement({
+            'type': 'div',
+            'classNames': 'quiz-category',
+            'id': 'js-homePageQuizCategoryContainer'
+        });
+        this.initDom();
+    }
+
+    initDom() {
+        const { categories } = this.getData,
+        categoriesItemContainer = createElement({
+            'type': 'div',
+            'classNames': 'category-items'
+        });
+        categories.forEach((value) => {
+            categoriesItemContainer.insertAdjacentHTML('beforeend', `
+                <div class="btn btn-rounded-5px category-item ft-sz-13">
+                    <p class="category-item__text">${value}</p>
+                </div>
+            `)
+        });
+        this.#dom.append(categoriesItemContainer);
+    }
+
+    render(isNode = true) {
+        return (isNode) ? this.#dom : this.#dom.outerHTML;
+    }
+}
+
+class Quizzes extends AbstractClass {
+    #dom;
+
+    constructor(params, data) {
+        super(params, data);
+        this.#dom = createElement({
+            'type': 'div',
+            'classNames': 'quizzes',
+            'id': 'js-homePageQuizzesContainer'
+        });
+        this.initDom();
+    }
+
+    initDom() {
+        const { questions } = this.getData,
+        buttons = [];
+        questions.forEach(question => {
+            const button = createElement({
+                'type': 'button'
+            });
+            button.setAttribute('data-id', `quiz-${question.id}`);
+            button.insertAdjacentHTML('beforeend', `
                 <div class="quiz">
                     <div class="quiz-image"></div>
                     <div class="quiz-text">
-                        <h3 class="quiz-name">${value.name}</h3>
-                        <p class="quiz-amount">${value.amount} questions.</p>
+                        <h3 class="fw-black ft-sz-16 quiz-name">${question.name}</h3>
+                        <p class="fw-regular ft-sz-14 quiz-amount">${question.amount} questions.</p>
                     </div>
                     <span class="material-symbols-outlined">arrow_forward_ios</span>
                 </div>
-            </a>
-        `;
-    });
-    div.insertAdjacentHTML('beforeend', htmls);
-    return (isReturnDom) ? div : div.outerHTML;
+            `);
+            button.addEventListener('click', (event) => { show(event, { amount: question.amount, time: question.time, name: question.name }) });
+            buttons.push(button);
+        });
+        this.#dom.append(...buttons);
+    }
+
+    render(isNode = true) {
+        return (isNode) ? this.#dom : this.#dom.outerHTML;
+    }
 }
+
+const show = (function() {
+    return function showModal(event, data) {
+        const { currentTarget } = event,
+        {amount, time, name} = data,
+        [ minute, second ] = time.split(':');
+        const modal = document.getElementById('modal'),
+        quizNameP = modal.querySelector('#js-quizName'),
+        timeP = modal.querySelector('#js-modalInfoTime'),
+        amountP = modal.querySelector('#js-modalInfoAmount'),
+        acceptBtn = modal.querySelector('#js-acceptBtn');
+        turnOnModal(modal);
+        quizNameP.textContent = name;
+        timeP.textContent = `${minute}min${second}s`;
+        amountP.textContent = `${amount} Questions.`;
+        acceptBtn.href = `/quiz/${currentTarget.getAttribute('data-id')[currentTarget.getAttribute('data-id').length - 1]}`
+    }
+})();
+
+// function Banner(props = {}, isReturnDom = true) {
+//     const div = createElement({
+//         'type': 'div',
+//         'classNames': 'home-page__banner',
+//         'id': 'js-homePageBannerContainer'
+//     });
+//     const htmls = `
+//         <div class="banner-image"></div> 
+//         <div class="banner-text">
+//             <h3 class="banner-text__title">${props['banner-text__title']}</h3>
+//             <p class="banner-text__description">${props['banner-text__description']}</p>
+//             <div class="btn btn-banner btn-no-background btn-rounded-5px">Get started</div>
+//         </div>
+//     `;
+//     div.insertAdjacentHTML('beforeend', htmls);
+//     return (isReturnDom) ? div : div.outerHTML;
+// }
+
+// function QuizCategory(props = {}, isReturnDom = true) {
+//     const div = createElement({
+//         'type': 'div',
+//         'classNames': 'quiz-category',
+//         'id': 'js-homePageQuizCategoryContainer'
+//     });
+
+//     const div2 = createElement({
+//         'type': 'div',
+//         'classNames': 'category-items'
+//     });
+
+//     let htmls = ``;
+//     props.categories.forEach((value) => {
+//         htmls += `
+//             <div class="btn btn-rounded-5px category-item">
+//                 <p class="category-item__text">${value}</p>
+//             </div>
+//         `;
+//     });
+
+//     div2.insertAdjacentHTML('beforeend', htmls);
+//     div.appendChild(div2);
+//     return (isReturnDom) ? div : div.outerHTML;
+// }
+
+// function Quizzes(props = {}, isReturnDom = true) {
+//     const div = createElement({
+//         'type': 'div',
+//         'classNames': 'quizzes',
+//         'id': 'js-homePageQuizzesContainer'
+//     });
+
+//     let htmls = ``;
+//     props.questions.forEach((value) => {
+//         htmls += `
+//             <button data-id="quiz-${value.id}" onclick="">
+//                 <div class="quiz">
+//                     <div class="quiz-image"></div>
+//                     <div class="quiz-text">
+//                         <h3 class="quiz-name">${value.name}</h3>
+//                         <p class="quiz-amount">${value.amount} questions.</p>
+//                     </div>
+//                     <span class="material-symbols-outlined">arrow_forward_ios</span>
+//                 </div>
+//             </button>
+//         `;
+//     });
+//     div.insertAdjacentHTML('beforeend', htmls);
+//     return (isReturnDom) ? div : div.outerHTML;
+// }
 
 // htmlDOM: createElement({
 //     'type': 'div',

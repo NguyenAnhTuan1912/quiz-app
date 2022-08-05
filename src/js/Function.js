@@ -193,8 +193,28 @@ function QuizzesCheck() {
     }
 }
 
+function Init() {
+    let check = false;
+
+    this.start = () => {
+        if(!check) check = true;
+    }
+
+    this.isStart = () => {
+        return check;
+    }
+}
+
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function turnOnModal(modalBox) {
+    modalBox.classList.remove('hide');
+}
+
+function turnOffModal(modalBox) {
+    modalBox.classList.add('hide');
 }
 
 export {
@@ -205,7 +225,10 @@ export {
     getParentElement,
     insertAfter,
     getRandomNumber,
+    turnOffModal,
+    turnOnModal,
     CountDown,
     Counter,
-    QuizzesCheck
+    QuizzesCheck,
+    Init
 }

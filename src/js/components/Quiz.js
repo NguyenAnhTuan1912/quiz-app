@@ -174,7 +174,6 @@ function indexBtnState(buttons, index, data) {
 }
 
 export default class extends AbstractClass {
-    #fakedata;
     #dom;
     #indexQuestion;
 
@@ -182,6 +181,7 @@ export default class extends AbstractClass {
         super(params, data);
         this.reset();
         this.setTitle('Quiz');
+        document.querySelector('header .title').textContent = `Quiz / ${this.getData.name}`;
         this.#dom = createElement({
             'type': 'div',
             'classNames': 'quiz-page'
@@ -189,8 +189,7 @@ export default class extends AbstractClass {
         this.#indexQuestion = 0;
         this.initDom();
         this.initTime();
-        document.querySelector('header .title').textContent = `Quiz / ${this.getData.name}`;
-        this.getData.isPending = true;
+        this.getData.isPending = true; 
     }
 
     get getDom() {

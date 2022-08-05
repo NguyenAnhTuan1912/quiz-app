@@ -61,12 +61,14 @@
   transition: 0.4s ease-in-out;
   -webkit-transition: 0.4s ease-in-out;
   -moz-transition: 0.4s ease-in-out;
+  -ms-transition: 0.4s ease-in-out;
   -o-transition: 0.4s ease-in-out;
 }
 #root > header .menu.move-x {
   transform: translateX(calc(100% - 24px));
   -webkit-transform: translateX(calc(100% - 24px));
   -moz-transform: translateX(calc(100% - 24px));
+  -ms-transform: translateX(calc(100% - 24px));
   -o-transform: translateX(calc(100% - 24px));
 }
 #root > header .menu span {
@@ -162,22 +164,24 @@
   max-width: 1280px;
   margin: 0 auto;
 }
-#root .home-page .quizzes > a {
-  position: relative;
+#root .home-page .quizzes > button {
   display: block;
   width: 100%;
   height: 80px;
   margin: 12px 0;
-  z-index: 9999;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  border-radius: 10px;
+  text-align: left;
 }
-#root .home-page .quizzes > a:first-child {
+#root .home-page .quizzes > button:first-child {
   margin-top: 0;
 }
-#root .home-page .quizzes > a:last-child {
+#root .home-page .quizzes > button:last-child {
   margin-bottom: 0;
 }
 #root .home-page .quizzes .quiz {
-  position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -189,7 +193,6 @@
   padding: 18px;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-  z-index: -1;
 }
 #root .home-page .quizzes .quiz:first-child {
   margin-top: 0;
@@ -211,14 +214,12 @@
 #root .home-page .quizzes .quiz .quiz-text .quiz-name {
   width: 100%;
   max-width: 100%;
-  font-size: 1.4rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 #root .home-page .quizzes .quiz .quiz-text .quiz-amount {
   cursor: default;
-  font-size: 1.2rem;
 }
 #root .quiz-page {
   display: flex;
@@ -297,6 +298,8 @@
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
+  -ms-user-select: none;
+  -o-user-select: none;
   width: 335px;
   height: 100%;
   scroll-snap-align: start;
@@ -332,6 +335,8 @@
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
+  -ms-user-select: none;
+  -o-user-select: none;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -351,6 +356,8 @@
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
+  -ms-user-select: none;
+  -o-user-select: none;
   width: calc(100% - 40px);
   margin-bottom: 15px;
 }
@@ -464,6 +471,81 @@
 }
 #root .quiz-answer .quiz-answers__section .question .question-content .question-text {
   margin-bottom: 8px;
+}
+#root #modal {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  top: 0;
+  left: 0;
+  -webkit-backdrop-filter: blur(8px);
+  -moz-backdrop-filter: blur(8px);
+  -ms-backdrop-filter: blur(8px);
+  -o-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+#root #modal .modal-box {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  min-height: 206px;
+  background-color: white;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+#root #modal .modal-box:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 42px;
+  border-bottom: 0.5px solid rgba(38, 38, 38, 0.2);
+  background-color: transparent;
+  top: 0;
+  left: 0;
+}
+#root #modal .modal-box header {
+  display: flex;
+  width: 100%;
+  height: 24px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+#root #modal .modal-box header .title {
+  line-height: 1;
+  height: 16px;
+}
+#root #modal .modal-box .modal-quiz__info {
+  width: 100%;
+  height: fit-content;
+}
+#root #modal .modal-box .modal-quiz__info .quiz-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+#root #modal .modal-box .modal-quiz__info .info-description {
+  height: fit-content;
+  min-height: 100px;
+}
+#root #modal .modal-box .button-box {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+#root #modal .modal-box .button-box > a, #root #modal .modal-box .button-box > button {
+  width: 40%;
+}
+#root #modal .modal-box .button-box > button {
+  text-align: left;
 }
 
 /*# sourceMappingURL=layout.css.map */

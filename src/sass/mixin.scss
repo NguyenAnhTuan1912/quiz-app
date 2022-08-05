@@ -4,6 +4,7 @@
     box-sizing: $type;
     -webkit-box-sizing: $type;
     -moz-box-sizing: $type;
+    -ms-box-sizing: $type;
     -o-box-sizing: $type;
 }
 
@@ -37,6 +38,7 @@
     transform: $value;
     -webkit-transform: $value;
     -moz-transform: $value;
+    -ms-transform: $value;
     -o-transform: $value;
 }
 
@@ -44,12 +46,23 @@
     transition: 0.4s ease-in-out;
     -webkit-transition: 0.4s ease-in-out;
     -moz-transition: 0.4s ease-in-out;
+    -ms-transition: 0.4s ease-in-out;
     -o-transition: 0.4s ease-in-out;
 }
 
-@mixin text-seclection ($state) {
+@mixin text-seclection($state) {
     user-select: $state; /* supported by Chrome and Opera */
     -webkit-user-select: $state; /* Safari */
     -khtml-user-select: $state; /* Konqueror HTML */
     -moz-user-select: $state; /* Firefox */
+    -ms-user-select: $state;
+    -o-user-select: $state;
+}
+
+@mixin backdrop-blur($value) {
+    -webkit-backdrop-filter: blur($value);
+    -moz-backdrop-filter: blur($value);
+    -ms-backdrop-filter: blur($value);
+    -o-backdrop-filter: blur($value);
+    backdrop-filter: blur($value);
 }

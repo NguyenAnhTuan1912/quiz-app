@@ -98,7 +98,7 @@
     grid-template-columns: repeat(auto-fit, calc(50% - 10px));
     gap: 20px;
   }
-  #root .home-page .quizzes > a {
+  #root .home-page .quizzes > button {
     margin: 0;
   }
   #root .home-page .quizzes .quiz {
