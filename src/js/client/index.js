@@ -18,8 +18,9 @@ const app = {
             'classNames': 'hide',
             'id': 'modal'
         }),
-        modalBox = new ModalBox();
-        modal.append(modalBox.render());
+        confirmBox = new ModalBox('', 'confirm'),
+        noteBox = new ModalBox('', 'note');
+        modal.append(confirmBox.render(), noteBox.render());
         root.append(Header({ 'title': `Home` }));
         root.insertAdjacentHTML('beforeend', '<div id="content"></div>');
         root.append(modal);
@@ -75,6 +76,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         //     // });
         // });
 });
+
+// window.onpopstate = () => {
+//     let currentPathName = location.pathname;
+//     console.log(currentPathName);
+//     if(confirm('Are you sure?') && (/^\/quiz\/\d+$/gi).test(location.pathname)) {
+//         router();
+//     } else {
+//         navigateTo(currentPathName);
+//     }
+// };
 
 window.onpopstate = router;
 window.linkClickHandler = linkClickHandler;

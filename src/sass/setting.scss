@@ -42,6 +42,14 @@ a {
         background-color: rgb(100, 149, 237, .2);
         color: $tc-quiz-darker-blue;
         box-shadow: none;
+        font-weight: 500;
+    }
+
+    .btn-primary-yellow {
+        background-color: rgb(255, 215, 0, .5);
+        color: $tc-quiz-darker-yellow;
+        box-shadow: none;
+        font-weight: 500;
     }
 
     .btn-no-background {
@@ -112,6 +120,7 @@ a {
         outline: none;
         box-shadow: none;
         background-color: transparent;
+        font-weight: 500;
     }
 
     .btn-disabled {
@@ -199,6 +208,14 @@ a {
         color: $tc-quiz-red;
     }
     
+    .tc-quiz-yellow {
+        color: $tc-quiz-yellow
+    }
+
+    .tc-quiz-darker-yellow {
+        color: $tc-quiz-darker-yellow
+    }
+
     .tc-gray {
         color: #808080;
     }

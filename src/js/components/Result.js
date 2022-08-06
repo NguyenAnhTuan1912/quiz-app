@@ -95,19 +95,25 @@ class Redirect extends AbstractClass {
         const
         reviewQuizBtn = createElement({
             'type': 'a',
-            'classNames': 'btn btn-primary-blue btn-rounded-5px'
+            'classNames': 'btn btn-primary-blue btn-rounded-5px ft-sz-13'
         }),
-        nextQuizBtn = createElement({
+        goHomeBtn = createElement({
             'type': 'a',
-            'classNames': 'btn btn-next btn-rounded-5px'
+            'classNames': 'btn btn-transparent fw-black tc-quiz-darker-blue ft-sz-13'
         });
 
         reviewQuizBtn.insertAdjacentHTML('beforeend', '<span>View answer</span>');
-        nextQuizBtn.insertAdjacentHTML('beforeend', '<span class="fw-black">Bài tiếp theo: </span><span id="js-quizName">Quiz name</span>');
+        goHomeBtn.insertAdjacentHTML('beforeend', '<span class="material-symbols-outlined ft-sz-15 fw-black">arrow_back</span>Back to home');
 
         reviewQuizBtn.href = '/quiz-answer/quiz-' + this.getParams;
+        goHomeBtn.href = '/';
 
         reviewQuizBtn.addEventListener('click', (event) => {
+            const { currentTarget } = event;
+            event.preventDefault();
+            navigateTo(currentTarget.href)
+        });
+        goHomeBtn.addEventListener('click', (event) => {
             const { currentTarget } = event;
             event.preventDefault();
             navigateTo(currentTarget.href)
@@ -115,7 +121,7 @@ class Redirect extends AbstractClass {
 
         this.#dom.append(
             reviewQuizBtn,
-            nextQuizBtn
+            goHomeBtn
         );
     }
 

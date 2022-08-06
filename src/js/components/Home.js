@@ -1,6 +1,7 @@
 import AbstractClass from "./AbstractClass.js";
 import { 
     createElement,
+    showModal,
     turnOffModal,
     turnOnModal
  } from "../Function.js";
@@ -148,17 +149,18 @@ class Quizzes extends AbstractClass {
                 'type': 'button'
             });
             button.setAttribute('data-id', `quiz-${question.id}`);
+            button.setAttribute('data-message-box', `confirm`);
             button.insertAdjacentHTML('beforeend', `
                 <div class="quiz">
                     <div class="quiz-image"></div>
                     <div class="quiz-text">
-                        <h3 class="fw-black ft-sz-16 quiz-name">${question.name}</h3>
+                        <h3 class="fw-semi-bold ft-sz-16 quiz-name">${question.name}</h3>
                         <p class="fw-regular ft-sz-14 quiz-amount">${question.amount} questions.</p>
                     </div>
                     <span class="material-symbols-outlined">arrow_forward_ios</span>
                 </div>
             `);
-            button.addEventListener('click', (event) => { show(event, { amount: question.amount, time: question.time, name: question.name }) });
+            button.addEventListener('click', (event) => { showModal(event, { amount: question.amount, time: question.time, name: question.name }) });
             buttons.push(button);
         });
         this.#dom.append(...buttons);
@@ -168,24 +170,6 @@ class Quizzes extends AbstractClass {
         return (isNode) ? this.#dom : this.#dom.outerHTML;
     }
 }
-
-const show = (function() {
-    return function showModal(event, data) {
-        const { currentTarget } = event,
-        {amount, time, name} = data,
-        [ minute, second ] = time.split(':');
-        const modal = document.getElementById('modal'),
-        quizNameP = modal.querySelector('#js-quizName'),
-        timeP = modal.querySelector('#js-modalInfoTime'),
-        amountP = modal.querySelector('#js-modalInfoAmount'),
-        acceptBtn = modal.querySelector('#js-acceptBtn');
-        turnOnModal(modal);
-        quizNameP.textContent = name;
-        timeP.textContent = `${minute}min${second}s`;
-        amountP.textContent = `${amount} Questions.`;
-        acceptBtn.href = `/quiz/${currentTarget.getAttribute('data-id')[currentTarget.getAttribute('data-id').length - 1]}`
-    }
-})();
 
 // function Banner(props = {}, isReturnDom = true) {
 //     const div = createElement({

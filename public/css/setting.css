@@ -41,6 +41,13 @@ a {
   background-color: rgba(100, 149, 237, 0.2);
   color: #2F68CD;
   box-shadow: none;
+  font-weight: 500;
+}
+#root .btn-primary-yellow {
+  background-color: rgba(255, 215, 0, 0.5);
+  color: #907B00;
+  box-shadow: none;
+  font-weight: 500;
 }
 #root .btn-no-background {
   color: white;
@@ -98,6 +105,7 @@ a {
   outline: none;
   box-shadow: none;
   background-color: transparent;
+  font-weight: 500;
 }
 #root .btn-disabled {
   pointer-events: none !important;
@@ -163,6 +171,12 @@ a {
 #root .tc-quiz-red {
   color: #e13d3d;
 }
+#root .tc-quiz-yellow {
+  color: #FFD700;
+}
+#root .tc-quiz-darker-yellow {
+  color: #907B00;
+}
 #root .tc-gray {
   color: #808080;
 }
@@ -224,4 +238,4 @@ a {
   border-radius: 2px;
 }
 
-/*# sourceMappingURL=reset.css.map */
+/*# sourceMappingURL=setting.css.map */

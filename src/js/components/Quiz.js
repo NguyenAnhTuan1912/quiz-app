@@ -6,6 +6,7 @@ import {
     CountDown,
     Counter,
     QuizzesCheck,
+    showModal,
 } from "../Function.js";
 import {
     navigateTo
@@ -242,7 +243,6 @@ export default class extends AbstractClass {
         quizzesCheck = new QuizzesCheck(),
         qInfo = new QuizInfo('', this.getData, { counter: counter, quizzesCheck: quizzesCheck });
         quizzesCheck.setData({questions: questions, amount: amount});
-        const indexBtn = qInfo.render().querySelectorAll('[data-index-question]');
 
         const quizBtn = createElement({
             'type': 'div',
@@ -264,19 +264,19 @@ export default class extends AbstractClass {
             'id': 'js-submitBtn'
         });
 
-        submitBtn.href = '/result/quiz-' + this.getParams;
+        submitBtn.setAttribute('data-message-box', 'note');
 
-        nextBtn.addEventListener('click', (event) => nextQuestion(event,
+        nextBtn.addEventListener('click', event => nextQuestion(event,
             { questions: questions, amount: amount },
             { counter: counter, quizzesCheck: quizzesCheck }));
-        prevBtn.addEventListener('click', (event) => prevQuestion(event,
+        prevBtn.addEventListener('click', event => prevQuestion(event,
             { questions: questions, amount: amount },
             { counter: counter, quizzesCheck: quizzesCheck }));
-        submitBtn.addEventListener('click', (event) => {
-            const { currentTarget } = event;
-            event.preventDefault();
-            navigateTo(currentTarget.href);
+        submitBtn.addEventListener('click', event => {
+            showModal(event);
         });
+
+        submitBtn.setAttribute('data-id', `quiz-${this.getParams}`);
 
         nextBtn.textContent = 'Next';
         prevBtn.textContent = 'Previous';

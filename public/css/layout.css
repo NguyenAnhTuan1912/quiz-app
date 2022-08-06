@@ -404,11 +404,18 @@
   max-width: 335px;
 }
 #root .result-page .redirect > a {
+  display: block;
   width: 100%;
   max-width: 335px;
 }
 #root .result-page .redirect > a:first-child {
   margin-bottom: 12px;
+}
+#root .result-page .redirect > a:last-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 #root .quiz-answer {
   display: flex;
@@ -490,8 +497,8 @@
   backdrop-filter: blur(8px);
 }
 #root #modal .modal-box {
-  position: relative;
-  width: 100%;
+  position: absolute;
+  width: calc(100% - 40px);
   max-width: 480px;
   min-height: 206px;
   background-color: white;
@@ -503,7 +510,7 @@
   content: "";
   position: absolute;
   width: 100%;
-  height: 42px;
+  height: 47px;
   border-bottom: 0.5px solid rgba(38, 38, 38, 0.2);
   background-color: transparent;
   top: 0;
@@ -514,7 +521,7 @@
   width: 100%;
   height: 24px;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 #root #modal .modal-box header .title {
   line-height: 1;
@@ -523,6 +530,7 @@
 #root #modal .modal-box .modal-quiz__info {
   width: 100%;
   height: fit-content;
+  margin-bottom: 30px;
 }
 #root #modal .modal-box .modal-quiz__info .quiz-info {
   display: flex;
@@ -532,7 +540,7 @@
 }
 #root #modal .modal-box .modal-quiz__info .info-description {
   height: fit-content;
-  min-height: 100px;
+  margin-top: 10px;
 }
 #root #modal .modal-box .button-box {
   width: 100%;

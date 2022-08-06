@@ -418,11 +418,16 @@
             max-width: 335px;
 
             &>a {
+                display: block;
                 width: 100%;
                 max-width: 335px;
                 
                 &:first-child {
                     margin-bottom: 12px;
+                }
+
+                &:last-child {
+                    @include flex-box(row, center, center);
                 }
             }
         }
@@ -509,8 +514,8 @@
         @include backdrop-blur(8px);
 
         .modal-box {
-            position: relative;
-            width: 100%;
+            position: absolute;
+            width: calc(100% - 40px);
             max-width: 480px;
             min-height: 206px;
             background-color: white;
@@ -522,7 +527,7 @@
                 content: '';
                 position: absolute;
                 width: 100%;
-                height: 42px;
+                height: 47px;
                 border-bottom: 0.5px solid rgba(38, 38, 38, 0.2);
                 background-color: transparent;
                 top: 0;
@@ -534,7 +539,7 @@
                 width: 100%;
                 height: 24px;
                 align-items: center;
-                margin-bottom: 16px;
+                margin-bottom: 20px;
 
                 .title {
                     line-height: 1;
@@ -545,6 +550,7 @@
             .modal-quiz__info {
                 width: 100%;
                 height: fit-content;
+                margin-bottom: 30px;
                 
                 .quiz-info {
                     @include flex-box(row, flex-start, center);
@@ -552,7 +558,7 @@
 
                 .info-description {
                     height: fit-content;
-                    min-height: 100px;
+                    margin-top: 10px;
                 }
             }
 

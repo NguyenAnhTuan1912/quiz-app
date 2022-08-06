@@ -164,7 +164,7 @@ class AnswerContent extends AbstractClass {
         if(choices.some(choice => choice.checked && choice.isAnswer)) state = true;
 
         questionAnswerContainer.insertAdjacentHTML('beforeend', `
-            <p class="ft-sz-14">Answer:</p>
+            <p class="ft-sz-14">Correct answer:</p>
             <p class="ft-sz-14 pd-8-12">${correctChoiceText}</p>
             <p class="ft-sz-14">Your answer:</p>
             <p class="ft-sz-14 pd-8-12 ${(state) ? 'correct-answer' : 'incorrect-answer'}">${userChoiceText}</p>

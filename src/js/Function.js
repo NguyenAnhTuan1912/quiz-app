@@ -131,9 +131,9 @@ function CountDown(minuteValue, secondValue) {
 
         this.run = () => {
             if(!isStart) {
-            this.startWatch();
+                this.startWatch();
             } else {
-            this.stopWatch();
+                this.stopWatch();
             }
         }
 
@@ -148,7 +148,7 @@ function CountDown(minuteValue, secondValue) {
             return isStop;
         }
     } catch(error) {
-    console.error(error);
+        console.error(error);
     }
 }
 
@@ -209,13 +209,61 @@ function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function turnOnModal(modalBox) {
-    modalBox.classList.remove('hide');
+function turnOnModal(modalContainer, messageBox) {
+    modalContainer.classList.remove('hide');
+    messageBox.classList.remove('hide');
 }
 
-function turnOffModal(modalBox) {
-    modalBox.classList.add('hide');
+function turnOffModal(modalContainer, messageBox) {
+    modalContainer.classList.add('hide');
+    messageBox.classList.add('hide');
 }
+
+function showConfirmBox(modalContainer, currentTarget, data) {
+    const {amount, time, name} = data,
+    [ minute, second ] = time.split(':'),
+    messageBox = modalContainer.querySelector('#confirm'),
+    quizNameP = modalContainer.querySelector('#js-quizName'),
+    timeP = modalContainer.querySelector('#js-modalInfoTime'),
+    amountP = modalContainer.querySelector('#js-modalInfoAmount'),
+    acceptBtn = modalContainer.querySelector('#js-acceptBtn');
+    turnOnModal(modalContainer, messageBox);
+    quizNameP.textContent = name;
+    timeP.textContent = `${(minute == '0') ? `${second} second` : `${minute}min${second}s`}`;
+    amountP.textContent = `${amount} Questions.`;
+    acceptBtn.href = `/quiz/${currentTarget.getAttribute('data-id')[currentTarget.getAttribute('data-id').length - 1]}`;
+
+}
+
+function showNoteBox(modalContainer, currentTarget, data) {
+    const messageBox = modalContainer.querySelector('#note'),
+    handInBtn = modalContainer.querySelector('#js-handInBtn');
+    handInBtn.href = `/result/${currentTarget.getAttribute('data-id')[currentTarget.getAttribute('data-id').length - 1]}`;
+    turnOnModal(modalContainer, messageBox);
+}
+
+const showModal = (function() {
+    return function showModal(event, data) {
+        const { currentTarget } = event,
+        typeOfBox = currentTarget.getAttribute(['data-message-box']),
+        modalContainer = document.getElementById('modal');
+        if((/confirm/gi).test(typeOfBox)) {
+            showConfirmBox(modalContainer, currentTarget, data);
+        }
+        if((/note/gi).test(typeOfBox)) {
+            showNoteBox(modalContainer, currentTarget);
+        }
+    }
+})();
+
+const hideModal = (function() {
+    return function hideModal(event) {
+        const { currentTarget } = event,
+        modalContainer = document.getElementById('modal'),
+        messageBox = getParentElement(getParentElement(currentTarget));
+        turnOffModal(modalContainer, messageBox);
+    }
+})();
 
 export {
     createElement,
@@ -227,6 +275,8 @@ export {
     getRandomNumber,
     turnOffModal,
     turnOnModal,
+    showModal,
+    hideModal,
     CountDown,
     Counter,
     QuizzesCheck,
