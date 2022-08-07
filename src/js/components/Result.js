@@ -64,11 +64,11 @@ class Point extends AbstractClass {
         const { amount, name } = this.getData;
         this.#dom.insertAdjacentHTML('beforeend', `
             <div class="point-box">
-                <h2 class="point-box__title">CONGRATULATION!</h2>
-                <h1 class="fw-light ft-sz-20" js="js-point">${this.calcPoint()}</h1>
+                <h2 class="point-box__title tc-white">CONGRATULATION!</h2>
+                <h1 class="fw-light ft-sz-20 tc-white" js="js-point">${this.calcPoint()}</h1>
                 <hr>
-                <h1 class="fw-black ft-sz-20">${amount}</h1>
-                <p class="point-box__message">You are in: <span class="fw-black" id="js-resultQuizName">${name}</span></p>
+                <h1 class="fw-black ft-sz-20 tc-white">${amount}</h1>
+                <p class="point-box__message tc-white">You are in: <span class="fw-black" id="js-resultQuizName">${name}</span></p>
             </div>
         `);
     }
@@ -95,15 +95,15 @@ class Redirect extends AbstractClass {
         const
         reviewQuizBtn = createElement({
             'type': 'a',
-            'classNames': 'btn btn-primary-blue btn-rounded-5px ft-sz-13'
+            'classNames': 'btn btn-primary btn-rounded-5px ft-sz-13'
         }),
         goHomeBtn = createElement({
             'type': 'a',
-            'classNames': 'btn btn-transparent fw-black tc-quiz-darker-blue ft-sz-13'
+            'classNames': 'btn btn-transparent tc-white ft-sz-13'
         });
 
         reviewQuizBtn.insertAdjacentHTML('beforeend', '<span>View answer</span>');
-        goHomeBtn.insertAdjacentHTML('beforeend', '<span class="material-symbols-outlined ft-sz-15 fw-black">arrow_back</span>Back to home');
+        goHomeBtn.insertAdjacentHTML('beforeend', '<span class="material-symbols-outlined ft-sz-15">arrow_back</span>Back to home');
 
         reviewQuizBtn.href = '/quiz-answer/quiz-' + this.getParams;
         goHomeBtn.href = '/';

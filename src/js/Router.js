@@ -3,6 +3,7 @@ import Quiz from "./components/Quiz.js";
 import Result from "./components/Result.js";
 import Answer from './components/Answer.js';
 import quizzes from "../fakedata/quizzes.json" assert {type: 'json'};
+import QuizSection from './components/QuizSection.js';
 
 const Quizzes = { ...quizzes };
 
@@ -58,6 +59,23 @@ function getParams(match = {}) {
     }
 }
 
+const dot = document.getElementsByClassName('backdrop__dot'),
+dotLength = dot.length;
+
+function canSeeDot(...indexes) {
+    let j = 0;
+    for(let i = 0; i < dotLength; i++) {
+        if(indexes[j] === i) {
+            dot[i].classList.remove('hide');
+            j += 1;
+        } else dot[i].classList.add('hide');
+    }
+}
+
+// indexes.forEach(index => {
+//     dot[index].classList.remove('hide');
+// });
+
 async function router() {
     const content = document.getElementById('content');
     const routes = [
@@ -67,7 +85,7 @@ async function router() {
         },
         {
             path: '/quiz',
-            view: Quiz
+            view: QuizSection
         },
         {
             path: '/quiz/:id',
@@ -104,6 +122,10 @@ async function router() {
 
     let data, { id } = getParams(match) || '';
     if(match.route.view === Home) {
+        canSeeDot(0);
+    }
+    if(match.route.view === QuizSection) {
+        canSeeDot(1, 2);
         data = getHomeQuizBoxData(Quizzes);
         const keys = Object.keys(Quizzes);
         keys.forEach(key => {
@@ -111,27 +133,31 @@ async function router() {
         });
     };
     if(match.route.view === Quiz) {
+        canSeeDot(1, 2);
         data = getSpecificQuizData(id, Quizzes);
         // Quizzes[`quiz-${id}`].isPending = false;
     };
     if(match.route.view === Result) {
+        canSeeDot(3, 4);
         id = id[id.length - 1];
         data = getAllQuizzesData(Quizzes);
         Quizzes['quiz-' + id].isPending = false;
     }
     if(match.route.view === Answer) {
+        canSeeDot(5);
         id = id[id.length - 1];
         data = getSpecificQuizData(id, Quizzes);
     }
 
     content.innerHTML = '';
-    const view = new match.route.view(id, data);
+    let view = new match.route.view(id, data);
 
     
     // console.log(quizzes);
     // console.log(view.getData);
     // content.insertAdjacentHTML('beforeend', `${await view.render()}`);
     content.appendChild(await view.render());
+    view = null;
 }
 
 function navigateTo(url) {

@@ -88,7 +88,7 @@ export default class extends AbstractClass {
                 <div class="modal-quiz__info mg-bt-6">
                     <p class="ft-sz-18 fw-semi-bold mg-bt-3" id="js-quizName">Are you sure?</p>
                     <p class="info-description ft-sz-14">
-                    Let check you answers and make sure it’s your best answers. After rechecking, press(or click) the “Hand in” button below to hand in your answers.
+                        Let check you answers and make sure it's your best answers. After rechecking, press(or click) the “Hand in” button below to hand in your answers.
                     </p>
                 </div>
             `;
@@ -100,7 +100,7 @@ export default class extends AbstractClass {
                 createElement({
                     'type': 'a',
                     'classNames': 'btn btn-primary-yellow btn-rounded-5px ft-sz-13',
-                    'id': 'js-handInBtn'
+                    'id': 'js-noteBoxHandInBtn'
                 })
             );
 
@@ -110,6 +110,38 @@ export default class extends AbstractClass {
             this.#buttons[1].href = '/';
             this.#buttons[0].addEventListener('click', hideModal);
             this.#buttons[1].addEventListener('click', event => {
+                linkClickHandler(event);
+                const modal = getParentElement(this.#dom),
+                messageBox = modal.querySelector('#note');
+                turnOffModal(modal, messageBox);
+            });
+
+            buttonBox.append(...this.#buttons);
+        }
+        if((/warning/gi).test(this.getData)) {
+            htmls = `
+                <header>
+                    <span class="title tc-quiz-darker-red ft-sz-18 fw-semi-bold">Warning</span>
+                </header>
+                <div class="modal-quiz__info mg-bt-6">
+                    <p class="ft-sz-18 fw-semi-bold mg-bt-3" id="js-quizName">Time out!</p>
+                    <p class="info-description ft-sz-14">
+                        Sorry :(, the timer said that it's counter was completely it's work and you weren't hand in your answers. Please top and hand in now.
+                    </p>
+                </div>
+            `;
+            this.#buttons.push(
+                createElement({
+                    'type': 'a',
+                    'classNames': 'btn btn-primary-red btn-rounded-5px ft-sz-13',
+                    'id': 'js-warningBoxHandInBtn'
+                })
+            );
+
+            this.#buttons[0].textContent = 'Hand in!';
+
+            this.#buttons[0].href = '/';
+            this.#buttons[0].addEventListener('click', event => {
                 linkClickHandler(event);
                 const modal = getParentElement(this.#dom),
                 messageBox = modal.querySelector('#note');

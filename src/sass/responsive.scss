@@ -123,8 +123,8 @@
 
 @media only screen and (min-width: 480px) {
     #root {
-        .home-page {
-            .home-page__banner {
+        .quiz-section {
+            .quiz-section__banner {
                 padding-left: 40px;
                 padding-right: 40px;
                 justify-content: space-between;
@@ -143,12 +143,49 @@
 
 
 @media only screen and (min-width: 730px) {
+    .backdrop {    
+        .backdrop__dot {
+            top: 64%;
+            left: 50%;
+    
+            &:nth-child(2) {
+                width: 62px;
+                top: 37%;
+                left: 3%;
+            }
+    
+            &:nth-child(3) {
+                width: 82px;
+                top: 50%;
+                left: 80%;
+            }
+    
+            &:nth-child(4) {
+                width: 165px;
+                top: 73%;
+                left: 70%;
+            }
+    
+            &:nth-child(5) {
+                width: 165px;
+                top: 15%;
+                left: -6%;
+            }
+    
+            &:last-child {
+                width: 112px;
+                top: 10%;
+                left: 72%;
+            }
+        }
+    }
+
     #root {
         .btn-question-index {
             height: 12px;
             border-radius: 5px;
         }
-        .home-page {
+        .quiz-section {
             .quizzes {
                 grid-template-columns: repeat(auto-fit, calc(50% - 10px));
                 gap: 20px;
@@ -159,6 +196,39 @@
 
                 .quiz {
                     margin: 0;
+                }
+            }
+        }
+
+        #content {
+            @include flex-box(row, center, center);
+        }
+
+        .home-page {
+            .home-content {
+                h1 {
+                    width: 480px;
+                    font-size: 8rem;
+                    line-height: 70px;
+                    margin-bottom: 17px;
+                }
+    
+                p:first-of-type {
+                    width: 335px;
+                    margin-bottom: 17px;
+                }
+    
+                a {
+                    margin-bottom: 2px;
+                }
+    
+                p:last-of-type {
+                    margin-bottom: 17px;
+                }
+            }
+            .home-button {
+                a {
+                    width: 150px;
                 }
             }
         }
@@ -263,9 +333,48 @@
 
 @media only screen and (min-width: 1280px) {
     #root {
-        .home-page {
+        .quiz-section {
             .quizzes {
                     padding: 0 20px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 730px) {
+    .backdrop {    
+        .backdrop__dot {
+            top: 64%;
+            left: 50%;
+    
+            &:nth-child(2) {
+                width: 62px;
+                top: 37%;
+                left: 3%;
+            }
+    
+            &:nth-child(3) {
+                width: 82px;
+                top: 50%;
+                left: 80%;
+            }
+    
+            &:nth-child(4) {
+                width: 165px;
+                top: 73%;
+                left: 70%;
+            }
+    
+            &:nth-child(5) {
+                width: 165px;
+                top: 15%;
+                left: -6%;
+            }
+    
+            &:last-child {
+                width: 112px;
+                top: 10%;
+                left: 72%;
             }
         }
     }

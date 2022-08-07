@@ -112,12 +112,12 @@ function choiceCollectionState() {
         let count = 0;
         inputs.forEach(input => {
             if(input === i) {
-                getParentElement(input).style.backgroundColor = '#228B22';
+                getParentElement(input).style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
                 getParentElement(input).style.color = 'white';
                 refData.checked = i.checked;
             }
             else {
-                getParentElement(input).style.backgroundColor = 'transparent';
+                getParentElement(input).style.backgroundColor = '#FFF';
                 getParentElement(input).style.color = '#262626';
                 data[count].checked = false;
                 input.checked = false;
@@ -133,7 +133,7 @@ function choiceCollectionState() {
     this.changeWhenFalse = () => {
         let count = 0;
         inputs.forEach(input => {
-            getParentElement(input).style.backgroundColor = 'transparent';
+            getParentElement(input).style.backgroundColor = '#FFF';
             getParentElement(input).style.color = '#262626';
             input.checked = false;
             data[count].checked = false;
@@ -167,8 +167,8 @@ function indexBtnState(buttons, index, data) {
     // }
     let i = 0;
     buttons.forEach(button => {
-        if(button === buttons[index]) button.style.backgroundColor = '#6495ED';
-        else if(data[i].choices.some(choice => choice.checked)) button.style.backgroundColor = '#262626';
+        if(button === buttons[index]) button.style.backgroundColor = '#fff';
+        else if(data[i].choices.some(choice => choice.checked)) button.style.backgroundColor = 'rgba(255, 255, 255, 0.65)';
         else button.style.backgroundColor = 'transparent';
         i++;
     });
@@ -176,6 +176,7 @@ function indexBtnState(buttons, index, data) {
 
 export default class extends AbstractClass {
     #dom;
+    #watch;
     #indexQuestion;
 
     constructor(params, data) {
@@ -188,8 +189,10 @@ export default class extends AbstractClass {
             'classNames': 'quiz-page'
         });
         this.#indexQuestion = 0;
+        const [ minute, second ] = this.getData.time.split(':');
+        this.#watch = new CountDown(parseInt(minute), parseInt(second));
         this.initDom();
-        this.initTime();
+        this.initTime(this.#watch);
         this.getData.isPending = true; 
     }
 
@@ -207,13 +210,15 @@ export default class extends AbstractClass {
         }
     }
 
-    initTime() {
-        const [ minute, second ] = this.getData.time.split(':'),
-        qCountDown = new CountDown(parseInt(minute), parseInt(second)),
-        minuteField = this.#dom.querySelector('#js-minuteField'),
+    initTime(countDownHandler) {
+        const minuteField = this.#dom.querySelector('#js-minuteField'),
         secondField = this.#dom.querySelector('#js-secondField');
-        qCountDown.setCountDownField(minuteField, secondField);
-        qCountDown.run();
+        countDownHandler.setCountDownField(minuteField, secondField);
+        countDownHandler.run();
+    }
+
+    stopTime(countDownHandler) {
+        countDownHandler.stopWatch();
     }
 
     getCheckedQuestion() {
@@ -250,12 +255,12 @@ export default class extends AbstractClass {
         }),
         prevBtn = createElement({
             'type': 'button',
-            'classNames': 'btn btn-primary-black btn-rounded-5px prev',
+            'classNames': 'btn btn-primary btn-rounded-5px prev',
             'id': 'js-prevBtn'
         }),
         nextBtn = createElement({
             'type': 'button',
-            'classNames': 'btn btn-primary-black btn-rounded-5px next',
+            'classNames': 'btn btn-primary btn-rounded-5px next',
             'id': 'js-nextBtn'
         }),
         submitBtn = createElement({
@@ -274,6 +279,7 @@ export default class extends AbstractClass {
             { counter: counter, quizzesCheck: quizzesCheck }));
         submitBtn.addEventListener('click', event => {
             showModal(event);
+            this.stopTime(this.#watch);
         });
 
         submitBtn.setAttribute('data-id', `quiz-${this.getParams}`);
@@ -328,7 +334,7 @@ class QuizQuestions extends AbstractClass {
         this.#dom.insertAdjacentHTML('beforeend', `
             <div class="question-slider"><div class="slider" id="js-questionSlider">
                 <div class="question-page">
-                    <p class="question-page__text">${text}</p>
+                    <p class="question-page__text tc-white">${text}</p>
                 </div>
             </div></div>
             <div class="page__dot"><button class="btn btn-dot"></button></div>
@@ -450,8 +456,8 @@ class QuizIndex extends AbstractClass {
                 'classNames': 'btn btn-question-index'
             });
             
-            if(i === 0) index.style.backgroundColor = '#6495ED';
-            else if(questions[i].choices.some(choice => choice.checked)) index.style.backgroundColor = '#262626';
+            if(i === 0) index.style.backgroundColor = '#FFF';
+            else if(questions[i].choices.some(choice => choice.checked)) index.style.backgroundColor = '#fff';
             index.addEventListener('click', (event) => currentQuestion(event,
                 { questions: questions, amoun: amount},
                 this.#objContructors.counter.setNumber(i),
@@ -484,11 +490,11 @@ class CounterQuestion extends AbstractClass {
     initDom() {
         const current = createElement({
             'type': 'span',
-            'classNames': 'question-counter__index',
+            'classNames': 'question-counter__index tc-white',
             'id': 'js-questionCounter'
         }), total = createElement({
             'type': 'span',
-            'classNames': 'question-counter__total'
+            'classNames': 'question-counter__total tc-white'
         });
 
         current.textContent = '1';
@@ -521,14 +527,16 @@ class Timer extends AbstractClass {
     initDom() {
         const timeText = createElement({
             'type': 'span',
-            'classNames': 'question-timer__time',
+            'classNames': 'question-timer__time tc-white'
         }),
         minuteField = createElement({
             'type': 'span',
+            'classNames': 'tc-white',
             'id': 'js-minuteField'
         }),
         secondField = createElement({
             'type': 'span',
+            'classNames': 'tc-white',
             'id': 'js-secondField'
         }),
         [minute, second] = this.getData.split(':');

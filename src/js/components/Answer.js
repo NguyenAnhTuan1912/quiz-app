@@ -1,6 +1,9 @@
 import { 
     createElement
 } from "../Function.js";
+import {
+    navigateTo
+} from "../Router"
 import AbstractClass from "./AbstractClass.js";
 
 export default class extends AbstractClass {
@@ -26,11 +29,27 @@ export default class extends AbstractClass {
         answerSection = createElement({
             'type': 'div',
             'classNames': 'quiz-answers__section'
+        }),
+        answerButtonBox = createElement({
+            'type': 'div',
+            'classNames': 'quiz-answers-button'
+        }),
+        backBtn = createElement({
+            'type': 'a',
+            'classNames': 'btn btn-primary btn-rounded-5px ft-sz-13 tc-white'
         });
 
+        backBtn.href = '/result/quiz-' + this.getParams;
+        backBtn.addEventListener('click', (event) => {
+            const { currentTarget } = event;
+            event.preventDefault();
+            navigateTo(currentTarget.href)
+        });
+        backBtn.insertAdjacentHTML('beforeend', '<span class="material-symbols-outlined ft-sz-15 tc-white">arrow_back</span>Back to view score');
+
         header.insertAdjacentHTML('beforeend', `
-            <p class="text-subtitle tc-quiz-blue">View score and answers</p>
-            <h1 class="text-title">${name}</h1>
+            <p class="text-subtitle tc-white">View your answers and our answers.</p>
+            <h1 class="text-title tc-white">${name}</h1>
         `);
         
         for(let i = 0; i < amount; i++) {
@@ -38,9 +57,12 @@ export default class extends AbstractClass {
             answerSection.append(answers.render());
         }
 
+        answerButtonBox.append(backBtn);
+
         this.#dom.append(
             header,
-            answerSection
+            answerSection,
+            answerButtonBox
         );
     }
 
@@ -158,7 +180,7 @@ class AnswerContent extends AbstractClass {
         `);
 
         const correctChoiceText = choices.find(choice => choice.isAnswer).data,
-        userChoiceText = choices.find(choice => choice.checked).data;
+        userChoiceText = choices.find(choice => choice.checked);
         
         let state = false;
         if(choices.some(choice => choice.checked && choice.isAnswer)) state = true;
@@ -167,7 +189,7 @@ class AnswerContent extends AbstractClass {
             <p class="ft-sz-14">Correct answer:</p>
             <p class="ft-sz-14 pd-8-12">${correctChoiceText}</p>
             <p class="ft-sz-14">Your answer:</p>
-            <p class="ft-sz-14 pd-8-12 ${(state) ? 'correct-answer' : 'incorrect-answer'}">${userChoiceText}</p>
+            <p class="ft-sz-14 pd-8-12 ${(state) ? 'correct-answer' : 'incorrect-answer'}">${(userChoiceText) ? userChoiceText.data : 'You skipped this question.'}</p>
         `);
 
         this.#dom.append(

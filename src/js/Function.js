@@ -83,9 +83,13 @@ function CountDown(minuteValue, secondValue) {
     try {
         if(!(/^\d{1,2}$/.test(minuteValue) && (typeof minuteValue === 'number'))) throw 'TypeError: Minute must be a number and has 1 or 2 digit(s)';
         if(!(/^\d{1,2}$/.test(secondValue) && (typeof secondValue === 'number'))) throw 'TypeError: Second must be a number and has 1 or 2 digit(s)';
-        let watch, remain, isStart = false, isStop = false,
+        let watch, isStart = false, isStop = false,
         minute = minuteValue, second = secondValue;
-        
+        const modalContainer = document.getElementById('modal'),
+        handInWarningMessageBox  = document.getElementById('warning'),
+        warningBoxHandInBtn = handInWarningMessageBox.querySelector('#js-warningBoxHandInBtn');
+        warningBoxHandInBtn.href = '/result/quiz-' + location.pathname.match(/\d+$/).join();
+
         let minuteField = undefined,
         secondField = undefined;
 
@@ -108,6 +112,7 @@ function CountDown(minuteValue, secondValue) {
                     if(minute <= 0) {
                         second = 0;
                         this.stopWatch();
+                        turnOnModal(modalContainer, handInWarningMessageBox);
                     } else minute -= 1;
                     } else second -= 1;
                     minuteField.textContent = this.timeFormat(minute);
@@ -175,10 +180,10 @@ function QuizzesCheck() {
     this.toggleSubmit = () => {
         if(this.canSubmit()) {
             refSubmitBtn.classList.remove('btn-disabled');
-            refSubmitBtn.classList.add('btn-primary-black');
+            refSubmitBtn.classList.add('btn-primary');
             refSubmitBtn.disabled = false;
         } else {
-            refSubmitBtn.classList.remove('btn-primary-black');
+            refSubmitBtn.classList.remove('btn-primary');
             refSubmitBtn.classList.add('btn-disabled');
             refSubmitBtn.disabled = true;
         }
@@ -237,7 +242,7 @@ function showConfirmBox(modalContainer, currentTarget, data) {
 
 function showNoteBox(modalContainer, currentTarget, data) {
     const messageBox = modalContainer.querySelector('#note'),
-    handInBtn = modalContainer.querySelector('#js-handInBtn');
+    handInBtn = modalContainer.querySelector('#js-noteBoxHandInBtn');
     handInBtn.href = `/result/${currentTarget.getAttribute('data-id')[currentTarget.getAttribute('data-id').length - 1]}`;
     turnOnModal(modalContainer, messageBox);
 }

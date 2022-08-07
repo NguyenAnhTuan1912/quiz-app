@@ -6,32 +6,78 @@
     display: none !important;
 }
 
+.backdrop {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    top: 0;
+    left: 0;
+    @include backdrop-blur(8px);
+
+    .backdrop__dot {
+        position: absolute;
+        width: 232px;
+        aspect-ratio: 1 / 1;
+        background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+        filter: blur(12px);
+        border-radius: 50%;
+        top: 64%;
+        left: 34%;
+
+        &:nth-child(2) {
+            width: 62px;
+            top: 37%;
+            left: 3%;
+        }
+
+        &:nth-child(3) {
+            width: 82px;
+            top: 50%;
+            left: 70%;
+        }
+
+        &:nth-child(4) {
+            width: 165px;
+            top: 73%;
+            left: 70%;
+        }
+
+        &:nth-child(5) {
+            width: 165px;
+            top: 15%;
+            left: -6%;
+        }
+
+        &:last-child {
+            width: 112px;
+            top: 14%;
+            left: 62%;
+        }
+    }
+}
+
 #root {
+    position: relative;
     @include width-height(100%, fit-content);
-    min-height: 100vh;
+    min-height: calc(100vh - 77px);
     margin: 0 auto;
+    z-index: 3;
 
     &>header {
-        position: relative;
+        position: fixed;
         display: grid;
         grid-template-columns: 4fr 1fr;
         grid-template-areas: 'backbtn-title submitbtn';
         align-items: center;
         width: 100%;
         height: fit-content;
-        margin-bottom: 12px;
-        padding: 16px;
+        padding: 16px 20px;
         text-align: center;
-        box-shadow: $box-shadow1;
-
-        &:after {
-            content: '';
-            position: absolute;
-            width: 120px;
-            height: 24px;
-            background-color: white;
-            right: -100px;
-        }
+        background-color: rgba(89, 134, 215, 0.9);
+        top: 0;
+        @include backdrop-blur(12px);
 
         .header-back {
             @include flex-box(row, flex-start, center);
@@ -50,6 +96,8 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            line-height: 24px;
+            @include text-seclection(none);
         }
         
         button {
@@ -61,10 +109,6 @@
             @include flex-box(row, center, center);
             grid-column: 3 / 3;
             @include ease-transition;
-            
-            &.move-x {
-                @include translate(translateX(calc(100% - 24px)));
-            }
 
             span {
                 cursor: pointer;
@@ -82,21 +126,58 @@
                     padding: 4px;
     
                     &:hover, &:active {
-                        border-bottom: 2px solid #262626;
+                        border-bottom: 2px solid white;
                     }
                 }
             }
         }
     }
 
+    #content {
+        min-height: calc(100vh - 77px);
+    }
+
     .home-page {
+        width: 100%;
+        max-width: 1280px;
+        height: fit-content;
+        margin: 0 auto;
+        padding: 20px;
+
+        .home-content {
+            h1 {
+                width: 136px;
+                font-size: 4.8rem;
+                line-height: 40px;
+                margin-bottom: 17px;
+            }
+
+            p:first-of-type {
+                margin-bottom: 17px;
+            }
+
+            a {
+                margin-bottom: 2px;
+            }
+
+            p:last-of-type {
+                margin-bottom: 17px;
+            }
+        }
+        .home-button {
+            a {
+                width: 150px;
+            }
+        }
+    }
+
+    .quiz-section {
         width: 100%;
         height: fit-content;
         min-height: 100%;
-        margin-top: 20px;
-        padding: 0 20px;
+        padding: 0 20px 20px 20px;
     
-        .home-page__banner {
+        .quiz-section__banner {
             @include flex-box(row, flex-start, center);
             width: 100%;
             max-width: 1240px;
@@ -104,9 +185,7 @@
             margin: 0 auto;
             padding: 18px;
             border-radius: 10px;
-            box-shadow: $box-shadow2;
-
-            background: linear-gradient(to right, rgb(40, 119, 250), rgb(103, 23, 205));
+            background-color: rgba(255, 255, 255, .2);
 
             .banner-image {
                 width: 50%;
@@ -128,7 +207,7 @@
                 }
 
                 .btn-banner {
-                    width: fit-content;
+                    width: 91px;
                     padding-left: 12px;
                     padding-right: 12px;
                     margin-top: 12px;
@@ -183,7 +262,7 @@
                 margin: 12px 0;
                 outline: none;
                 border: none;
-                background-color: transparent;
+                background-color: rgba(255, 255, 255, .2);
                 border-radius: 10px;
                 text-align: left;
 
@@ -199,12 +278,12 @@
             .quiz {
                 @include flex-box(row, space-between, center);
                 cursor: pointer;
-                color: #262626;
+                color: white;
                 width: 100%;
                 height: 80px;
                 padding: 18px;
                 border-radius: 10px;
-                box-shadow: $box-shadow2;
+                border: 1px solid #fff;
 
                 &:first-child {
                     margin-top: 0;
@@ -217,7 +296,7 @@
                 .quiz-image {
                     width: 45px;
                     aspect-ratio: 1 / 1;
-                    box-shadow: $box-shadow2;
+                    border: 1px solid #fff;
                 }
     
                 .quiz-text {
@@ -244,10 +323,9 @@
     .quiz-page {
         @include flex-box(column, space-between, center);
         width: 100%;
-        height: calc(100vh - 68px);
+        height: calc(100vh - 77px);
 
         hr {
-            width: 335px;
             margin: 5px 0 12px 0;
         }
 
@@ -385,7 +463,7 @@
         width: 100%;
         max-width: 335px;
         height: calc(100vh - 96px);
-        margin: 20px auto 20px auto;
+        margin: 0 auto 20px auto;
 
         .point-box {
             text-align: center;
@@ -396,7 +474,7 @@
             hr {
                 width: 50px;
                 height: 2px;
-                background-color: #262626;
+                background-color: white;
                 margin: 10px auto;
             }
 
@@ -438,7 +516,7 @@
         width: 100%;
         height: fit-content;
         min-height: 100%;
-        margin-top: 20px;
+        margin-bottom: 20px;
         padding: 0 20px;
 
         .title {
@@ -463,10 +541,10 @@
                 @include flex-box(column, flex-start, flex-start);
                 width: 100%;
                 height: fit-content;
-                box-shadow: $box-shadow2;
                 margin-bottom: 20px;
                 padding: 10px;
-                border-radius: 5px;
+                border-radius: 10px;
+                background-color: white;
 
                 .question-head {
                     @include flex-box(row, space-between, center);
@@ -498,6 +576,13 @@
                 }
             }
         }
+
+        .quiz-answers-button {
+            &>a {
+                @include text-seclection(none);
+                @include flex-box(row, center, center);
+            }
+        }
     }
 
     #modal {
@@ -517,11 +602,16 @@
             position: absolute;
             width: calc(100% - 40px);
             max-width: 480px;
-            min-height: 206px;
+            height: fit-content;
             background-color: white;
             padding: 12px;
             border-radius: 10px;
             box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+            &:last-child {
+                .button-box {
+                    justify-content: flex-end;
+                }
+            }
 
             &:after {
                 content: '';
@@ -567,6 +657,7 @@
                 @include flex-box(row, space-between, center);
 
                 &>a, &>button {
+                    @include text-seclection(none);
                     width: 40%;
                 }
 
