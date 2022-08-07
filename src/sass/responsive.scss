@@ -145,37 +145,40 @@
 @media only screen and (min-width: 730px) {
     .backdrop {    
         .backdrop__dot {
-            top: 64%;
-            left: 50%;
+            &:nth-child(1) {
+                width: 278px;
+                top: 55%;
+                left: 50%;
+            }
     
             &:nth-child(2) {
-                width: 62px;
-                top: 37%;
-                left: 3%;
+                width: 78px;
+                top: 48%;
+                left: 0%;
             }
     
             &:nth-child(3) {
-                width: 82px;
-                top: 50%;
-                left: 80%;
+                width: 92px;
+                top: 60%;
+                right: 0%;
             }
     
             &:nth-child(4) {
                 width: 165px;
                 top: 73%;
-                left: 70%;
+                right: calc((100vw - 335px) / 2 - 82.5px);
             }
     
             &:nth-child(5) {
                 width: 165px;
                 top: 15%;
-                left: -6%;
+                left: calc((100vw - 335px) / 2 - 82.5px);
             }
-    
+
             &:last-child {
-                width: 112px;
+                width: 160px;
                 top: 10%;
-                left: 72%;
+                right: calc((100vw - 730px) / 2 + 50px);
             }
         }
     }
@@ -210,25 +213,27 @@
                     width: 480px;
                     font-size: 8rem;
                     line-height: 70px;
-                    margin-bottom: 17px;
                 }
     
                 p:first-of-type {
                     width: 335px;
-                    margin-bottom: 17px;
+                    margin-bottom: 17px; 
+                    font-size: 1.6rem;
                 }
     
                 a {
-                    margin-bottom: 2px;
+                    margin-bottom: 2px ;
+                    font-size: 1.6rem;
                 }
     
                 p:last-of-type {
-                    margin-bottom: 17px;
+                    margin-bottom: 17px; 
+                    font-size: 1.6rem;
                 }
             }
             .home-button {
                 a {
-                    width: 150px;
+                    width: 235px;
                 }
             }
         }
@@ -332,6 +337,40 @@
 }
 
 @media only screen and (min-width: 1280px) {
+    .backdrop {    
+        .backdrop__dot {
+            &:nth-child(1) {
+                width: 350px;
+                top: 47%;
+                left: 60%;
+            }
+
+            &:nth-child(2) {
+                width: 78px;
+                top: 48%;
+                left: calc((100vw - 1280px) / 2);
+            }
+    
+            &:nth-child(3) {
+                width: 92px;
+                top: 60%;
+                right: calc((100vw - 1280px) / 2);
+            }
+    
+            &:nth-child(4) {
+                width: 165px;
+                top: 73%;
+                right: calc((100vw - 1280px) / 2 - 82.5px);
+            }
+    
+            &:nth-child(5) {
+                width: 165px;
+                top: 15%;
+                left: calc((100vw - 1280px) / 2 - 82.5px);
+            }
+        }
+    }
+
     #root {
         .quiz-section {
             .quizzes {
@@ -341,41 +380,6 @@
     }
 }
 
-@media only screen and (min-width: 730px) {
-    .backdrop {    
-        .backdrop__dot {
-            top: 64%;
-            left: 50%;
+@media only screen and (min-width: 1280px) {
     
-            &:nth-child(2) {
-                width: 62px;
-                top: 37%;
-                left: 3%;
-            }
-    
-            &:nth-child(3) {
-                width: 82px;
-                top: 50%;
-                left: 80%;
-            }
-    
-            &:nth-child(4) {
-                width: 165px;
-                top: 73%;
-                left: 70%;
-            }
-    
-            &:nth-child(5) {
-                width: 165px;
-                top: 15%;
-                left: -6%;
-            }
-    
-            &:last-child {
-                width: 112px;
-                top: 10%;
-                left: 72%;
-            }
-        }
-    }
 }

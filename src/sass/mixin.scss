@@ -34,12 +34,12 @@
     text-overflow: ellipsis;
 }
 
-@mixin translate($value) {
-    transform: $value;
-    -webkit-transform: $value;
-    -moz-transform: $value;
-    -ms-transform: $value;
-    -o-transform: $value;
+@mixin translate($x, $y) {
+    transform: translate($x, $y);
+    -webkit-transform: translate($x, $y);
+    -moz-transform: translate($x, $y);
+    -ms-transform: translate($x, $y);
+    -o-transform: translate($x, $y);
 }
 
 @mixin ease-transition {
