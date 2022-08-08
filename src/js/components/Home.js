@@ -1,22 +1,24 @@
 import { 
     createElement
-} from "../Function.js";
+} from "../function.js";
 import {
     navigateTo
-} from "../Router.js"
+} from "../router.js"
 import AbstractClass from "./AbstractClass.js";
 
 export default class extends AbstractClass {
-    #dom;
-
-    constructor(params, data) {
-        super(params, data);
-        this.setTitle('Welcome!');
-        document.querySelector('header .title').textContent = 'Home';
-        this.#dom = createElement({
+    constructor(params) {
+        super(params);
+        let _dom = createElement({
             'type': 'div',
             'classNames': 'home-page'
         });
+
+        this.getDom = () => _dom;
+        this.setDom = (dom) => { _dom = dom };
+
+        this.setTitle('Welcome!');
+        document.querySelector('header .title').textContent = 'Home';
         this.initDom();
     }
 
@@ -48,13 +50,13 @@ export default class extends AbstractClass {
             <p class="tc-darker-white ft-sz-14">*Quiz app's source <a href="https://github.com/NguyenAnhTuan1912/quiz-app" class="tc-darker-white ft-sz-14" style="display: inline" target="_blank">in here</a></p>
         `);
         buttonContainer.append(navigateToQuizPageBtn);
-        this.#dom.append(
+        this.getDom().append(
             contentContainer,
             buttonContainer
         );
     }
 
     async render(isNode = true) {
-        return (isNode) ? this.#dom : this.#dom.outerHTML;
+        return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }

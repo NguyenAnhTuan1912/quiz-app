@@ -7,10 +7,10 @@ import {
     Counter,
     QuizzesCheck,
     showModal,
-} from "../Function.js";
+} from "../function.js";
 import {
     navigateTo
-} from "../Router.js";
+} from "../router.js";
 
 
 const currentQuestion = (function() {

@@ -3,10 +3,10 @@ import {
     getParentElement,
     hideModal,
     turnOffModal
-} from "../Function.js";
+} from "../function.js";
 import {
     navigateTo
-} from "../Router.js"
+} from "../router.js"
 import AbstractClass from "./AbstractClass.js";
 
 export default class extends AbstractClass {

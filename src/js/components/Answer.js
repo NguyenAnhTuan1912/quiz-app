@@ -1,27 +1,33 @@
 import { 
     createElement
-} from "../Function.js";
+} from "../function.js";
 import {
     navigateTo
-} from "../Router"
+} from "../router"
 import AbstractClass from "./AbstractClass.js";
 
 export default class extends AbstractClass {
-    #dom;
-
     constructor(params, data) {
-        super(params, data);
-        this.setTitle('Answer');
-        document.querySelector('header .title').textContent = `View answer`;
-        this.#dom = createElement({
+        super(params);
+        let _dom = createElement({
             'type': 'div',
             'classNames': 'quiz-answer'
-        });
+        }),
+        _data = data;
+
+        this.getDom = () => _dom;
+        this.setDom = (dom) => { _dom = dom };
+
+        this.getData = () => _data;
+        this.setData = (data) => { _data = data };
+
+        this.setTitle('Answer');
+        document.querySelector('header .title').textContent = `View answer`;
         this.initDom();
     }
 
     initDom() {
-        const { name, amount, questions } = this.getData;
+        const { name, amount, questions } = this.getData();
         const header = createElement({
             'type': 'header',
             'classNames': 'title'
@@ -59,7 +65,7 @@ export default class extends AbstractClass {
 
         answerButtonBox.append(backBtn);
 
-        this.#dom.append(
+        this.getDom().append(
             header,
             answerSection,
             answerButtonBox
@@ -67,52 +73,64 @@ export default class extends AbstractClass {
     }
 
     async render(isNode = true) {
-        return (isNode) ? this.#dom : this.#dom.outerHTML;
+        return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }
 
 class Answers extends AbstractClass {
-    #dom;
-
     constructor(params, data) {
-        super(params, data);
-        this.#dom = createElement({
+        super(params);
+        let _dom = createElement({
             'type': 'div',
             'classNames': 'question'
-        });
+        }),
+        _data = data;
+
+        this.getDom = () => _dom;
+        this.setDom = (dom) => { _dom = dom };
+
+        this.getData = () => _data;
+        this.setData = (data) => { _data = data };
+        
         this.initDom();
     }
 
     initDom() {
-        const { index, text, amount, questions } = this.getData;
+        const { index, text, amount, questions } = this.getData();
         const header = new AnswerHeader('', {index: index, amount: amount, question: questions[index]}),
         content = new AnswerContent('', { text: text, choices: questions[index].choices });
 
-        this.#dom.append(
+        this.getDom().append(
             header.render(),
             content.render()
         );
     }
 
     render(isNode = true) {
-        return (isNode) ? this.#dom : this.#dom.outerHTML;
+        return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }
 
 class  AnswerHeader extends AbstractClass {
-    #dom;
-
     constructor(params, data) {
-        super(params, data);
-        this.#dom = createElement({
+        super(params);
+        let _dom = createElement({
             'type': 'div',
             'classNames': 'question-head'
-        });
+        }),
+        _data = data;
+
+        this.getDom = () => _dom;
+        this.setDom = (dom) => { _dom = dom };
+
+        this.getData = () => _data;
+        this.setData = (data) => { _data = data };
+
         this.initDom();
     }
 
     initDom() {
-        const { index, amount, question } = this.getData;
+        const { index, amount, question } = this.getData();
         let state = false;
         if(question.choices.find(choice => choice.checked && choice.isAnswer)) state = true;
 
@@ -141,31 +159,37 @@ class  AnswerHeader extends AbstractClass {
 
         indexContainer.append(iconIndexContainer, textIndexContainer);
 
-        this.#dom.append(
+        this.getDom().append(
             indexContainer,
             scoreContainer
         );
     }
 
     render(isNode = true) {
-        return (isNode) ? this.#dom : this.#dom.outerHTML;
+        return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }
 
 class AnswerContent extends AbstractClass {
-    #dom;
-
     constructor(params, data) {
-        super(params, data);
-        this.#dom = createElement({
+        super(params);
+        let _dom = createElement({
             'type': 'div',
             'classNames': 'question-content'
-        });
+        }),
+        _data = data;
+
+        this.getDom = () => _dom;
+        this.setDom = (dom) => { _dom = dom };
+
+        this.getData = () => _data;
+        this.setData = (data) => { _data = data };
+
         this.initDom();
     }
 
     initDom() {
-        const { text, choices } = this.getData;
+        const { text, choices } = this.getData();
         const questionTextContainer = createElement({
             'type': 'div',
             'classNames': 'question-text'
@@ -192,14 +216,14 @@ class AnswerContent extends AbstractClass {
             <p class="ft-sz-14 pd-8-12 ${(state) ? 'correct-answer' : 'incorrect-answer'}">${(userChoiceText) ? userChoiceText.data : 'You skipped this question.'}</p>
         `);
 
-        this.#dom.append(
+        this.getDom().append(
             questionTextContainer,
             questionAnswerContainer
         );
     }
 
     render(isNode = true) {
-        return (isNode) ? this.#dom : this.#dom.outerHTML;
+        return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }
 

@@ -5,10 +5,10 @@ import {
     getRandomNumber,
     turnOffModal,
     turnOnModal
- } from "../Function.js";
+ } from "../function.js";
 import {
     navigateTo
-} from "../Router.js"
+} from "../router.js"
 import ModalBox from "./ModalBox.js";
 
 export default class extends AbstractClass {

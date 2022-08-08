@@ -3,12 +3,15 @@ import {
     show,
     setHandlers,
     setHandler
-} from "../Function.js";
+} from "../function.js";
 import {
     router,
     navigateTo
-} from "../Router.js"
+} from "../router.js"
 import ModalBox from "../components/ModalBox.js";
+import {
+    getQuiz
+} from "../firestore.js";
 
 const app = {
     render: function() {
@@ -60,6 +63,9 @@ const linkClickHandler = (function() {
 
 document.addEventListener('DOMContentLoaded', (event) => {
     app.start();
+    getQuiz('math', 'math-quiz-1').then(quiz => {
+        console.log(quiz);
+    });
     router();
         // .then(() => {
         //     const links = document.querySelectorAll('[data-link]');
