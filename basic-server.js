@@ -1,6 +1,7 @@
-const functions = require('firebase-functions');
 const express = require('express');
 const path = require('path');
+
+const { quiz } = require("./src/js/util/handlers/quiz");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,6 +11,8 @@ app.use('/static', express.static(path.join(__dirname, '/dist/static/client')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(path.join(__dirname, '/public/index.html')));
-})
+});
+
+app.route('/quiz/:category/:id').get(quiz);
 
 app.listen(PORT, () => { console.log(`Server is running on localhost:${PORT}`) });

@@ -84,7 +84,7 @@ async function router() {
             view: Home
         },
         {
-            path: '/quiz',
+            path: '/quizzes',
             view: QuizSection
         },
         {

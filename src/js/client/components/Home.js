@@ -37,7 +37,7 @@ export default class extends AbstractClass {
             'classNames': 'btn btn-primary btn-rounded-5px'
         });
 
-        navigateToQuizPageBtn.href = '/quiz';
+        navigateToQuizPageBtn.href = '/quizzes';
         navigateToQuizPageBtn.textContent = 'Get started';
         navigateToQuizPageBtn.addEventListener('click', (event) => {
             const { currentTarget } = event;

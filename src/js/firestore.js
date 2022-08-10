@@ -1,3 +1,4 @@
+/*
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore, addDoc, collection, query, getDocs, doc, deleteDoc, updateDoc, Timestamp, orderBy, onSnapshot, Firestore, getDoc } from "firebase/firestore";
@@ -33,3 +34,4 @@ const getQuiz = async (category, id) => {
 export {
     getQuiz
 }
+*/

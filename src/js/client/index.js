@@ -44,7 +44,7 @@ function Header(props = {}, isReturnDom = true) {
         <div class="menu">
             <nav>
                 <a class="tc-white ft-sz-14" href="/" onclick="linkClickHandler(event)" data-link>Home</a>
-                <a class="tc-white ft-sz-14" href="/quiz" onclick="linkClickHandler(event)" data-link>Quiz</a>
+                <a class="tc-white ft-sz-14" href="/quizzes" onclick="linkClickHandler(event)" data-link>Quiz</a>
             </nav>
         </div>
     `;
@@ -62,10 +62,13 @@ const linkClickHandler = (function() {
 })();
 
 document.addEventListener('DOMContentLoaded', (event) => {
+    fetch('/quiz/math/1')
+        .then(res => res.json())
+        .then(data => console.log(data));
     app.start();
-    getQuiz('fun', 'fun-quiz-1').then(quiz => {
-        console.log(quiz);
-    });
+    // getQuiz('fun', 'fun-quiz-1').then(quiz => {
+    //     console.log(quiz);
+    // });
     router();
         // .then(() => {
         //     const links = document.querySelectorAll('[data-link]');
