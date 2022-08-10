@@ -1,9 +1,9 @@
-import Home from './components/Home.js';
-import Quiz from "./components/Quiz.js";
-import Result from "./components/Result.js";
-import Answer from './components/Answer.js';
+import Home from './client/components/Home';
+import Quiz from "./client/components/Quiz.js";
+import Result from "./client/components/Result.js";
+import Answer from './client/components/Answer.js';
+import QuizSection from './client/components/QuizSection.js';
 import quizzes from "../fakedata/quizzes.json" assert {type: 'json'};
-import QuizSection from './components/QuizSection.js';
 
 const Quizzes = { ...quizzes };
 
@@ -164,8 +164,6 @@ function navigateTo(url) {
     history.pushState(null, null, url);
     router();
 }
-
-window.quizzes = quizzes;
 
 export {
     router,

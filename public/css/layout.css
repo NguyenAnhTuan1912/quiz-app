@@ -1,3 +1,36 @@
+@keyframes rubberBand {
+  0% {
+    transform: scaleX(1);
+  }
+  40% {
+    transform: scaleX(1.12) scaleY(0.75);
+  }
+  55% {
+    transform: scaleX(0.85) scaleY(1);
+  }
+  65% {
+    transform: scaleX(1.09) scaleY(0.85);
+  }
+  75% {
+    transform: scaleX(0.9) scaleY(1);
+  }
+  90% {
+    transform: scaleX(1.05) scaleY(0.95);
+  }
+  100% {
+    transform: scaleX(1) scaleY(1);
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-10%) rotate(-10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%) rotate(0deg);
+  }
+}
 .hide {
   display: none !important;
 }
@@ -146,6 +179,7 @@
   padding: 20px;
 }
 #root .home-page .home-content h1 {
+  cursor: default;
   width: 136px;
   font-size: 4.8rem;
   line-height: 40px;

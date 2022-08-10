@@ -20,40 +20,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const getChoice = async (path) => {
-    const choicesCollection = collection(db, 'quizzes', ...path.split('/'));
-    const choices = await getDocs(choicesCollection), data = [];
-    choices.forEach(choice => {
-        data.push({
-            'id': choice.id,
-            ...choice.data()
-        });
-    });
-    return data;
-};
-
-const getQuestion = async (path) => {
-    const questionsCollection = collection(db, 'quizzes', ...path.split('/'));
-    const questions = await getDocs(questionsCollection), data = [];
-    for(let doc of questions.docs) {
-        data.push({
-            'id': doc.id,
-            ...doc.data(),
-            choices: Promise.all(await getChoice(`${path}/${doc.id}/choices`))
-        });
-    }
-    return data;
-};
-
 const getQuiz = async (category, id) => {
     const quizCollection = collection(db, 'quizzes', category, 'data');
-    const questions = await getQuestion(`${category}/data/${id}/questions`);
     const quiz = await getDocs(quizCollection);
     const potentialQuiz = quiz.docs.find(doc => doc.id === id);
     return {
         'id': potentialQuiz.id,
-        ...potentialQuiz.data(),
-        'questions': questions
+        ...potentialQuiz.data()
     };
 }
 

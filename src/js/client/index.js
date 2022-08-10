@@ -8,7 +8,7 @@ import {
     router,
     navigateTo
 } from "../router.js"
-import ModalBox from "../components/ModalBox.js";
+import ModalBox from "./components/ModalBox.js";
 import {
     getQuiz
 } from "../firestore.js";
@@ -63,7 +63,7 @@ const linkClickHandler = (function() {
 
 document.addEventListener('DOMContentLoaded', (event) => {
     app.start();
-    getQuiz('math', 'math-quiz-1').then(quiz => {
+    getQuiz('fun', 'fun-quiz-1').then(quiz => {
         console.log(quiz);
     });
     router();

@@ -1,6 +1,7 @@
 @use "sass:math";
-@import './mixin.scss';
-@import './variables.scss';
+@use  'mixin' as mix;
+@use  'variables' as var;
+@use  'keyframes';
 
 .hide {
     display: none !important;
@@ -14,7 +15,7 @@
     padding: 20px;
     top: 0;
     left: 0;
-    @include backdrop-blur(8px);
+    @include mix.backdrop-blur(8px);
 
     .backdrop__dot {
         position: absolute;
@@ -65,7 +66,7 @@
 
 #root {
     position: relative;
-    @include width-height(100%, fit-content);
+    @include mix.width-height(100%, fit-content);
     min-height: calc(100vh - 77px);
     margin: 0 auto;
     z-index: 3;
@@ -82,10 +83,10 @@
         text-align: center;
         background-color: rgba(89, 134, 215, 0.9);
         top: 0;
-        @include backdrop-blur(12px);
+        @include mix.backdrop-blur(12px);
 
         .header-back {
-            @include flex-box(row, flex-start, center);
+            @include mix.flex-box(row, flex-start, center);
             cursor: pointer;
             text-align: left;
             grid-area: backbtn-title;
@@ -102,7 +103,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 24px;
-            @include text-seclection(none);
+            @include mix.text-seclection(none);
         }
         
         button {
@@ -111,9 +112,9 @@
 
         .menu {
             position: relative;
-            @include flex-box(row, center, center);
+            @include mix.flex-box(row, center, center);
             grid-column: 3 / 3;
-            @include ease-transition;
+            @include mix.ease-transition;
 
             span {
                 cursor: pointer;
@@ -151,6 +152,7 @@
 
         .home-content {
             h1 {
+                cursor: default;
                 width: 136px;
                 font-size: 4.8rem;
                 line-height: 40px;
@@ -183,7 +185,7 @@
         padding: 0 20px 20px 20px;
     
         .quiz-section__banner {
-            @include flex-box(row, flex-start, center);
+            @include mix.flex-box(row, flex-start, center);
             width: 100%;
             max-width: 1240px;
             height: 200px;
@@ -196,7 +198,7 @@
                 width: 50%;
                 max-width: 164px;
                 aspect-ratio: 1 / 1;
-                box-shadow: $box-shadow2;
+                box-shadow: var.$box-shadow2;
             }
     
             .banner-text {
@@ -221,7 +223,7 @@
         }
     
         .quiz-category {
-            @include flex-box(none, none, center);
+            @include mix.flex-box(none, none, center);
             width: 100%;
             max-width: 1280px;
             height: 50px;
@@ -234,7 +236,7 @@
     
     
             .category-items {
-                @include flex-box(row, center, center);
+                @include mix.flex-box(row, center, center);
                 width: fit-content;
                 max-width: 1280px;
     
@@ -281,7 +283,7 @@
             }
 
             .quiz {
-                @include flex-box(row, space-between, center);
+                @include mix.flex-box(row, space-between, center);
                 cursor: pointer;
                 color: white;
                 width: 100%;
@@ -314,7 +316,7 @@
                     .quiz-name {
                         width: 100%;
                         max-width: 100%;
-                        @include text-overflow-ellipsis;
+                        @include mix.text-overflow-ellipsis;
                     }
     
                     .quiz-amount {
@@ -326,7 +328,7 @@
     }
 
     .quiz-page {
-        @include flex-box(column, space-between, center);
+        @include mix.flex-box(column, space-between, center);
         width: 100%;
         height: calc(100vh - 77px);
 
@@ -399,11 +401,11 @@
                 }
                 
                 .slider {
-                    @include flex-box(row, center, center);
+                    @include mix.flex-box(row, center, center);
                     width: fit-content;
     
                     .question-page {
-                        @include text-seclection(none);
+                        @include mix.text-seclection(none);
                         width: 335px;
                         height: 100%;
                         scroll-snap-align: start;
@@ -416,7 +418,7 @@
             }
     
             .page__dot {
-                @include flex-box(row, center, center);
+                @include mix.flex-box(row, center, center);
                 width: 100%;
                 max-width: 335px;
                 height: 20px;
@@ -441,8 +443,8 @@
             margin: 0 auto 15px auto;
 
             label {
-                @include text-seclection(none);
-                @include flex-box(row, center, center);
+                @include mix.text-seclection(none);
+                @include mix.flex-box(row, center, center);
                 input[type="checkbox"] {
                     width: 0;
                     height: 0;
@@ -452,8 +454,8 @@
         }
 
         .quiz-button {
-            @include flex-box(row, space-between, center);
-            @include text-seclection(none);
+            @include mix.flex-box(row, space-between, center);
+            @include mix.text-seclection(none);
             width: calc(100% - 40px);
             margin-bottom: 15px;
 
@@ -464,7 +466,7 @@
     }
 
     .result-page {
-        @include flex-box(column, center, center);
+        @include mix.flex-box(column, center, center);
         width: 100%;
         max-width: 335px;
         height: calc(100vh - 97px);
@@ -496,7 +498,7 @@
         }
 
         .redirect {
-            @include flex-box(column, center, center);
+            @include mix.flex-box(column, center, center);
             width: 100%;
             max-width: 335px;
 
@@ -510,14 +512,14 @@
                 }
 
                 &:last-child {
-                    @include flex-box(row, center, center);
+                    @include mix.flex-box(row, center, center);
                 }
             }
         }
     }
 
     .quiz-answer {
-        @include flex-box(column, flex-start, center);
+        @include mix.flex-box(column, flex-start, center);
         width: 100%;
         height: fit-content;
         min-height: 100%;
@@ -543,7 +545,7 @@
             max-width: 335px;
 
             .question {
-                @include flex-box(column, flex-start, flex-start);
+                @include mix.flex-box(column, flex-start, flex-start);
                 width: 100%;
                 height: fit-content;
                 margin-bottom: 20px;
@@ -552,11 +554,11 @@
                 background-color: white;
 
                 .question-head {
-                    @include flex-box(row, space-between, center);
+                    @include mix.flex-box(row, space-between, center);
                     width: 100%;
 
                     .question-index {
-                        @include flex-box(row, flex-start, center);
+                        @include mix.flex-box(row, flex-start, center);
 
                         .question-index__text {
                             span {
@@ -584,8 +586,8 @@
 
         .quiz-answers-button {
             &>a {
-                @include text-seclection(none);
-                @include flex-box(row, center, center);
+                @include mix.text-seclection(none);
+                @include mix.flex-box(row, center, center);
             }
         }
     }
@@ -601,7 +603,7 @@
         padding: 20px;
         top: 0;
         left: 0;
-        @include backdrop-blur(8px);
+        @include mix.backdrop-blur(8px);
 
         .modal-box {
             position: absolute;
@@ -648,7 +650,7 @@
                 margin-bottom: 30px;
                 
                 .quiz-info {
-                    @include flex-box(row, flex-start, center);
+                    @include mix.flex-box(row, flex-start, center);
                 }
 
                 .info-description {
@@ -659,10 +661,10 @@
 
             .button-box {
                 width: 100%;
-                @include flex-box(row, space-between, center);
+                @include mix.flex-box(row, space-between, center);
 
                 &>a, &>button {
-                    @include text-seclection(none);
+                    @include mix.text-seclection(none);
                     width: 40%;
                 }
 

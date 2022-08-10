@@ -1,5 +1,5 @@
-@import './mixin.scss';
-@import './variables.scss';
+@use 'mixin' as mix;
+@use 'variables' as var;
 
 @media only screen and (min-width: 376px) {
     #root {
@@ -204,7 +204,7 @@
         }
 
         #content {
-            @include flex-box(row, center, center);
+            @include mix.flex-box(row, center, center);
         }
 
         .home-page {

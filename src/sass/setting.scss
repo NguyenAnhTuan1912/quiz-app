@@ -1,8 +1,8 @@
-@import './mixin.scss';
-@import './variables.scss';
+@use 'mixin';
+@use 'variables' as var;
 
 * {
-    @include set-box-sizing(border-box);
+    @include mixin.set-box-sizing(border-box);
     margin: 0;
     padding: 0;
     font-family: Roboto, 'Sans-Serif';
@@ -31,12 +31,51 @@ a {
     color: #262626;
 }
 
+.display {
+    opacity: 0;
+    display: inline-block;
+    animation: fadeIn 0.4s 1s ease-in-out;
+    -webkit-animation: fadeIn 0.4s 1s ease-in-out;
+    -moz-animation: fadeIn 0.4s 1s ease-in-out;
+    -o-animation: fadeIn 0.4s 1s ease-in-out;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+}
+
+.rubber_band {
+    display: inline-block;
+    margin-right: 5px;
+    animation-fill-mode: both;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+}
+
+.rubber_band:hover {
+    color: var.$tc-quiz-yellow;
+    animation: rubberBand 1s ease-in-out;
+    -webkit-animation: rubberBand 1s ease-in-out;
+    -moz-animation: rubberBand 1s ease-in-out;
+    -o-animation: rubberBand 1s ease-in-out;
+}
+
+@for $i from 1 through 18 {
+    .display._#{$i} {
+        animation-delay: #{0.1 * $i}s;
+        -webkit-animation-delay: #{0.1 * $i}s;
+        -moz-animation-delay: #{0.1 * $i}s;
+        -o-animation-delay: #{0.1 * $i}s;
+    }
+}
+
 #root {
     .btn {
         cursor: pointer;
         border: none;
         outline: none;
-        box-shadow: $box-shadow2;
+        box-shadow: var.$box-shadow2;
         background-color: white;
         padding: 8px;
         font-size: 1.2rem;
@@ -52,21 +91,21 @@ a {
 
     .btn-primary-blue {
         background-color: rgb(100, 149, 237, .2);
-        color: $tc-quiz-darker-blue;
+        color: var.$tc-quiz-darker-blue;
         box-shadow: none;
         font-weight: 700;
     }
 
     .btn-primary-yellow {
         background-color: rgb(255, 215, 0, .5);
-        color: $tc-quiz-darker-yellow;
+        color: var.$tc-quiz-darker-yellow;
         box-shadow: none;
         font-weight: 700;
     }
 
     .btn-primary-red {
         background-color: rgb(255, 61, 61, .2);
-        color: $tc-quiz-darker-red;
+        color: var.$tc-quiz-darker-red;
         box-shadow: none;
         font-weight: 500;
     }
@@ -103,7 +142,7 @@ a {
         border-radius: 3px;
         background-color: transparent;
         padding: 0;
-        box-shadow: $box-shadow2;
+        box-shadow: var.$box-shadow2;
     
         &:first-child {
             margin-left: 0;
@@ -214,27 +253,27 @@ a {
     }
     
     .tc-quiz-blue {
-        color: $tc-quiz-blue;
+        color: var.$tc-quiz-blue;
     }
 
     .tc-quiz-darker-blue {
-        color: $tc-quiz-darker-blue;
+        color: var.$tc-quiz-darker-blue;
     }
 
     .tc-quiz-green {
-        color: $tc-quiz-green;
+        color: var.$tc-quiz-green;
     }
 
     .tc-quiz-red {
-        color: $tc-quiz-red;
+        color: var.$tc-quiz-red;
     }
 
     .tc-quiz-darker-red {
-        color: $tc-quiz-darker-red;
+        color: var.$tc-quiz-darker-red;
     }
     
     .tc-quiz-yellow {
-        color: $tc-quiz-yellow
+        color: var.$tc-quiz-yellow
     }
 
     .tc-white {
@@ -242,7 +281,7 @@ a {
     }
 
     .tc-quiz-darker-yellow {
-        color: $tc-quiz-darker-yellow
+        color: var.$tc-quiz-darker-yellow
     }
 
     .tc-gray {

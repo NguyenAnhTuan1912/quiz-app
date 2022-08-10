@@ -270,6 +270,27 @@ const hideModal = (function() {
     }
 })();
 
+function createSpan(data, className) {
+    const spanNode = document.createElement('span');
+    const textNode = document.createTextNode(data);
+    spanNode.append(textNode);
+    spanNode.classList.add(...className);
+    return spanNode;
+}
+
+function rubberText(text) {
+    const spanTitleArray = text.split('').map((value, index) => {
+        if(value === ' ') return ' ';
+        const spanTitleComplete = createSpan(value, ['display', `_${index + 1}`, 'rubber_band']);
+        setTimeout(() => {
+            spanTitleComplete.classList.remove('display');
+        }, (text.length + 4) * 100);
+        return spanTitleComplete;
+    });
+    return spanTitleArray;
+}
+
+
 export {
     createElement,
     show,
@@ -282,6 +303,7 @@ export {
     turnOnModal,
     showModal,
     hideModal,
+    rubberText,
     CountDown,
     Counter,
     QuizzesCheck,
