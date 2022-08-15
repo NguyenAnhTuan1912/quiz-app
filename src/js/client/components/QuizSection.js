@@ -9,17 +9,16 @@ import {
 import {
     navigateTo
 } from "../../router.js"
-import ModalBox from "./ModalBox.js";
 
 export default class extends AbstractClass {
-    constructor(params, data) {
+    constructor(params, data, categories) {
         super(params);
         this.setTitle('Quiz page');
         let _dom = createElement({
             'type': 'div',
             'classNames': 'quiz-section'
         });
-        let _categories = ['Highlight', 'Math', 'Logic', 'Fun'];
+        let _categories = ['Highlight'].concat(categories);
         let _data = data;
 
         this.getDom = () => _dom;
@@ -28,6 +27,8 @@ export default class extends AbstractClass {
         this.setData = data => { _data = data };
         this.getCategories = () => _categories;
         this.setCategories = categories => { _categories.concat(categories) };
+
+        this.getCategories('/api/quiz/categories');
 
         this.initDom();
         document.querySelector('header .title').textContent = document.title;
@@ -42,6 +43,17 @@ export default class extends AbstractClass {
     //         };
     //     });
     // }
+
+    changeQuizzes() {
+        const questions = this.getData(),
+        quizzes = new Quizzes('', { questions });
+        let quizzesBtns = this.getDom().querySelector('#js-quizPageQuizzesContainer');
+        this.getDom().removeChild(quizzesBtns);
+        quizzesBtns = null;
+        this.getDom().append(
+            quizzes.render()
+        );
+    }
 
     initDom() {
         const bannerData = {
@@ -61,7 +73,7 @@ export default class extends AbstractClass {
         );
     }
 
-    async render(isNode = true) {
+    render(isNode = true) {
         return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }
@@ -85,6 +97,7 @@ class Banner extends AbstractClass {
     }
 
     initDom() {
+        const categories = ['math', 'logic', 'fun'];
         const { title, description } = this.getData();
         this.getDom().insertAdjacentHTML('beforeend', `
             <div class="banner-image"></div> 
@@ -99,7 +112,7 @@ class Banner extends AbstractClass {
         }),
         bannerText = this.getDom().querySelector('.banner-text');
 
-        takeRandomQuizBtn.href = `/quiz/${getRandomNumber(1, 5)}`;
+        takeRandomQuizBtn.href = `/quiz/${categories[getRandomNumber(0, 2)]}/1`;
         takeRandomQuizBtn.textContent = 'Take';
         takeRandomQuizBtn.addEventListener('click', (event) => {
             const { currentTarget } = event;
@@ -138,14 +151,24 @@ class QuizCategory extends AbstractClass {
         categoriesItemContainer = createElement({
             'type': 'div',
             'classNames': 'category-items'
+        }),
+        buttons = [];
+        categories.forEach((value, index) => {
+            const button = createElement({
+                'type': 'a',
+                'classNames': 'btn btn-no-background btn-rounded-5px category-item ft-sz-13'
+            });
+            if(index === 0) { button.classList.add('btn-no-background--active') }
+            button.href = '/quiz/' + value.replace(value[0], value[0].toLowerCase());
+            button.textContent = value;
+            button.addEventListener('click', (event) => { 
+                const { currentTarget } = event;
+                event.preventDefault();
+                navigateTo(currentTarget.href)
+            });
+            buttons.push(button);
         });
-        categories.forEach((value) => {
-            categoriesItemContainer.insertAdjacentHTML('beforeend', `
-                <div class="btn btn-no-background btn-rounded-5px category-item ft-sz-13">
-                    <p class="category-item__text">${value}</p>
-                </div>
-            `)
-        });
+        categoriesItemContainer.append(...buttons);
         this.getDom().append(categoriesItemContainer);
     }
 
@@ -179,8 +202,9 @@ class Quizzes extends AbstractClass {
             const button = createElement({
                 'type': 'button'
             });
-            button.setAttribute('data-id', `quiz-${question.id}`);
+            button.setAttribute('data-id', `${question.id}`);
             button.setAttribute('data-message-box', `confirm`);
+            button.setAttribute('data-is-test', `${question.isTest}`);
             button.insertAdjacentHTML('beforeend', `
                 <div class="quiz">
                     <div class="quiz-image"></div>
@@ -201,117 +225,3 @@ class Quizzes extends AbstractClass {
         return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }
-
-// function Banner(props = {}, isReturnDom = true) {
-//     const div = createElement({
-//         'type': 'div',
-//         'classNames': 'home-page__banner',
-//         'id': 'js-homePageBannerContainer'
-//     });
-//     const htmls = `
-//         <div class="banner-image"></div> 
-//         <div class="banner-text">
-//             <h3 class="banner-text__title">${props['banner-text__title']}</h3>
-//             <p class="banner-text__description">${props['banner-text__description']}</p>
-//             <div class="btn btn-banner btn-no-background btn-rounded-5px">Get started</div>
-//         </div>
-//     `;
-//     div.insertAdjacentHTML('beforeend', htmls);
-//     return (isReturnDom) ? div : div.outerHTML;
-// }
-
-// function QuizCategory(props = {}, isReturnDom = true) {
-//     const div = createElement({
-//         'type': 'div',
-//         'classNames': 'quiz-category',
-//         'id': 'js-homePageQuizCategoryContainer'
-//     });
-
-//     const div2 = createElement({
-//         'type': 'div',
-//         'classNames': 'category-items'
-//     });
-
-//     let htmls = ``;
-//     props.categories.forEach((value) => {
-//         htmls += `
-//             <div class="btn btn-rounded-5px category-item">
-//                 <p class="category-item__text">${value}</p>
-//             </div>
-//         `;
-//     });
-
-//     div2.insertAdjacentHTML('beforeend', htmls);
-//     div.appendChild(div2);
-//     return (isReturnDom) ? div : div.outerHTML;
-// }
-
-// function Quizzes(props = {}, isReturnDom = true) {
-//     const div = createElement({
-//         'type': 'div',
-//         'classNames': 'quizzes',
-//         'id': 'js-homePageQuizzesContainer'
-//     });
-
-//     let htmls = ``;
-//     props.questions.forEach((value) => {
-//         htmls += `
-//             <button data-id="quiz-${value.id}" onclick="">
-//                 <div class="quiz">
-//                     <div class="quiz-image"></div>
-//                     <div class="quiz-text">
-//                         <h3 class="quiz-name">${value.name}</h3>
-//                         <p class="quiz-amount">${value.amount} questions.</p>
-//                     </div>
-//                     <span class="material-symbols-outlined">arrow_forward_ios</span>
-//                 </div>
-//             </button>
-//         `;
-//     });
-//     div.insertAdjacentHTML('beforeend', htmls);
-//     return (isReturnDom) ? div : div.outerHTML;
-// }
-
-// htmlDOM: createElement({
-//     'type': 'div',
-//     'classNames': 'home-page'
-// }),
-// data: {},
-// render: async function() {
-//     document.title = 'Home';
-//     const root = document.getElementById('root');
-//     const questions = [
-//         {
-//             'name': '25 điều thú vị về loài mèo mà bạn có biết?',
-//             'questions': 25
-//         },
-//         {
-//             'name': '10 câu hỏi toán lớp 1',
-//             'questions': 10
-//         },
-//         {
-//             'name': 'Nhũng câu hỏi hóc búa - Phần 3',
-//             'questions': 20
-//         },
-//         {
-//             'name': 'Những câu hỏi học búa - Phần 2',
-//             'questions': 15
-//         }
-//     ];
-//     const categories = ['Nổi bật', 'Yêu thích', 'Lập trình', 'Toán học'];
-//     const htmls = `
-//         ${Banner({
-//             'banner-text__title': 'Quiz nổi bật nhất',
-//             'banner-text__description': 'Đây là bài quiz được nhiều người dùng làm nhất tuần qua.'
-//         }, false)}
-//         <hr>
-//         ${await QuizCategory({ categories }, false)}
-//         <hr>
-//         ${await Quizzes({ questions }, false)}
-//     `;
-//     this.htmlDOM.insertAdjacentHTML('beforeend', htmls);
-//     root.appendChild(this.htmlDOM);
-// },
-// renderData: function() {
-
-// }

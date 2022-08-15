@@ -27,7 +27,7 @@ export default class extends AbstractClass {
     }
 
     initDom() {
-        const { amount, name, questions } = this.getData()[`quiz-${this.getParams()}`];
+        const { amount, name, questions } = this.getData();
         const
         point = new Point('', { amount: amount, name: name, questions: questions}),
         redirect = new Redirect(this.getParams());
@@ -37,7 +37,7 @@ export default class extends AbstractClass {
         );
     }
 
-    async render(isNode = true) {
+    render(isNode = true) {
         return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }

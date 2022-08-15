@@ -283,7 +283,8 @@ export default class extends AbstractClass {
             this.stopTime(this.getWatch());
         });
 
-        submitBtn.setAttribute('data-id', `quiz-${this.getParams()}`);
+        const id = location.pathname;
+        submitBtn.setAttribute('data-id', `${id.split('/')[2]}-quiz-${id.split('/')[3]}`);
 
         nextBtn.textContent = 'Next';
         prevBtn.textContent = 'Previous';
@@ -310,7 +311,7 @@ export default class extends AbstractClass {
         );
     }
 
-    async render(isNode = true) {
+    render(isNode = true) {
         return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }
@@ -392,7 +393,7 @@ class QuizChoices extends AbstractClass {
             radioChk.name = 'choices';
             if(choices[i].checked) {
                 radioChk.checked = true;
-                label.style.backgroundColor = '#228B22';
+                label.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
                 label.style.color = 'white';
             }
 

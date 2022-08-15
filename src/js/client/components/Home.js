@@ -37,7 +37,7 @@ export default class extends AbstractClass {
             'classNames': 'btn btn-primary btn-rounded-5px'
         });
 
-        navigateToQuizPageBtn.href = '/quizzes';
+        navigateToQuizPageBtn.href = '/quiz/highlight';
         navigateToQuizPageBtn.textContent = 'Get started';
         navigateToQuizPageBtn.addEventListener('click', (event) => {
             const { currentTarget } = event;
@@ -59,7 +59,7 @@ export default class extends AbstractClass {
         title.append(...rubberText('Let\'s take a Quiz.'));
     }
 
-    async render(isNode = true) {
+    render(isNode = true) {
         return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }

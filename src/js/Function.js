@@ -236,14 +236,15 @@ function showConfirmBox(modalContainer, currentTarget, data) {
     quizNameP.textContent = name;
     timeP.textContent = `${(minute == '0') ? `${second} second` : `${minute}min${second}s`}`;
     amountP.textContent = `${amount} Questions.`;
-    acceptBtn.href = `/quiz/${currentTarget.getAttribute('data-id')[currentTarget.getAttribute('data-id').length - 1]}`;
+    const segments = currentTarget.getAttribute('data-id').split('-');
+    acceptBtn.href = `/quiz/${segments[0]}/${segments[2]}`;
 
 }
 
-function showNoteBox(modalContainer, currentTarget, data) {
+function showNoteBox(modalContainer, currentTarget) {
     const messageBox = modalContainer.querySelector('#note'),
     handInBtn = modalContainer.querySelector('#js-noteBoxHandInBtn');
-    handInBtn.href = `/result/${currentTarget.getAttribute('data-id')[currentTarget.getAttribute('data-id').length - 1]}`;
+    handInBtn.href = `/result/${currentTarget.getAttribute('data-id')}`;
     turnOnModal(modalContainer, messageBox);
 }
 
@@ -289,7 +290,6 @@ function rubberText(text) {
     });
     return spanTitleArray;
 }
-
 
 export {
     createElement,

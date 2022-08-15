@@ -1,48 +1,34 @@
-import Home from './client/components/Home';
+import Home from './client/components/Home.js';
 import Quiz from "./client/components/Quiz.js";
 import Result from "./client/components/Result.js";
 import Answer from './client/components/Answer.js';
 import QuizSection from './client/components/QuizSection.js';
-import quizzes from "../fakedata/quizzes.json" assert {type: 'json'};
-
-const Quizzes = { ...quizzes };
 
 const pathToRegEx = (path = '') => new RegExp('^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$');
 
-const getHomeQuizBoxData = (data) => {
-    try {
-        if(typeof data !== 'object' || Array.isArray(data)) throw 'TypeError: Data must be an Object!';
-        const keys = Object.keys(data);
-        return keys.map((key) => {
-            return {
-                id: key[key.length - 1],
-                name: data[key].name,
-                amount: data[key].amount,
-                time: data[key].time
-            };
-        });
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-const getSpecificQuizData = (id = '', data = {}) => {
-    try {
-        if(typeof data !== 'object' || Array.isArray(data)) throw 'TypeError: Data must be an Object!';
-        if(typeof id !== 'string') throw 'TypeError: Id must be a String!';
-        return data[`quiz-${id}`];
-    } catch (error) {
-        console.error(error);
-    }
+async function fetchData(path) {
+    const response = await fetch(path);
+    return response.json();
 }
 
-const getAllQuizzesData = (data = {}) => {
-    try {
-        if(typeof data !== 'object' || Array.isArray(data)) throw 'TypeError: Data must be an Object!';
-        return data;
-    } catch (error) {
-        console.error(error);
-    }
+async function getCategories(path) {
+    const data = await fetchData(path);
+    return data;
+}
+
+async function getFirstCategoryData(path) {
+    const data = await fetchData(path);
+    return data;
+}
+
+async function getCategoryData(path) {
+    const data = await fetchData(path);
+    return data;
+}
+
+async function getQuizData(path) {
+    const data = await fetchData(path);
+    return data;
 }
 
 function getParams(match = {}) {
@@ -54,7 +40,7 @@ function getParams(match = {}) {
         return Object.fromEntries(keys.map((key, index) => {
             return [key, values[index]];
         }));
-    } catch (error) {
+    } catch(error) {
         console.error(error);
     }
 }
@@ -72,24 +58,95 @@ function canSeeDot(...indexes) {
     }
 }
 
+function DataStore() {
+    let _quizCategoriesData = {}, _quizData = null, _allCategories = [];
+
+    this.resetQuizCategoriesData = () => {
+        _quizCategoriesData = {};
+    }
+
+    this.setAll = (data, categories) => {
+        _allCategories = data;
+        this.setQuizCategoriesData(categories);
+    }
+
+    this.getAll = () => {
+        return _allCategories;
+    }
+
+    this.setQuizCategoriesData = (categories) => {
+        _quizCategoriesData['highlight'] = this.getAll().map(quiz => {
+            if(quiz.isHighlight) return quiz;
+        });
+        categories.forEach(category => {
+            _quizCategoriesData[category] = this.getAll().filter(quiz => quiz.id.split('-')[0] === category);
+        });
+    }
+
+    this.thisQuizIsTested = id => {
+        _quizCategoriesData[id.split('-')[0]].find(quiz => quiz.id === id).isTest = true;
+    };
+
+    this.isQuizCategoriesDataNull = () => {
+        const keys = Object.keys(_quizCategoriesData);
+        return (keys.length === 0) ? true : false;
+    };
+
+    this.getQuizCategoryData = category => _quizCategoriesData[category];
+
+    this.getSpecificCategoryData = id => _quizCategoriesData[id.split('-')[0]].find(quiz => quiz.id === id);
+
+    this.setQuizData = data => {
+        _quizData = data;
+    }
+
+    this.getQuizData = () => _quizData;
+}
+
+function View() {
+    let _view = {
+        home: null,
+        quizPage: null,
+        other: null
+    };
+
+    this.setView = view => { 
+        if(_view.home === null && view instanceof Home) {
+            _view.home = view;
+        } else if(_view.quizPage === null && view instanceof QuizSection) {
+            _view.quizPage = view;
+        } else _view.other = view;
+    };
+    
+    this.setOtherViewNull = () => {
+        _view.other = null;
+    }
+
+    this.getview = name => _view[name];
+}
+
+const store = new DataStore();
+const view = new View();
+
 // indexes.forEach(index => {
 //     dot[index].classList.remove('hide');
 // });
 
 async function router() {
-    const content = document.getElementById('content');
+    let content = document.getElementById('content'),
+    loading = document.getElementById('loading');
     const routes = [
         {
             path: '/',
             view: Home
         },
         {
-            path: '/quizzes',
-            view: QuizSection
+            path: '/quiz/:category/:id',
+            view: Quiz
         },
         {
-            path: '/quiz/:id',
-            view: Quiz
+            path: '/quiz/:category',
+            view: QuizSection
         },
         {
             path: '/result/:id',
@@ -119,45 +176,57 @@ async function router() {
             result: location.pathname.match(pathToRegEx(notFoundRoute.path))
         }
     }
-
-    let data, { id } = getParams(match) || '';
+    let params = getParams(match) || '';
+    content.innerHTML = '';
     if(match.route.view === Home) {
         canSeeDot(0);
+        if(view.getview('home') === null) view.setView(new match.route.view());
+        content.appendChild(view.getview('home').render());
     }
     if(match.route.view === QuizSection) {
         canSeeDot(1, 2);
-        data = getHomeQuizBoxData(Quizzes);
-        const keys = Object.keys(Quizzes);
-        keys.forEach(key => {
-            Quizzes[key].isPending = false;
-        });
+        if(store.isQuizCategoriesDataNull()) {
+            loading.style.display = 'flex';
+            loading.classList.remove('hide-loading');
+            const categories = await getCategories('/api/quiz/categories');
+            store.setAll(await getFirstCategoryData(`/api/quiz/all`), categories);
+            view.setView(new match.route.view(params['category'], store.getQuizCategoryData(params['category']), categories));
+            content.appendChild(view.getview('quizPage').render());
+            loading.classList.add('hide-loading');
+            // loading.style.display = 'none';
+        } else {
+            content.appendChild(view.getview('quizPage').render());
+            view.getview('quizPage').setData(store.getQuizCategoryData(params['category']));
+            view.getview('quizPage').changeQuizzes();
+            return;
+        }
     };
     if(match.route.view === Quiz) {
         canSeeDot(1, 2);
-        data = getSpecificQuizData(id, Quizzes);
-        // Quizzes[`quiz-${id}`].isPending = false;
+        view.setOtherViewNull();
+        store.setQuizData(null);
+        store.setQuizData(await getQuizData(`/api/quiz/${params['category']}/${params['id']}`));
+        store.getQuizData().isPending = true;
+        view.setView(new match.route.view(params.id, store.getQuizData()));
+        content.appendChild(view.getview('other').render());
     };
     if(match.route.view === Result) {
         canSeeDot(3, 4);
-        id = id[id.length - 1];
-        data = getAllQuizzesData(Quizzes);
-        Quizzes['quiz-' + id].isPending = false;
+        view.setOtherViewNull();
+        store.getQuizData().isPending = false;
+        const pathname = location.pathname;
+        store.thisQuizIsTested(pathname.split('/')[2]);
+        view.setView(new match.route.view(params['id'], store.getQuizData()));
+        content.appendChild(view.getview('other').render());
     }
     if(match.route.view === Answer) {
         canSeeDot(5);
-        id = id[id.length - 1];
-        data = getSpecificQuizData(id, Quizzes);
+        view.setOtherViewNull();
+        view.setView(new match.route.view(params.id, store.getQuizData()));
+        content.appendChild(view.getview('other').render());
     }
-
-    content.innerHTML = '';
-    let view = new match.route.view(id, data);
-
-    
-    // console.log(quizzes);
-    // console.log(view.getData);
     // content.insertAdjacentHTML('beforeend', `${await view.render()}`);
-    content.appendChild(await view.render());
-    view = null;
+    content = loading = null;
 }
 
 function navigateTo(url) {

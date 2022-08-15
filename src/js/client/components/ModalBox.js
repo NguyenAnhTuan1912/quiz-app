@@ -4,9 +4,6 @@ import {
     hideModal,
     turnOffModal
 } from "../../function.js";
-import {
-    navigateTo
-} from "../../router.js"
 import AbstractClass from "./AbstractClass.js";
 
 export default class extends AbstractClass {

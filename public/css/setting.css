@@ -188,6 +188,91 @@ a {
   -o-animation-delay: 1.8s;
 }
 
+#loading {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgb(89, 134, 215);
+  transition: 1s ease-in-out;
+}
+
+#loading p {
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.bar-container {
+  width: 120px;
+  height: 5px;
+  border-radius: 3px;
+  overflow-x: hidden;
+}
+
+.slide {
+  position: relative;
+  width: 240px;
+  height: 5px;
+  background-color: transparent;
+  left: -50%;
+}
+
+.bar {
+  position: absolute;
+  width: 60px;
+  height: 5px;
+  border-radius: 3px;
+  background-color: white;
+  animation: move-right;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.83, 0.2, 0.2, 0.83);
+}
+
+@keyframes move-right {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 100%;
+  }
+}
+@keyframes hide {
+  0% {
+    opacity: 100%;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0%;
+    visibility: hidden;
+  }
+}
+.hide-loading {
+  -webkit-animation: hide;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation: hide;
+  -moz-animation-duration: 1s;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-fill-mode: forwards;
+  -o-animation: hide;
+  -o-animation-duration: 1s;
+  -o-animation-iteration-count: 1;
+  -o-animation-fill-mode: forwards;
+  animation: hide;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
 #root .btn {
   cursor: pointer;
   border: none;
@@ -228,7 +313,11 @@ a {
   background-color: transparent;
 }
 #root .btn-no-background:hover {
-  color: rgb(103, 23, 205);
+  color: rgba(89, 134, 215, 0.9);
+  background-color: white;
+}
+#root .btn-no-background--active {
+  color: rgba(89, 134, 215, 0.9);
   background-color: white;
 }
 #root .btn-primary-black {

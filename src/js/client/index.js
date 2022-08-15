@@ -1,17 +1,11 @@
 import { 
     createElement,
-    show,
-    setHandlers,
-    setHandler
 } from "../function.js";
 import {
     router,
     navigateTo
 } from "../router.js"
 import ModalBox from "./components/ModalBox.js";
-import {
-    getQuiz
-} from "../firestore.js";
 
 const app = {
     render: function() {
@@ -28,6 +22,14 @@ const app = {
         root.append(Header({ 'title': `Home` }));
         root.insertAdjacentHTML('beforeend', '<div id="content"></div>');
         root.append(modal);
+        root.insertAdjacentHTML('beforeend', `
+            <div class="hide-loading" id="loading" style="display: none;">
+                <p>Loading</p>
+                    <div class="bar-container">
+                    <div class="slide"><div class="bar"></div></div>
+                </div>
+            </div>
+        `);
     },
     start: function() {
         return this.render();
@@ -44,7 +46,7 @@ function Header(props = {}, isReturnDom = true) {
         <div class="menu">
             <nav>
                 <a class="tc-white ft-sz-14" href="/" onclick="linkClickHandler(event)" data-link>Home</a>
-                <a class="tc-white ft-sz-14" href="/quizzes" onclick="linkClickHandler(event)" data-link>Quiz</a>
+                <a class="tc-white ft-sz-14" href="/quiz/highlight" onclick="linkClickHandler(event)" data-link>Quiz</a>
             </nav>
         </div>
     `;
@@ -62,36 +64,9 @@ const linkClickHandler = (function() {
 })();
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    fetch('/quiz/math/1')
-        .then(res => res.json())
-        .then(data => console.log(data));
     app.start();
-    // getQuiz('fun', 'fun-quiz-1').then(quiz => {
-    //     console.log(quiz);
-    // });
     router();
-        // .then(() => {
-        //     const links = document.querySelectorAll('[data-link]');
-        //     addHandlerToElements(links, 'click', linkClickHandler);
-        //     // links.forEach((link) => {
-        //     //     link.addEventListener('click', (event => {
-        //     //         const { currentTarget } = event;
-        //     //         event.preventDefault();
-        //     //         navigateTo(currentTarget.href);
-        //     //     }));
-        //     // });
-        // });
 });
-
-// window.onpopstate = () => {
-//     let currentPathName = location.pathname;
-//     console.log(currentPathName);
-//     if(confirm('Are you sure?') && (/^\/quiz\/\d+$/gi).test(location.pathname)) {
-//         router();
-//     } else {
-//         navigateTo(currentPathName);
-//     }
-// };
 
 window.onpopstate = router;
 window.linkClickHandler = linkClickHandler;

@@ -66,3 +66,22 @@
     -o-backdrop-filter: blur($value);
     backdrop-filter: blur($value);
 }
+
+@mixin  animation($name, $duration, $iteration-count, $fill-mode) {
+    -webkit-animation: $name;
+    -webkit-animation-duration: $duration;
+    -webkit-animation-iteration-count: $iteration-count;
+    -webkit-animation-fill-mode: $fill-mode;
+    -moz-animation: $name;
+    -moz-animation-duration: $duration;
+    -moz-animation-iteration-count: $iteration-count;
+    -moz-animation-fill-mode: $fill-mode;
+    -o-animation: $name;
+    -o-animation-duration: $duration;
+    -o-animation-iteration-count: $iteration-count;
+    -o-animation-fill-mode: $fill-mode;
+    animation: $name;
+    animation-duration: $duration;
+    animation-iteration-count: $iteration-count;
+    animation-fill-mode: $fill-mode;
+}

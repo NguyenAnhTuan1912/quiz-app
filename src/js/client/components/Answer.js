@@ -72,7 +72,7 @@ export default class extends AbstractClass {
         );
     }
 
-    async render(isNode = true) {
+    render(isNode = true) {
         return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }

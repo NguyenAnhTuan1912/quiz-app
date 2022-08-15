@@ -12,8 +12,8 @@ exports.quiz = async (req, res) => {
                 'id': potential.id,
                 ...potential.data()
             }
-        console.log(data);
-        return res.status(201).json(data);
+            console.log(data);
+            return res.status(201).json(data);
         });
     } catch (error) {
         return res
