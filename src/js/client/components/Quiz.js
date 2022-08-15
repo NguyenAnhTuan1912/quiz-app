@@ -269,7 +269,6 @@ export default class extends AbstractClass {
         submitBtn.addEventListener('click', event => {
             showModal(event);
             this.getData().isTest = true;
-            console.log(this.getData());
             this.stopTime();
         });
 

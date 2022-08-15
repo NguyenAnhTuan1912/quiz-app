@@ -4,7 +4,6 @@ exports.categories = async (req, res) => {
     try {
         db.collection('quizzes').get().then(snapshot => {
             const categories = snapshot.docs.map(doc => doc.id);
-            console.log(categories);
             return res.status(201).json(categories);
         });
     } catch (error) {

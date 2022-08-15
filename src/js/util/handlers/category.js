@@ -23,7 +23,6 @@ exports.category = async (req, res) => {
                                 'isHighlight': doc.data().isHighlight
                             }
                         });
-                        console.log(d);
                         // data[categories[index]] = d;
                         data.push(...d);
                     });
@@ -42,7 +41,6 @@ exports.category = async (req, res) => {
                         'isHighlight': doc.data().isHighlight
                     }
                 });
-                console.log(allCategoryQuiz);
                 return res.status(201).json(allCategoryQuiz);
             });
         }
