@@ -3,12 +3,16 @@ import {
     createElement,
     showModal,
     getRandomNumber,
-    turnOffModal,
-    turnOnModal
+    turnOnModal,
+    getParentElement
  } from "../../function.js";
 import {
     navigateTo
 } from "../../router.js"
+
+function categoriesBtnState(buttons, index, data) {
+
+}
 
 export default class extends AbstractClass {
     constructor(params, data, categories) {
@@ -18,7 +22,7 @@ export default class extends AbstractClass {
             'type': 'div',
             'classNames': 'quiz-section'
         });
-        let _categories = ['Highlight'].concat(categories);
+        let _categories = ['highlight'].concat(categories);
         let _data = data;
 
         this.getDom = () => _dom;
@@ -26,23 +30,12 @@ export default class extends AbstractClass {
         this.getData = () => _data;
         this.setData = data => { _data = data };
         this.getCategories = () => _categories;
-        this.setCategories = categories => { _categories.concat(categories) };
+        this.setCategories = categories => { _categories = categories };
 
         this.getCategories('/api/quiz/categories');
 
         this.initDom();
-        document.querySelector('header .title').textContent = document.title;
     }
-
-    // getNameAndAmount(data = {}) {
-    //     const keys = Object.keys(data);
-    //     return keys.map((key) => {
-    //         return {
-    //             name: data[key].name,
-    //             amount: data[key].amount
-    //         };
-    //     });
-    // }
 
     changeQuizzes() {
         const questions = this.getData(),
@@ -61,7 +54,7 @@ export default class extends AbstractClass {
             'description': 'There are a lot of quizzes which are added from many difference resources. '
         }
         const questions = this.getData(), categories = this.getCategories(),
-        banner = new Banner('', bannerData),
+        banner = new Banner('', { ...bannerData, categories }),
         quizCategory = new QuizCategory('', { categories }),
         quizzes = new Quizzes('', { questions });
         this.getDom().append(
@@ -74,6 +67,8 @@ export default class extends AbstractClass {
     }
 
     render(isNode = true) {
+        this.setTitle('Quiz page');
+        document.querySelector('header h1.title').textContent = document.title;
         return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }
@@ -97,8 +92,8 @@ class Banner extends AbstractClass {
     }
 
     initDom() {
-        const categories = ['math', 'logic', 'fun'];
-        const { title, description } = this.getData();
+        const { title, description, categories } = this.getData();
+        const keys = Object.keys(categories[1]);
         this.getDom().insertAdjacentHTML('beforeend', `
             <div class="banner-image"></div> 
             <div class="banner-text">
@@ -111,8 +106,7 @@ class Banner extends AbstractClass {
             'classNames': 'btn btn-banner btn-no-background btn-rounded-5px ft-sz-13'
         }),
         bannerText = this.getDom().querySelector('.banner-text');
-
-        takeRandomQuizBtn.href = `/quiz/${categories[getRandomNumber(0, 2)]}/1`;
+        takeRandomQuizBtn.href = `/quiz/${keys[getRandomNumber(0, (keys.length - 1))]}/${categories[1][keys[getRandomNumber(0, (keys.length - 1))]]}`;
         takeRandomQuizBtn.textContent = 'Take';
         takeRandomQuizBtn.addEventListener('click', (event) => {
             const { currentTarget } = event;
@@ -152,17 +146,25 @@ class QuizCategory extends AbstractClass {
             'type': 'div',
             'classNames': 'category-items'
         }),
+        keys = Object.keys(categories[1]),
         buttons = [];
-        categories.forEach((value, index) => {
+        keys.unshift(categories[0]);
+        keys.forEach((value, index) => {
             const button = createElement({
                 'type': 'a',
                 'classNames': 'btn btn-no-background btn-rounded-5px category-item ft-sz-13'
             });
-            if(index === 0) { button.classList.add('btn-no-background--active') }
-            button.href = '/quiz/' + value.replace(value[0], value[0].toLowerCase());
-            button.textContent = value;
+            const href = '/quiz/' + value.replace(value[0], value[0].toLowerCase());
+            button.href = href;
+            button.textContent = value.replace(value[0], value[0].toUpperCase());
+            if(location.pathname === href) button.classList.add('btn-no-background--active');
             button.addEventListener('click', (event) => { 
                 const { currentTarget } = event;
+                const buttonsCategory = getParentElement(currentTarget).querySelectorAll('a');
+                buttonsCategory.forEach(button => {
+                    if(currentTarget === button) button.classList.add('btn-no-background--active');
+                    else button.classList.remove('btn-no-background--active');
+                });
                 event.preventDefault();
                 navigateTo(currentTarget.href)
             });
@@ -215,7 +217,25 @@ class Quizzes extends AbstractClass {
                     <span class="material-symbols-outlined">arrow_forward_ios</span>
                 </div>
             `);
-            button.addEventListener('click', (event) => { showModal(event, { amount: question.amount, time: question.time, name: question.name }) });
+            button.addEventListener('click', (event) => {
+                const { currentTarget } = event;
+                if(currentTarget.getAttribute('data-is-test') === 'true') {
+                    const modalContainer = document.getElementById('modal'),
+                    messageBox = modalContainer.querySelector('#note'),
+                    acceptBtn = modalContainer.querySelector('#js-noteBoxHandInBtn'),
+                    titleTxt = modalContainer.querySelector('#js-noteTitle'),
+                    messageTxt = modalContainer.querySelector('#js-noteMessage'),
+                    button = modalContainer.querySelector('#note button'),
+                    anchor = modalContainer.querySelector('#note a');
+                    titleTxt.textContent = 'You took this quiz before!';
+                    messageTxt.textContent = `If you want to take it again, please press (or click) "Take this quiz" button below.`;
+                    button.textContent = 'I will take another quiz';
+                    anchor.textContent = 'Take this quiz';
+                    const segments = currentTarget.getAttribute('data-id').split('-');
+                    acceptBtn.href = `/quiz/${segments[0]}/${segments[2]}`;
+                    turnOnModal(modalContainer, messageBox);
+                } else showModal(event, { amount: question.amount, time: question.time, name: question.name });
+            });
             buttons.push(button);
         });
         this.getDom().append(...buttons);

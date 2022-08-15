@@ -92,6 +92,8 @@ function DataStore() {
         return (keys.length === 0) ? true : false;
     };
 
+    this.getNumberOfQuiz = category => _quizCategoriesData[category].length;
+
     this.getQuizCategoryData = category => _quizCategoriesData[category];
 
     this.getSpecificCategoryData = id => _quizCategoriesData[id.split('-')[0]].find(quiz => quiz.id === id);
@@ -180,17 +182,20 @@ async function router() {
     content.innerHTML = '';
     if(match.route.view === Home) {
         canSeeDot(0);
+        if(view.getview('other') instanceof Quiz) view.getview('other').stopTime();
         if(view.getview('home') === null) view.setView(new match.route.view());
         content.appendChild(view.getview('home').render());
     }
     if(match.route.view === QuizSection) {
         canSeeDot(1, 2);
+        if(view.getview('other') instanceof Quiz) view.getview('other').stopTime();
         if(store.isQuizCategoriesDataNull()) {
             loading.style.display = 'flex';
             loading.classList.remove('hide-loading');
             const categories = await getCategories('/api/quiz/categories');
             store.setAll(await getFirstCategoryData(`/api/quiz/all`), categories);
-            view.setView(new match.route.view(params['category'], store.getQuizCategoryData(params['category']), categories));
+            const numberOfQuizInEachCategories = Object.fromEntries(categories.map(category => [category, store.getQuizCategoryData(category).length]));
+            view.setView(new match.route.view(params['category'], store.getQuizCategoryData(params['category']), numberOfQuizInEachCategories));
             content.appendChild(view.getview('quizPage').render());
             loading.classList.add('hide-loading');
             // loading.style.display = 'none';
@@ -203,6 +208,7 @@ async function router() {
     };
     if(match.route.view === Quiz) {
         canSeeDot(1, 2);
+        if(view.getview('other') instanceof Quiz) view.getview('other').stopTime();
         view.setOtherViewNull();
         store.setQuizData(null);
         store.setQuizData(await getQuizData(`/api/quiz/${params['category']}/${params['id']}`));
@@ -211,7 +217,9 @@ async function router() {
         content.appendChild(view.getview('other').render());
     };
     if(match.route.view === Result) {
+        if(!store.getQuizData()) { navigateTo('/'); return; };
         canSeeDot(3, 4);
+        if(view.getview('other') instanceof Quiz) view.getview('other').stopTime();
         view.setOtherViewNull();
         store.getQuizData().isPending = false;
         const pathname = location.pathname;
@@ -220,7 +228,9 @@ async function router() {
         content.appendChild(view.getview('other').render());
     }
     if(match.route.view === Answer) {
+        if(!store.getQuizData()) { navigateTo('/'); return; };
         canSeeDot(5);
+        if(view.getview('other') instanceof Quiz) view.getview('other').stopTime();
         view.setOtherViewNull();
         view.setView(new match.route.view(params.id, store.getQuizData()));
         content.appendChild(view.getview('other').render());

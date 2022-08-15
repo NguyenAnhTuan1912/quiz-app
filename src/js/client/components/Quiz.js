@@ -159,12 +159,6 @@ function choiceCollectionState() {
 }
 
 function indexBtnState(buttons, index, data) {
-    // if(data[index].choices.some(choice => choice.checked)) {
-    //     buttons.forEach(button => {
-    //         if(button === buttons[index]) button.style.backgroundColor = '#262626';
-    //         else button.style.backgroundColor = 'transparent';
-    //     });
-    // }
     let i = 0;
     buttons.forEach(button => {
         if(button === buttons[index]) button.style.backgroundColor = '#fff';
@@ -177,8 +171,6 @@ function indexBtnState(buttons, index, data) {
 export default class extends AbstractClass {
     constructor(params, data) {
         super(params);
-        this.setTitle('Quiz');
-        document.querySelector('header .title').textContent = `Quiz / ${data.name}`;
         
         const [ minute, second ] = data.time.split(':');
         let _dom = createElement({
@@ -211,15 +203,15 @@ export default class extends AbstractClass {
         }
     }
 
-    initTime(countDownHandler) {
+    initTime() {
         const minuteField = this.getDom().querySelector('#js-minuteField'),
         secondField = this.getDom().querySelector('#js-secondField');
-        countDownHandler.setCountDownField(minuteField, secondField);
-        countDownHandler.run();
+        this.getWatch().setCountDownField(minuteField, secondField);
+        this.getWatch().run();
     }
 
-    stopTime(countDownHandler) {
-        countDownHandler.stopWatch();
+    stopTime() {
+        this.getWatch().stopWatch();
     }
 
     getCheckedQuestion() {
@@ -238,10 +230,6 @@ export default class extends AbstractClass {
             console.error(error);
         }
     }    
-
-    currentQuestion() {
-        // Cap nhap sau
-    }
 
     initDom() {
         const { questions, amount } = this.getData(),
@@ -280,7 +268,9 @@ export default class extends AbstractClass {
             { counter: counter, quizzesCheck: quizzesCheck }));
         submitBtn.addEventListener('click', event => {
             showModal(event);
-            this.stopTime(this.getWatch());
+            this.getData().isTest = true;
+            console.log(this.getData());
+            this.stopTime();
         });
 
         const id = location.pathname;
@@ -312,6 +302,8 @@ export default class extends AbstractClass {
     }
 
     render(isNode = true) {
+        this.setTitle(this.getData().name);
+        document.querySelector('header h1.title').textContent = `Quiz / ${this.getData().name}`;
         return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }

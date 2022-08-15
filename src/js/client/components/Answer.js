@@ -20,9 +20,6 @@ export default class extends AbstractClass {
 
         this.getData = () => _data;
         this.setData = (data) => { _data = data };
-
-        this.setTitle('Answer');
-        document.querySelector('header .title').textContent = `View answer`;
         this.initDom();
     }
 
@@ -45,7 +42,7 @@ export default class extends AbstractClass {
             'classNames': 'btn btn-primary btn-rounded-5px ft-sz-13 tc-white'
         });
 
-        backBtn.href = '/result/quiz-' + this.getParams();
+        backBtn.href = '/result/' + this.getParams();
         backBtn.addEventListener('click', (event) => {
             const { currentTarget } = event;
             event.preventDefault();
@@ -73,6 +70,8 @@ export default class extends AbstractClass {
     }
 
     render(isNode = true) {
+        this.setTitle('Answer');
+        document.querySelector('header h1.title').textContent = `View answer`;
         return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }

@@ -88,7 +88,8 @@ function CountDown(minuteValue, secondValue) {
         const modalContainer = document.getElementById('modal'),
         handInWarningMessageBox  = document.getElementById('warning'),
         warningBoxHandInBtn = handInWarningMessageBox.querySelector('#js-warningBoxHandInBtn');
-        warningBoxHandInBtn.href = '/result/quiz-' + location.pathname.match(/\d+$/).join();
+        const pathname = location.pathname;
+        warningBoxHandInBtn.href = `/result/${pathname.split('/')[2]}-quiz-${pathname.split('/')[3]}`;
 
         let minuteField = undefined,
         secondField = undefined;

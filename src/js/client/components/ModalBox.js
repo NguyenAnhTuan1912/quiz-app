@@ -85,8 +85,8 @@ export default class extends AbstractClass {
                     <span class="title tc-quiz-darker-yellow ft-sz-18 fw-semi-bold">Note</span>
                 </header>
                 <div class="modal-quiz__info mg-bt-6">
-                    <p class="ft-sz-18 fw-semi-bold mg-bt-3" id="js-quizName">Are you sure?</p>
-                    <p class="info-description ft-sz-14">
+                    <p class="ft-sz-18 fw-semi-bold mg-bt-3" id="js-noteTitle">Are you sure?</p>
+                    <p class="info-description ft-sz-14" id="js-noteMessage">
                         Let check you answers and make sure it's your best answers. After rechecking, press(or click) the “Hand in” button below to hand in your answers.
                     </p>
                 </div>
@@ -123,8 +123,8 @@ export default class extends AbstractClass {
                     <span class="title tc-quiz-darker-red ft-sz-18 fw-semi-bold">Warning</span>
                 </header>
                 <div class="modal-quiz__info mg-bt-6">
-                    <p class="ft-sz-18 fw-semi-bold mg-bt-3" id="js-quizName">Time out!</p>
-                    <p class="info-description ft-sz-14">
+                    <p class="ft-sz-18 fw-semi-bold mg-bt-3" id="js-warningTitle">Time out!</p>
+                    <p class="info-description ft-sz-14" id="js-warningMessage">
                         Sorry :(, the timer said that it's counter was completely it's work and you weren't hand in your answers. Please top and hand in now.
                     </p>
                 </div>

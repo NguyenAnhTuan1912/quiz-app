@@ -18,8 +18,6 @@ export default class extends AbstractClass {
         this.getDom = () => _dom;
         this.setDom = (dom) => { _dom = dom };
 
-        this.setTitle('Welcome!');
-        document.querySelector('header .title').textContent = 'Home';
         this.initDom();
     }
 
@@ -60,6 +58,8 @@ export default class extends AbstractClass {
     }
 
     render(isNode = true) {
+        this.setTitle('Welcome!');
+        document.querySelector('header h1.title').textContent = 'Home';
         return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }

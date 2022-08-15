@@ -10,8 +10,6 @@ import AbstractClass from "./AbstractClass.js";
 export default class extends AbstractClass {
     constructor(params, data) {
         super(params);
-        this.setTitle('Result');
-        document.querySelector('header .title').textContent = 'Quiz result';
         let _dom = createElement({
             'type': 'div',
             'classNames': 'result-page'
@@ -38,6 +36,8 @@ export default class extends AbstractClass {
     }
 
     render(isNode = true) {
+        this.setTitle('Result');
+        document.querySelector('header h1.title').textContent = 'Quiz result';
         return (isNode) ? this.getDom() : this.getDom().outerHTML;
     }
 }
