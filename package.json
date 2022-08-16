@@ -2,12 +2,13 @@
   "name": "quiz",
   "version": "1.0.0",
   "description": "\"Quiz App\"",
-  "main": "index.js",
+  "main": "basic-server.js",
   "scripts": {
     "start": "node basic-server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nguyen Anh Tuan",
+  "private": true,
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.19",
