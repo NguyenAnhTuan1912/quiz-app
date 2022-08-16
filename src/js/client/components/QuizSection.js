@@ -4,18 +4,68 @@ import {
     showModal,
     getRandomNumber,
     turnOnModal,
-    getParentElement
+    getParentElement,
+    setUpNoteBox
  } from "../../function.js";
 import {
     navigateTo
 } from "../../router.js"
 
-function categoriesBtnState(buttons, index, data) {
+function getPotential(allData) {
+    const potentials = allData.filter(data => !data.isTest);
+    const potential = potentials[getRandomNumber(0, potentials.length)];
+    return potential;
+}
 
+function setUpConfirmBox(button, data) {
+    const {amount, time, name} = data,
+    modalContainer = document.getElementById('modal'),
+    [ minute, second ] = time.split(':'),
+    messageBox = modalContainer.querySelector('#confirm'),
+    quizNameP = messageBox.querySelector('#js-quizName'),
+    timeP = messageBox.querySelector('#js-modalInfoTime'),
+    amountP = messageBox.querySelector('#js-modalInfoAmount'),
+    acceptBtn = messageBox.querySelector('#js-acceptBtn');
+    quizNameP.textContent = name;
+    timeP.textContent = `${(minute == '0') ? `${second} second` : `${minute}min${second}s`}`;
+    amountP.textContent = `${amount} Questions.`;
+    const segments = button.getAttribute('data-id').split('-');
+    acceptBtn.href = `/quiz/${segments[0]}/${segments[2]}`;
+}
+
+function showConfirmBox(event) {
+    const modalContainer = document.getElementById('modal'),
+    messageBox = modalContainer.querySelector('#confirm');
+    turnOnModal(modalContainer, messageBox);
+}
+
+function randomQuizHandler(event) {
+    const { currentTarget } = event;
+    if(currentTarget.getAttribute('data-is-test') === 'true') {
+        const modalContainer = document.getElementById('modal'),
+        messageBox = modalContainer.querySelector('#note');
+        setUpNoteBox(currentTarget, 
+            {
+                title: 'You took this quiz before!',
+                message: `If you want to take it again, please press (or click) "Take this quiz" button below.`,
+                buttonText: 'I will take another quiz',
+                anchorText: 'Take this quiz'
+            }
+        );
+        turnOnModal(modalContainer, messageBox);
+    } else showConfirmBox(event);
+}
+
+function setUpRandomButton(button, data) {
+    button.href = `/quiz/${data.id.split('-')[0]}/${data.id.split('-')[2]}`;
+    button.setAttribute('data-id', `${data.id}`);
+    button.setAttribute('data-message-box', `confirm`);
+    button.setAttribute('data-is-test', `${data.isTest}`);
+    setUpConfirmBox(button, data);
 }
 
 export default class extends AbstractClass {
-    constructor(params, data, categories) {
+    constructor(params, data, allData, categories) {
         super(params);
         this.setTitle('Quiz page');
         let _dom = createElement({
@@ -24,23 +74,47 @@ export default class extends AbstractClass {
         });
         let _categories = ['highlight'].concat(categories);
         let _data = data;
-
+        let _allData = allData;
         this.getDom = () => _dom;
         this.setDom = dom => { _dom = dom };
         this.getData = () => _data;
         this.setData = data => { _data = data };
+        this.getAllData = () => _allData;
+        this.setAllData = allData => { _allData = allData };
         this.getCategories = () => _categories;
         this.setCategories = categories => { _categories = categories };
-
-        this.getCategories('/api/quiz/categories');
-
         this.initDom();
     }
 
+    getRandomQuiz() {
+        const potential = getPotential(this.getAllData());
+        if(potential !== undefined) {
+            if(arguments[0]) {
+                setUpRandomButton(arguments[0], potential);
+            } else {
+                const takeRandomQuizBtn = this.getDom().querySelector('#js-takeRandomQuizBtn');
+                setUpRandomButton(takeRandomQuizBtn, potential);
+            }
+        } else {
+            const takeRandomQuizBtn = this.getDom().querySelector('#js-takeRandomQuizBtn'),
+            dataId = takeRandomQuizBtn.getAttribute('data-id');
+            const lastPotential = this.getAllData().find(data => data.id === dataId );
+            setUpRandomButton(takeRandomQuizBtn, lastPotential);
+            return;
+        };
+    }
+
     changeQuizzes() {
-        const questions = this.getData(),
-        quizzes = new Quizzes('', { questions });
+        const questions = this.getData(), categories = this.getCategories(),
+        quizzes = new Quizzes('', { questions, categories });
+        this.getRandomQuiz();
         let quizzesBtns = this.getDom().querySelector('#js-quizPageQuizzesContainer');
+        const buttons = this.getDom().querySelector('#js-quizPageQuizCategoryContainer').querySelectorAll('a'),
+        potentialButton = location.pathname.split('/')[2];
+        buttons.forEach(button => {
+            if(potentialButton === button.href.split('/')[4]) button.classList.add('btn-no-background--active');
+            else button.classList.remove('btn-no-background--active');
+        });
         this.getDom().removeChild(quizzesBtns);
         quizzesBtns = null;
         this.getDom().append(
@@ -53,10 +127,10 @@ export default class extends AbstractClass {
             'title': 'Take a random quiz',
             'description': 'There are a lot of quizzes which are added from many difference resources. '
         }
-        const questions = this.getData(), categories = this.getCategories(),
-        banner = new Banner('', { ...bannerData, categories }),
+        const questions = this.getData(), categories = this.getCategories(), allData = this.getAllData(),
+        banner = new Banner('', { ...bannerData, allData, categories }),
         quizCategory = new QuizCategory('', { categories }),
-        quizzes = new Quizzes('', { questions });
+        quizzes = new Quizzes('', { questions, categories });
         this.getDom().append(
             banner.render(),
             createElement({ 'type': 'hr' }),
@@ -92,8 +166,7 @@ class Banner extends AbstractClass {
     }
 
     initDom() {
-        const { title, description, categories } = this.getData();
-        const keys = Object.keys(categories[1]);
+        const { title, description, allData, categories } = this.getData();
         this.getDom().insertAdjacentHTML('beforeend', `
             <div class="banner-image"></div> 
             <div class="banner-text">
@@ -102,17 +175,15 @@ class Banner extends AbstractClass {
             </div>
         `);
         const takeRandomQuizBtn = createElement({
-            'type': 'a',
-            'classNames': 'btn btn-banner btn-no-background btn-rounded-5px ft-sz-13'
+            'type': 'button',
+            'classNames': 'btn btn-banner btn-no-background btn-rounded-5px ft-sz-13',
+            'id': 'js-takeRandomQuizBtn'
         }),
         bannerText = this.getDom().querySelector('.banner-text');
-        takeRandomQuizBtn.href = `/quiz/${keys[getRandomNumber(0, (keys.length - 1))]}/${categories[1][keys[getRandomNumber(0, (keys.length - 1))]]}`;
+        const potential = getPotential(allData);
         takeRandomQuizBtn.textContent = 'Take';
-        takeRandomQuizBtn.addEventListener('click', (event) => {
-            const { currentTarget } = event;
-            event.preventDefault();
-            navigateTo(currentTarget.href)
-        });
+        setUpRandomButton(takeRandomQuizBtn, potential);
+        takeRandomQuizBtn.addEventListener('click', randomQuizHandler);
         bannerText.appendChild(takeRandomQuizBtn);
         this.getDom().append(bannerText);
     }
@@ -198,9 +269,9 @@ class Quizzes extends AbstractClass {
     }
 
     initDom() {
-        const { questions } = this.getData(),
+        const { questions, categories } = this.getData(),
         buttons = [];
-        questions.forEach(question => {
+        questions.forEach((question, index) => {
             const button = createElement({
                 'type': 'button'
             });
@@ -209,7 +280,9 @@ class Quizzes extends AbstractClass {
             button.setAttribute('data-is-test', `${question.isTest}`);
             button.insertAdjacentHTML('beforeend', `
                 <div class="quiz">
-                    <div class="quiz-image"></div>
+                    <div class="quiz-image">
+                        <span class="material-symbols-outlined">${categories[1][question.id.split('-')[0]]['icon']}</span>
+                    </div>
                     <div class="quiz-text">
                         <h3 class="fw-semi-bold ft-sz-15 quiz-name">${question.name}</h3>
                         <p class="fw-regular ft-sz-13 quiz-amount">${question.amount} questions.</p>
@@ -221,18 +294,15 @@ class Quizzes extends AbstractClass {
                 const { currentTarget } = event;
                 if(currentTarget.getAttribute('data-is-test') === 'true') {
                     const modalContainer = document.getElementById('modal'),
-                    messageBox = modalContainer.querySelector('#note'),
-                    acceptBtn = modalContainer.querySelector('#js-noteBoxHandInBtn'),
-                    titleTxt = modalContainer.querySelector('#js-noteTitle'),
-                    messageTxt = modalContainer.querySelector('#js-noteMessage'),
-                    button = modalContainer.querySelector('#note button'),
-                    anchor = modalContainer.querySelector('#note a');
-                    titleTxt.textContent = 'You took this quiz before!';
-                    messageTxt.textContent = `If you want to take it again, please press (or click) "Take this quiz" button below.`;
-                    button.textContent = 'I will take another quiz';
-                    anchor.textContent = 'Take this quiz';
-                    const segments = currentTarget.getAttribute('data-id').split('-');
-                    acceptBtn.href = `/quiz/${segments[0]}/${segments[2]}`;
+                    messageBox = modalContainer.querySelector('#note');
+                    setUpNoteBox(currentTarget, 
+                        {
+                            title: 'You took this quiz before!',
+                            message: `If you want to take it again, please press (or click) "Take this quiz" button below.`,
+                            buttonText: 'I will take another quiz',
+                            anchorText: 'Take this quiz'
+                        }
+                    );
                     turnOnModal(modalContainer, messageBox);
                 } else showModal(event, { amount: question.amount, time: question.time, name: question.name });
             });

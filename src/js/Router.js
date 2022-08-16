@@ -75,7 +75,7 @@ function DataStore() {
     }
 
     this.setQuizCategoriesData = (categories) => {
-        _quizCategoriesData['highlight'] = this.getAll().map(quiz => {
+        _quizCategoriesData['highlight'] = this.getAll().filter(quiz => {
             if(quiz.isHighlight) return quiz;
         });
         categories.forEach(category => {
@@ -192,13 +192,16 @@ async function router() {
         if(store.isQuizCategoriesDataNull()) {
             loading.style.display = 'flex';
             loading.classList.remove('hide-loading');
-            const categories = await getCategories('/api/quiz/categories');
-            store.setAll(await getFirstCategoryData(`/api/quiz/all`), categories);
-            const numberOfQuizInEachCategories = Object.fromEntries(categories.map(category => [category, store.getQuizCategoryData(category).length]));
-            view.setView(new match.route.view(params['category'], store.getQuizCategoryData(params['category']), numberOfQuizInEachCategories));
+            const pureCategoriesData = await getCategories('/api/quiz/categories'),
+            categories = Object.fromEntries(pureCategoriesData.map(category => {
+                return [category.id, { 'amountQuiz': category.amountQuiz, 'icon': category.icon }];
+            })),
+            categoriesName = Object.keys(categories);
+            store.setAll(await getFirstCategoryData(`/api/quiz/all`), categoriesName);
+            const completeCategoryInfo = Object.fromEntries(categoriesName.map(category => [category, { 'amountQuiz': store.getQuizCategoryData(category).length, 'icon': categories[category]['icon']}]));
+            view.setView(new match.route.view(params['category'], store.getQuizCategoryData(params['category']), store.getAll(), completeCategoryInfo));
             content.appendChild(view.getview('quizPage').render());
             loading.classList.add('hide-loading');
-            // loading.style.display = 'none';
         } else {
             content.appendChild(view.getview('quizPage').render());
             view.getview('quizPage').setData(store.getQuizCategoryData(params['category']));
@@ -219,11 +222,13 @@ async function router() {
     if(match.route.view === Result) {
         if(!store.getQuizData()) { navigateTo('/'); return; };
         canSeeDot(3, 4);
-        if(view.getview('other') instanceof Quiz) view.getview('other').stopTime();
+        if(view.getview('other') instanceof Quiz) {
+            const pathname = location.pathname;
+            view.getview('other').stopTime();
+            store.getQuizData().isPending = false;
+            store.thisQuizIsTested(pathname.split('/')[2]);
+        }
         view.setOtherViewNull();
-        store.getQuizData().isPending = false;
-        const pathname = location.pathname;
-        store.thisQuizIsTested(pathname.split('/')[2]);
         view.setView(new match.route.view(params['id'], store.getQuizData()));
         content.appendChild(view.getview('other').render());
     }

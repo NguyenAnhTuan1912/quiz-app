@@ -27,7 +27,6 @@ function setHandlers(elements = NodeList, type = '', handler = () => {}) {
 function setHandler(element = HTMLElement, type = '', handler = () => {}) {
     try {
         if(!(element instanceof HTMLElement)) throw 'TypeError: Your Element must be a HTMLElement.';
-        console.log(element);
         element.addEventListener(type, handler(event));
     } catch (error) {
         console.error(error);
@@ -114,6 +113,7 @@ function CountDown(minuteValue, secondValue) {
                         second = 0;
                         this.stopWatch();
                         turnOnModal(modalContainer, handInWarningMessageBox);
+                        return;
                     } else minute -= 1;
                     } else second -= 1;
                     minuteField.textContent = this.timeFormat(minute);
@@ -239,7 +239,22 @@ function showConfirmBox(modalContainer, currentTarget, data) {
     amountP.textContent = `${amount} Questions.`;
     const segments = currentTarget.getAttribute('data-id').split('-');
     acceptBtn.href = `/quiz/${segments[0]}/${segments[2]}`;
+}
 
+function setUpNoteBox(currentTarget, data) {
+    const modalContainer = document.getElementById('modal'),
+    messageBox = modalContainer.querySelector('#note'),
+    acceptBtn = modalContainer.querySelector('#js-noteBoxHandInBtn'),
+    titleTxt = modalContainer.querySelector('#js-noteTitle'),
+    messageTxt = modalContainer.querySelector('#js-noteMessage'),
+    button = modalContainer.querySelector('#note button'),
+    anchor = modalContainer.querySelector('#note a');
+    titleTxt.textContent = data.title;
+    messageTxt.textContent = data.message;
+    button.textContent = data.buttonText;
+    anchor.textContent = data.anchorText;
+    const segments = currentTarget.getAttribute('data-id').split('-');
+    acceptBtn.href = `/quiz/${segments[0]}/${segments[2]}`;
 }
 
 function showNoteBox(modalContainer, currentTarget) {
@@ -302,6 +317,7 @@ export {
     getRandomNumber,
     turnOffModal,
     turnOnModal,
+    setUpNoteBox,
     showModal,
     hideModal,
     rubberText,

@@ -34,39 +34,39 @@ a {
 .display {
     opacity: 0;
     display: inline-block;
-    animation: fadeIn 0.4s 1s ease-in-out;
     -webkit-animation: fadeIn 0.4s 1s ease-in-out;
     -moz-animation: fadeIn 0.4s 1s ease-in-out;
     -o-animation: fadeIn 0.4s 1s ease-in-out;
-    animation-fill-mode: forwards;
+    animation: fadeIn 0.4s 1s ease-in-out;
     -webkit-animation-fill-mode: forwards;
     -moz-animation-fill-mode: forwards;
     -o-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
 }
 
 .rubber_band {
     display: inline-block;
     margin-right: 5px;
-    animation-fill-mode: both;
     -webkit-animation-fill-mode: both;
     -moz-animation-fill-mode: both;
     -o-animation-fill-mode: both;
+    animation-fill-mode: both;
 }
 
 .rubber_band:hover {
     color: var.$tc-quiz-yellow;
-    animation: rubberBand 1s ease-in-out;
     -webkit-animation: rubberBand 1s ease-in-out;
     -moz-animation: rubberBand 1s ease-in-out;
     -o-animation: rubberBand 1s ease-in-out;
+    animation: rubberBand 1s ease-in-out;
 }
 
 @for $i from 1 through 18 {
     .display._#{$i} {
-        animation-delay: #{0.1 * $i}s;
         -webkit-animation-delay: #{0.1 * $i}s;
         -moz-animation-delay: #{0.1 * $i}s;
         -o-animation-delay: #{0.1 * $i}s;
+        animation-delay: #{0.1 * $i}s;
     }
 }
 

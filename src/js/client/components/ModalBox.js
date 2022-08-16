@@ -143,8 +143,8 @@ export default class extends AbstractClass {
             this.getButtons()[0].addEventListener('click', event => {
                 linkClickHandler(event);
                 const modal = getParentElement(this.getDom()),
-                messageBox = modal.querySelector('#note');
-                turnOffModal(modal, messageBox);
+                warningBox = modal.querySelector('#warning');
+                turnOffModal(modal, warningBox);
             });
 
             buttonBox.append(...this.getButtons());

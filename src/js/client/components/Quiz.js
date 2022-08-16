@@ -7,11 +7,9 @@ import {
     Counter,
     QuizzesCheck,
     showModal,
+    turnOnModal,
+    setUpNoteBox
 } from "../../function.js";
-import {
-    navigateTo
-} from "../../router.js";
-
 
 const currentQuestion = (function() {
     return function ShowCurrentQuestion(event, data = {}, index = 0, quizzesCheck) {
@@ -267,8 +265,19 @@ export default class extends AbstractClass {
             { questions: questions, amount: amount },
             { counter: counter, quizzesCheck: quizzesCheck }));
         submitBtn.addEventListener('click', event => {
+            const { currentTarget } = event;
+            const modalContainer = document.getElementById('modal'),
+            messageBox = modalContainer.querySelector('#note');
+            setUpNoteBox(currentTarget, 
+                {
+                    title: 'Are you sure?',
+                    message: `Let check you answers and make sure it's your best answers. After rechecking, press(or click) the “Hand in” button below to hand in your answers.`,
+                    buttonText: 'Let me check again',
+                    anchorText: 'Hand in!'
+                }
+            );
+            turnOnModal(modalContainer, messageBox);
             showModal(event);
-            this.getData().isTest = true;
             this.stopTime();
         });
 
@@ -457,7 +466,7 @@ class QuizIndex extends AbstractClass {
         this.setDom = dom => { _dom = dom };
         this.getData = () => _data;
         this.setData = data => { _data = data };
-        this.getObjectConstructors = () => _objectConstructor;
+        this.getObjectConstructors = () => _objectConstructors;
         this.setObjectConstructors = objectConstructors => { _objectConstructors.concat(objectConstructors) };
 
         this.initDom();

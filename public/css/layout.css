@@ -45,7 +45,6 @@
   left: 0;
   -webkit-backdrop-filter: blur(8px);
   -moz-backdrop-filter: blur(8px);
-  -ms-backdrop-filter: blur(8px);
   -o-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
@@ -109,7 +108,6 @@
   top: 0;
   -webkit-backdrop-filter: blur(12px);
   -moz-backdrop-filter: blur(12px);
-  -ms-backdrop-filter: blur(12px);
   -o-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
@@ -132,12 +130,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 24px;
-  user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none;
   -o-user-select: none;
+  user-select: none; /* supported by Chrome and Opera */
 }
 #root > header button {
   width: 70px;
@@ -149,11 +147,11 @@
   justify-content: center;
   align-items: center;
   grid-column: 3/3;
-  transition: 0.4s ease-in-out;
   -webkit-transition: 0.4s ease-in-out;
   -moz-transition: 0.4s ease-in-out;
   -ms-transition: 0.4s ease-in-out;
   -o-transition: 0.4s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 #root > header .menu span {
   cursor: pointer;
@@ -180,7 +178,7 @@
 }
 #root .home-page .home-content h1 {
   cursor: default;
-  width: 136px;
+  width: 300px;
   font-size: 4.8rem;
   line-height: 40px;
   margin-bottom: 17px;
@@ -312,9 +310,15 @@
   margin-bottom: 0;
 }
 #root .quiz-section .quizzes .quiz .quiz-image {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   width: 45px;
   aspect-ratio: 1/1;
-  border: 1px solid #fff;
+}
+#root .quiz-section .quizzes .quiz .quiz-image > span {
+  font-size: 4.8rem;
 }
 #root .quiz-section .quizzes .quiz .quiz-text {
   max-width: calc(100% - 81px);
@@ -404,12 +408,12 @@
   width: fit-content;
 }
 #root .quiz-page .quiz-questions .question-slider .slider .question-page {
-  user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none;
   -o-user-select: none;
+  user-select: none; /* supported by Chrome and Opera */
   width: 335px;
   height: 100%;
   scroll-snap-align: start;
@@ -441,12 +445,12 @@
   margin: 0 auto 15px auto;
 }
 #root .quiz-page .quiz-choices label {
-  user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none;
   -o-user-select: none;
+  user-select: none; /* supported by Chrome and Opera */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -462,12 +466,12 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none;
   -o-user-select: none;
+  user-select: none; /* supported by Chrome and Opera */
   width: calc(100% - 40px);
   margin-bottom: 15px;
 }
@@ -590,12 +594,12 @@
   margin-bottom: 8px;
 }
 #root .quiz-answer .quiz-answers-button > a {
-  user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none;
   -o-user-select: none;
+  user-select: none; /* supported by Chrome and Opera */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -614,7 +618,6 @@
   left: 0;
   -webkit-backdrop-filter: blur(8px);
   -moz-backdrop-filter: blur(8px);
-  -ms-backdrop-filter: blur(8px);
   -o-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
@@ -675,12 +678,12 @@
   align-items: center;
 }
 #root #modal .modal-box .button-box > a, #root #modal .modal-box .button-box > button {
-  user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none;
   -o-user-select: none;
+  user-select: none; /* supported by Chrome and Opera */
   width: 40%;
 }
 #root #modal .modal-box .button-box > button {
