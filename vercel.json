@@ -2,7 +2,7 @@
     "version": 2,
     "name": "quiz-app",
     "builds": [
-        { "src": "./basic-server.js", "use": "@vercel/node" }
+        { "src": "/basic-server.js", "use": "@vercel/node" }
     ],
     "routes": [
         { "src": "/(.*)", "dest": "/basic-server.js" }
