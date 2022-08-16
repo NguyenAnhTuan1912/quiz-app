@@ -1,7 +1,10 @@
 {
     "version": 2,
     "name": "quiz-app",
-    "rewrites": [
-        { "source": "/(.*)", "destination": "/api" }
+    "builds": [
+        { "src": "./basic-server.js", "use": "@vercel/node" }
+    ],
+    "routes": [
+        { "src": "/(.*)", "dest": "/" }
     ]
 }
