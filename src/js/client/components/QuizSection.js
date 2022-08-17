@@ -6,10 +6,10 @@ import {
     turnOnModal,
     getParentElement,
     setUpNoteBox
- } from "../../function.js";
+ } from "../function.js";
 import {
     navigateTo
-} from "../../router.js"
+} from "../router.js"
 
 function getPotential(allData) {
     const potentials = allData.filter(data => !data.isTest);

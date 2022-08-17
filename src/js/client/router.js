@@ -1,8 +1,8 @@
-import Home from './client/components/Home.js';
-import Quiz from "./client/components/Quiz.js";
-import Result from "./client/components/Result.js";
-import Answer from './client/components/Answer.js';
-import QuizSection from './client/components/QuizSection.js';
+import Home from './components/Home.js';
+import Quiz from "./components/Quiz.js";
+import Result from "./components/Result.js";
+import Answer from './components/Answer.js';
+import QuizSection from './components/QuizSection.js';
 
 const pathToRegEx = (path = '') => new RegExp('^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$');
 

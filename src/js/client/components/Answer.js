@@ -1,9 +1,9 @@
 import { 
     createElement
-} from "../../function.js";
+} from "../function.js";
 import {
     navigateTo
-} from "../../router.js"
+} from "../router.js"
 import AbstractClass from "./AbstractClass.js";
 
 export default class extends AbstractClass {

@@ -3,7 +3,7 @@ import {
     getParentElement,
     hideModal,
     turnOffModal
-} from "../../function.js";
+} from "../function.js";
 import AbstractClass from "./AbstractClass.js";
 
 export default class extends AbstractClass {

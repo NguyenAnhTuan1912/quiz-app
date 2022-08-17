@@ -9,7 +9,7 @@ import {
     showModal,
     turnOnModal,
     setUpNoteBox
-} from "../../function.js";
+} from "../function.js";
 
 const currentQuestion = (function() {
     return function ShowCurrentQuestion(event, data = {}, index = 0, quizzesCheck) {

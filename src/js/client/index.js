@@ -1,10 +1,10 @@
 import { 
     createElement,
-} from "../function.js";
+} from "./function.js";
 import {
     router,
     navigateTo
-} from "../router.js"
+} from "./router.js"
 import ModalBox from "./components/ModalBox.js";
 
 const app = {
