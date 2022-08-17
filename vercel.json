@@ -1,7 +1,8 @@
 {
     "version": 2,
     "builds": [
-        { "src": "./basic-server.js", "use": "@vercel/node" }
+        { "src": "./basic-server.js", "use": "@vercel/node" },
+        { "src": "./package.json", "ues": "@vercel/node" }
     ],
     "routes": [
         { "src": "/(.*)", "dest": "/basic-server.js" }
