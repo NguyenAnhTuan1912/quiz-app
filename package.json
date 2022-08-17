@@ -4,8 +4,7 @@
   "description": "\"Quiz App\"",
   "main": "index.js",
   "scripts": {
-    "build": "npm rebuild --target=16.0.0 --target_platform=linux --target_arch=x64 --target_libc=glibc --update-binary",
-    "start": "node basic-server.js",
+    "vercel-build": "node basic-server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nguyen Anh Tuan",
