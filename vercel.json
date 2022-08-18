@@ -1,0 +1,9 @@
+{
+    "version": 2,
+    "builds": [
+        { "src": "./basic-server.js", "use": "@vercel/node" }
+    ],
+    "rewrites": [
+        { "source": "/api/(.*)", "destination": "/src/js/util/api" }
+    ]
+}

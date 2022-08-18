@@ -4,7 +4,7 @@
   "description": "\"Quiz App\"",
   "main": "index.js",
   "scripts": {
-    "vercel-build": "node basic-server.js",
+    "start": "node basic-server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nguyen Anh Tuan",
