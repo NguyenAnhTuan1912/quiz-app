@@ -1,7 +1,9 @@
 {
     "version": 2,
     "builds": [
-        { "src": "./basic-server.js", "use": "@vercel/node" }
+        { "src": "./public/index.html", "use": "@vercel/static" },
+        { "src": "./basic-server.js", "use": "@vercel/node" },
+        { "src": "./package.json", "use": "@vercel/pkg" }
     ],
     "routes": [
         { "src": "/(.*)", "dest": "/" }
