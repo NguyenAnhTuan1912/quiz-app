@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node basic-server.js",
-    "build": "npm rebuild --target=16.0.0 --target_platform=linux --target_arch=x64 --target_libc=glibc --update-binary"
+    "vercel-build": "npm rebuild --target=16.0.0 --target_platform=linux --target_arch=x64 --target_libc=glibc --update-binary"
   },
   "author": "Nguyen Anh Tuan",
   "private": true,

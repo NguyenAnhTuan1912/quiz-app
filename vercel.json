@@ -2,8 +2,7 @@
     "version": 2,
     "builds": [
         { "src": "./public/index.html", "use": "@vercel/static" },
-        { "src": "./basic-server.js", "use": "@vercel/node" },
-        { "src": "./package.json", "use": "@vercel/pkg" }
+        { "src": "./basic-server.js", "use": "@vercel/node" }
     ],
     "routes": [
         { "src": "/(.*)", "dest": "/" }
