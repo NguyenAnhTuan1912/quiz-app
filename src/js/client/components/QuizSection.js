@@ -228,7 +228,9 @@ class QuizCategory extends AbstractClass {
             const href = '/quiz/' + value.replace(value[0], value[0].toLowerCase());
             button.href = href;
             button.textContent = value.replace(value[0], value[0].toUpperCase());
-            if(location.pathname === href) button.classList.add('btn-no-background--active');
+            if(location.pathname === href)  {
+                button.classList.add('btn-no-background--active');
+            }
             button.addEventListener('click', (event) => { 
                 const { currentTarget } = event;
                 const buttonsCategory = getParentElement(currentTarget).querySelectorAll('a');
