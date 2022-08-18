@@ -4,8 +4,8 @@
   "description": "\"Quiz App\"",
   "main": "index.js",
   "scripts": {
-    "start": "node basic-server.js",
-    "vercel-build": "npm rebuild --target=16.0.0 --target_platform=linux --target_arch=x64 --target_libc=glibc --update-binary"
+    "start": "node basic-server.js"
+    
   },
   "author": "Nguyen Anh Tuan",
   "private": true,

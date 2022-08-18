@@ -19,5 +19,4 @@ app.get('/*', (req, res) => {
     res.sendFile(path.resolve(path.join(__dirname, '/public/index.html')));
 });
 
-
 app.listen(PORT, () => { console.log(`Server is running on localhost:${PORT}`) });
