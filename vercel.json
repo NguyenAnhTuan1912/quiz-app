@@ -4,6 +4,7 @@
         { "src": "./basic-server.js", "use": "@vercel/node" }
     ],
     "rewrites": [
+        { "source": "/(.*)", "destination": "/public/index.html" },
         { "source": "/api/(.*)", "destination": "/src/js/util/api" }
     ]
 }
