@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node basic-server.js",
-    "vercel-build": "wget https://github.com/marudor/libxmljs2/releases/download/v0.30.1/node-v93-linux-x64-glibc.tar.gz; tar -zxvf ./marudor/libxmljs2/releases/download/v0.30.1/node-v93-linux-x64-glibc.tar.gz; ./marudor/libxmljs2/releases/download/v0.30.1/node-v93-linux-x64-glibc.tar.gz"
+    "vercel-build": "wget https://github.com/marudor/libxmljs2/releases/download/v0.30.1/node-v93-linux-x64-glibc.tar.gz; tar -zxvf ./node-v93-linux-x64-glibc.tar.gz; ./node-v93-linux-x64-glibc.tar.gz"
   },
   "author": "Nguyen Anh Tuan",
   "private": true,
