@@ -397,7 +397,8 @@
 #root .quiz-page .quiz-questions {
   width: 100%;
   max-width: 335px;
-  height: 235px;
+  height: calc(100% - 361px);
+  min-height: 235px;
   margin: 0 auto;
   flex-grow: 2;
   overflow-y: auto;
