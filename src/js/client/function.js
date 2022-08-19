@@ -313,7 +313,7 @@ function focusOnCategoryButton(container, amountButton, index) {
     } else if(index === amountButton - 2) {
         container.scrollLeft = 152 + (144 * amountButton);
     } else {
-        container.scrollLeft = 152 + (144 * index);
+        container.scrollLeft = 152 + (144 * (index - 1));
     }
 }
 

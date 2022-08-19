@@ -229,7 +229,7 @@
                 }
             }
         }
-    
+
         .quiz-category {
             @include mix.flex-box(none, none, center);
             width: 100%;
@@ -241,8 +241,7 @@
             &::-webkit-scrollbar {
                 display: none;
             }
-    
-    
+
             .category-items {
                 @include mix.flex-box(row, center, center);
                 width: fit-content;
