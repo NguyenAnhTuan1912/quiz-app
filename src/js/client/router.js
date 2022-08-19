@@ -3,6 +3,9 @@ import Quiz from "./components/Quiz.js";
 import Result from "./components/Result.js";
 import Answer from './components/Answer.js';
 import QuizSection from './components/QuizSection.js';
+import { 
+    focusOnCategoryButton
+} from './function.js'
 
 const pathToRegEx = (path = '') => new RegExp('^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$');
 
@@ -201,6 +204,12 @@ async function router() {
             const completeCategoryInfo = Object.fromEntries(categoriesName.map(category => [category, { 'amountQuiz': store.getQuizCategoryData(category).length, 'icon': categories[category]['icon']}]));
             view.setView(new match.route.view(params['category'], store.getQuizCategoryData(params['category']), store.getAll(), completeCategoryInfo));
             content.appendChild(view.getview('quizPage').render());
+            const cateContainer = document.getElementById('js-quizPageQuizCategoryContainer'),
+            amountButton = categories.length + 1,
+            potentialButton = location.pathname.split('/')[2];
+            cateContainer.querySelector(':first-child').childNodes.forEach((child, index) => {
+                if(potentialButton === child.href.split('/')[4]) focusOnCategoryButton(cateContainer, amountButton, index);
+            });
             loading.classList.add('hide-loading');
         } else {
             content.appendChild(view.getview('quizPage').render());

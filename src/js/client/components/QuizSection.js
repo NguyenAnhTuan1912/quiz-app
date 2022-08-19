@@ -5,7 +5,8 @@ import {
     getRandomNumber,
     turnOnModal,
     getParentElement,
-    setUpNoteBox
+    setUpNoteBox,
+    focusOnCategoryButton
  } from "../function.js";
 import {
     navigateTo
@@ -109,10 +110,14 @@ export default class extends AbstractClass {
         quizzes = new Quizzes('', { questions, categories });
         this.getRandomQuiz();
         let quizzesBtns = this.getDom().querySelector('#js-quizPageQuizzesContainer');
-        const buttons = this.getDom().querySelector('#js-quizPageQuizCategoryContainer').querySelectorAll('a'),
+        const categoryContainer = this.getDom().querySelector('#js-quizPageQuizCategoryContainer'),
+        buttons = categoryContainer.querySelectorAll('a'),
         potentialButton = location.pathname.split('/')[2];
-        buttons.forEach(button => {
-            if(potentialButton === button.href.split('/')[4]) button.classList.add('btn-no-background--active');
+        buttons.forEach((button, index) => {
+            if(potentialButton === button.href.split('/')[4]) {
+                button.classList.add('btn-no-background--active');
+                focusOnCategoryButton(categoryContainer, buttons.length, index);
+            }
             else button.classList.remove('btn-no-background--active');
         });
         this.getDom().removeChild(quizzesBtns);
@@ -168,7 +173,9 @@ class Banner extends AbstractClass {
     initDom() {
         const { title, description, allData, categories } = this.getData();
         this.getDom().insertAdjacentHTML('beforeend', `
-            <div class="banner-image"></div> 
+            <div class="banner-image">
+            <span class="material-symbols-outlined">quiz</span>
+            </div> 
             <div class="banner-text">
                 <h3 class="banner-text__title">${title}</h3>
                 <p class="banner-text__description">${description}</p>
@@ -200,14 +207,14 @@ class QuizCategory extends AbstractClass {
             'type': 'div',
             'classNames': 'quiz-category',
             'id': 'js-quizPageQuizCategoryContainer'
-        });
+        }),
+        _data = data;
 
         this.getDom = () => _dom;
         this.setDom = dom => { _dom = dom };
         this.getData = () => _data;
         this.setData = data => { _data = data };
 
-        let _data = data;
         this.initDom();
     }
 

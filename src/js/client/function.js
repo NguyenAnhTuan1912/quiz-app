@@ -307,6 +307,16 @@ function rubberText(text) {
     return spanTitleArray;
 }
 
+function focusOnCategoryButton(container, amountButton, index) {
+    if(index <= 1) {
+        container.scrollLeft = -1;
+    } else if(index === amountButton - 2) {
+        container.scrollLeft = 152 + (144 * amountButton);
+    } else {
+        container.scrollLeft = 152 + (144 * index);
+    }
+}
+
 export {
     createElement,
     show,
@@ -321,6 +331,7 @@ export {
     showModal,
     hideModal,
     rubberText,
+    focusOnCategoryButton,
     CountDown,
     Counter,
     QuizzesCheck,
