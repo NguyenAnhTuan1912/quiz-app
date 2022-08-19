@@ -397,16 +397,15 @@
         .quiz-questions {
             width: 100%;
             max-width: 335px;
-            height: calc(100% - 361px);
+            height: 235px;
             margin: 0 auto;
             flex-grow: 2;
+            overflow-y: auto;
     
             .question-slider {
                 width: 100%;
                 max-width: 335px;
-                height: calc(100% - 20px);
-                scroll-snap-type: x mandatory;
-                overflow-x: auto;
+                height: fit-content;
     
                 &::-webkit-scrollbar {
                     display: none;
@@ -420,30 +419,10 @@
                         @include mix.text-seclection(none);
                         width: 335px;
                         height: 100%;
-                        scroll-snap-align: start;
         
                         .question-page__text {
                             font-size: 1.3rem;
                         }
-                    }
-                }
-            }
-    
-            .page__dot {
-                @include mix.flex-box(row, center, center);
-                width: 100%;
-                max-width: 335px;
-                height: 20px;
-    
-                .btn-dot {
-                    margin: 0 5px;
-    
-                    &:first-child {
-                        margin-left: 0;
-                    }
-    
-                    &:last-child {
-                        margin-right: 0;
                     }
                 }
             }

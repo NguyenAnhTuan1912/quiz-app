@@ -343,8 +343,7 @@ class QuizQuestions extends AbstractClass {
                 <div class="question-page">
                     <p class="question-page__text tc-white">${text}</p>
                 </div>
-            </div></div>
-            <div class="page__dot"><button class="btn btn-dot"></button></div>
+            </div>
         `);
     }
 

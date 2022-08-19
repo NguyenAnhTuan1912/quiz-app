@@ -397,16 +397,15 @@
 #root .quiz-page .quiz-questions {
   width: 100%;
   max-width: 335px;
-  height: calc(100% - 361px);
+  height: 235px;
   margin: 0 auto;
   flex-grow: 2;
+  overflow-y: auto;
 }
 #root .quiz-page .quiz-questions .question-slider {
   width: 100%;
   max-width: 335px;
-  height: calc(100% - 20px);
-  scroll-snap-type: x mandatory;
-  overflow-x: auto;
+  height: fit-content;
 }
 #root .quiz-page .quiz-questions .question-slider::-webkit-scrollbar {
   display: none;
@@ -427,28 +426,9 @@
   user-select: none; /* supported by Chrome and Opera */
   width: 335px;
   height: 100%;
-  scroll-snap-align: start;
 }
 #root .quiz-page .quiz-questions .question-slider .slider .question-page .question-page__text {
   font-size: 1.3rem;
-}
-#root .quiz-page .quiz-questions .page__dot {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 335px;
-  height: 20px;
-}
-#root .quiz-page .quiz-questions .page__dot .btn-dot {
-  margin: 0 5px;
-}
-#root .quiz-page .quiz-questions .page__dot .btn-dot:first-child {
-  margin-left: 0;
-}
-#root .quiz-page .quiz-questions .page__dot .btn-dot:last-child {
-  margin-right: 0;
 }
 #root .quiz-page .quiz-choices {
   width: 100%;
