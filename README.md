@@ -1,4 +1,4 @@
-# Quiz app API ![](https://img.shields.io/static/v1?label=Build&message=v1.0&color=green)
+# Quiz app ![](https://img.shields.io/static/v1?label=Build&message=v1.0&color=green)
 
 I build a quiz app with Javascript, SASS and Firestore.
 
