@@ -31,6 +31,7 @@ $ ng start
 
 ## Description
 This project is the beginning of knowledge about API. My first api is wrote in this project.
+
 `Get information about categories` /api/quizzes/categories
 
 `Get all quizzes of a specific category` /api/quizzes/:category

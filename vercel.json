@@ -1,0 +1,16 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "basic-server.js",
+            "use": "@vercel/node",
+            "config": { "includeFiles": ["**"] }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "basic-server.js"
+        }
+    ]
+}
