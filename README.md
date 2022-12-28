@@ -1,6 +1,6 @@
-# Quiz app API ![](https://img.shields.io/static/v1?label=Build&message=v2.0&color=green)
+# Quiz app API ![](https://img.shields.io/static/v1?label=Build&message=v1.0&color=green)
 
-I make this api to get quiz from my firestore. you can see my quiz app for client [here]()
+I make this api to get quiz from my firestore. You can see my quiz app for client [here](https://github.com/NguyenAnhTuan1912/quiz-app)
 
 Live demo [here](https://angular-ivy-r3scwy.stackblitz.io)
 
