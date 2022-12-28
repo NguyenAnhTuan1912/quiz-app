@@ -4,9 +4,9 @@ const { node } = require('webpack');
 module.exports = {
     mode: 'development',
     devtool: 'eval-source-map',
-    entry: './src/js/client/index.js',
+    entry: './client/src/index.js',
     output: {
-        path: path.resolve(__dirname, 'dist', 'static', 'client'),
+        path: path.resolve(__dirname, 'client', 'dist'),
         filename: 'bundle.js'
     },
     externals: {

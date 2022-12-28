@@ -4,7 +4,7 @@
   "description": "\"Quiz App\"",
   "main": "index.js",
   "scripts": {
-    "start": "node basic-server.js"
+    "start": "node server/basic-server.js"
   },
   "author": "Nguyen Anh Tuan",
   "private": true,

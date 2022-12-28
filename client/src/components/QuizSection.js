@@ -11,6 +11,7 @@ import {
 import {
     navigateTo
 } from "../router.js"
+import { environment } from '../../environment/environment';
 
 function getPotential(allData) {
     const potentials = allData.filter(data => !data.isTest);

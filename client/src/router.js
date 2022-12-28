@@ -6,6 +6,7 @@ import QuizSection from './components/QuizSection.js';
 import { 
     focusOnCategoryButton
 } from './function.js'
+import { environment } from '../environment/environment';
 
 const pathToRegEx = (path = '') => new RegExp('^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$');
 
@@ -195,12 +196,12 @@ async function router() {
         if(store.isQuizCategoriesDataNull()) {
             loading.style.display = 'flex';
             loading.classList.remove('hide-loading');
-            const pureCategoriesData = await getCategories('/api/quiz/categories'),
+            const pureCategoriesData = await getCategories(`${environment.serverOriginUrl}/api/quiz/categories`),
             categories = Object.fromEntries(pureCategoriesData.map(category => {
                 return [category.id, { 'amountQuiz': category.amountQuiz, 'icon': category.icon }];
             })),
             categoriesName = Object.keys(categories);
-            store.setAll(await getFirstCategoryData(`/api/quiz/all`), categoriesName);
+            store.setAll(await getFirstCategoryData(`${environment.serverOriginUrl}/api/quiz/all`), categoriesName);
             const completeCategoryInfo = Object.fromEntries(categoriesName.map(category => [category, { 'amountQuiz': store.getQuizCategoryData(category).length, 'icon': categories[category]['icon']}]));
             view.setView(new match.route.view(params['category'], store.getQuizCategoryData(params['category']), store.getAll(), completeCategoryInfo));
             content.appendChild(view.getview('quizPage').render());
@@ -223,7 +224,7 @@ async function router() {
         if(view.getview('other') instanceof Quiz) view.getview('other').stopTime();
         view.setOtherViewNull();
         store.setQuizData(null);
-        store.setQuizData(await getQuizData(`/api/quiz/${params['category']}/${params['id']}`));
+        store.setQuizData(await getQuizData(`${environment.serverOriginUrl}/api/quiz/${params['category']}/${params['id']}`));
         store.getQuizData().isPending = true;
         view.setView(new match.route.view(params.id, store.getQuizData()));
         content.appendChild(view.getview('other').render());
