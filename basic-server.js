@@ -13,6 +13,10 @@ const corsOptions = {
 	origin: '*',
 	optionSuccessStatus: 200,
 };
+
+app.use('/public/css', express.static(path.join(__dirname, '/client/public/css')));
+app.use('/static', express.static(path.join(__dirname, '/client/dist')));
+
 app.use(bodyParser.json());
 app.use(
 	bodyParser.urlencoded({
@@ -20,17 +24,14 @@ app.use(
 	})
 );
 
-// app.use('/public/css', express.static(path.join(__dirname, '/public/css')));
-// app.use('/static', express.static(path.join(__dirname, '/dist/static/client')));
-
 app.use(cors(corsOptions))
 
 app.route('/api/quizzes/:category/:id').get(quiz);
 app.route('/api/quizzes/categories').get(categories);
 app.route('/api/quizzes/:category').get(category);
 
-// app.get('/*', (req, res) => {
-//     res.sendFile(path.resolve(path.join(__dirname, '/public/index.html')));
-// });
+app.get('/*', (req, res) => {
+    res.sendFile(path.resolve(path.join(__dirname, '/client/index.html')));
+});
 
-app.listen(PORT, () => { console.log(`Server is running on localhost:${PORT}`) });
+app.listen(PORT, () => { console.log(`Server is running on http://localhost:${PORT}`) });

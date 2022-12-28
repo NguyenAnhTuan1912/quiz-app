@@ -1,0 +1,16 @@
+{
+  "name": "quiz-client",
+  "version": "1.0.0",
+  "description": "\"Quiz App\"",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "author": "Nguyen Anh Tuan",
+  "private": true,
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  }
+}

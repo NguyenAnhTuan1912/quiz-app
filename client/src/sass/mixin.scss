@@ -1,0 +1,86 @@
+@import './variables.scss';
+
+@mixin set-box-sizing($type) {
+    -webkit-box-sizing: $type;
+    -moz-box-sizing: $type;
+    -ms-box-sizing: $type;
+    -o-box-sizing: $type;
+    box-sizing: $type;
+}
+
+@mixin  width-height($w, $h) {
+    width: $w;
+    height: $h;
+}
+
+@mixin  flex-box($direction, $justify-content, $align-items) {
+    display: flex;
+    @if $direction != none {
+        flex-direction: $direction;
+    }
+
+    @if $justify-content != none {
+        justify-content: $justify-content;
+    }
+
+    @if $align-items != none {
+        align-items: $align-items;
+    }
+}
+
+@mixin text-overflow-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin translate($x, $y) {
+    -webkit-transform: translate($x, $y);
+    -moz-transform: translate($x, $y);
+    -ms-transform: translate($x, $y);
+    -o-transform: translate($x, $y);
+    transform: translate($x, $y);
+}
+
+@mixin ease-transition {
+    -webkit-transition: 0.4s ease-in-out;
+    -moz-transition: 0.4s ease-in-out;
+    -ms-transition: 0.4s ease-in-out;
+    -o-transition: 0.4s ease-in-out;
+    transition: 0.4s ease-in-out;
+}
+
+@mixin text-seclection($state) {
+    -webkit-user-select: $state; /* Safari */
+    -khtml-user-select: $state; /* Konqueror HTML */
+    -moz-user-select: $state; /* Firefox */
+    -ms-user-select: $state;
+    -o-user-select: $state;
+    user-select: $state; /* supported by Chrome and Opera */
+}
+
+@mixin backdrop-blur($value) {
+    -webkit-backdrop-filter: blur($value);
+    -moz-backdrop-filter: blur($value);
+    -o-backdrop-filter: blur($value);
+    backdrop-filter: blur($value);
+}
+
+@mixin  animation($name, $duration, $iteration-count, $fill-mode) {
+    -webkit-animation: $name;
+    -webkit-animation-duration: $duration;
+    -webkit-animation-iteration-count: $iteration-count;
+    -webkit-animation-fill-mode: $fill-mode;
+    -moz-animation: $name;
+    -moz-animation-duration: $duration;
+    -moz-animation-iteration-count: $iteration-count;
+    -moz-animation-fill-mode: $fill-mode;
+    -o-animation: $name;
+    -o-animation-duration: $duration;
+    -o-animation-iteration-count: $iteration-count;
+    -o-animation-fill-mode: $fill-mode;
+    animation: $name;
+    animation-duration: $duration;
+    animation-iteration-count: $iteration-count;
+    animation-fill-mode: $fill-mode;
+}

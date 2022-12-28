@@ -1,17 +1,19 @@
 # Quiz app API ![](https://img.shields.io/static/v1?label=Build&message=v1.0&color=green)
 
-I make this api to get quiz from my firestore. You can see my quiz app for client [here](https://github.com/NguyenAnhTuan1912/quiz-app)
+I build a quiz app with Javascript, SASS and Firestore.
 
 Live demo [here](https://angular-ivy-r3scwy.stackblitz.io)
 
 ## Table of contents
-* [Technologies](#technologies)
+* [Technologies](#technologies--tools)
 * [Install](#install)
 * [Description](#description)
 
-## Technologies
+## Technologies / Tools
 Project is createed with
 * JavaScript
+* SASS
+* Webpack 5.75.0
 * ExpressJS ![](https://img.shields.io/static/v1?label=Build&message=v4.18.1&color=red)
 * NodeJS ![](https://img.shields.io/static/v1?label=Build&message=v16.15.0&color=red)
 
@@ -26,11 +28,14 @@ $ npm install
 
 And run
 ```
-$ ng start
+$ npm start
 ```
 
 ## Description
-This project is the beginning of knowledge about API. My first api is wrote in this project.
+This project is the beginning of knowledge about API and SPA. My first api is wrote in this project.
+I make this "SPA" with non framework, pure Javascript only!.
+You can take a quiz by category, hand-in, get scores and view results.
+My quizzes is nonsense, they are random paragraphs.
 
 `Get information about categories` /api/quizzes/categories
 
