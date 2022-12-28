@@ -2,8 +2,6 @@
 
 I build a quiz app with Javascript, SASS and Firestore.
 
-Live demo [here](https://quiz-app-api-crbo.onrender.com)
-
 ## Table of contents
 * [Technologies](#technologies--tools)
 * [Install](#install)
