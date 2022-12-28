@@ -4,15 +4,13 @@
   "description": "\"Quiz App\"",
   "main": "index.js",
   "scripts": {
-    "start": "node server/basic-server.js"
+    "start": "node basic-server.js"
   },
   "author": "Nguyen Anh Tuan",
   "private": true,
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.19",
-    "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0"
+    "nodemon": "^2.0.19"
   },
   "dependencies": {
     "express": "^4.18.1",

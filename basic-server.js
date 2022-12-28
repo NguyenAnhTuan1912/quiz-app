@@ -25,9 +25,9 @@ app.use(
 
 app.use(cors(corsOptions))
 
-app.route('/api/quiz/:category/:id').get(quiz);
-app.route('/api/quiz/categories').get(categories);
-app.route('/api/quiz/:category').get(category);
+app.route('/api/quizzes/:category/:id').get(quiz);
+app.route('/api/quizzes/categories').get(categories);
+app.route('/api/quizzes/:category').get(category);
 
 // app.get('/*', (req, res) => {
 //     res.sendFile(path.resolve(path.join(__dirname, '/public/index.html')));
