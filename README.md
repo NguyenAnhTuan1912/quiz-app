@@ -2,7 +2,7 @@
 
 I build a quiz app with Javascript, SASS and Firestore.
 
-Live demo [here](https://angular-ivy-r3scwy.stackblitz.io)
+Live demo [here](https://quiz-app-api-crbo.onrender.com)
 
 ## Table of contents
 * [Technologies](#technologies--tools)
@@ -13,7 +13,7 @@ Live demo [here](https://angular-ivy-r3scwy.stackblitz.io)
 Project is createed with
 * JavaScript
 * SASS
-* Webpack 5.75.0
+* Webpack ![](https://img.shields.io/static/v1?label=Build&message=v5.75.0&color=red)
 * ExpressJS ![](https://img.shields.io/static/v1?label=Build&message=v4.18.1&color=red)
 * NodeJS ![](https://img.shields.io/static/v1?label=Build&message=v16.15.0&color=red)
 
